@@ -164,8 +164,7 @@ const menuData = [
 	},
 ];
 
-const Menu = () => {
-	const [cart, setCart] = useState([]);
+const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
 	const [activeCategory, setActiveCategory] = useState('Main Course');
 	const [selectedItem, setSelectedItem] = useState(null);
 	const sectionRefs = useRef({});
@@ -202,29 +201,6 @@ const Menu = () => {
 		window.addEventListener('scroll', handleScroll, { passive: true });
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
-
-	const addToCart = (item) => {
-		setCart((prev) => {
-			const found = prev.find((i) => i.name === item.name);
-			if (found) {
-				return prev.map((i) => (i.name === item.name ? { ...i, qty: i.qty + 1 } : i));
-			} else {
-				return [...prev, { ...item, qty: 1 }];
-			}
-		});
-	};
-
-	const removeFromCart = (item) => {
-		setCart((prev) => prev.filter((i) => i.name !== item.name));
-	};
-
-	const decreaseQty = (item) => {
-		setCart((prev) => {
-			return prev
-				.map((i) => (i.name === item.name ? { ...i, qty: i.qty - 1 } : i))
-				.filter((i) => i.qty > 0);
-		});
-	};
 
 	const getQty = (item) => {
 		const found = cart.find((i) => i.name === item.name);
