@@ -6,7 +6,14 @@ import "./ConfirmPage.css";
 const getCart = () => {
   try {
     const cart = JSON.parse(localStorage.getItem("cartItems"));
-    if (Array.isArray(cart)) return cart;
+    if (Array.isArray(cart)) {
+      // Normalize cart items to ensure price is a number and quantity is correct
+      return cart.map(item => ({
+        ...item,
+        price: Number(item.price),
+        quantity: item.qty || item.quantity || 1
+      }));
+    }
   } catch {}
   return [];
 };
