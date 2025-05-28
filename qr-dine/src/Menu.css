@@ -270,25 +270,15 @@
 }
 @media (max-width: 900px) {
   .menu-category-section {
-    padding: 18px 8px 12px 8px;
+    padding: 14px 4vw 10px 4vw;
   }
   .menu-sections-list {
-    gap: 16px;
+    gap: 10px;
     max-width: 100vw;
     padding: 0 2vw;
   }
   .restaurant-title {
-    font-size: 2rem;
-  }
-}
-@media (max-width: 600px) {
-  .menu-fullpage-container {
-    padding: 0;
-    width: 100vw;
-    min-height: 100vh;
-  }
-  .restaurant-title {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin-bottom: 18px;
     padding: 0 8px;
   }
@@ -296,19 +286,12 @@
     flex-wrap: wrap;
     gap: 8px;
     padding: 10px 0 6px 0;
+    top: 0;
   }
   .category-btn {
     padding: 7px 12px;
     font-size: 0.95rem;
     border-radius: 16px;
-  }
-  .menu-sections-list {
-    max-width: 100vw;
-    gap: 0;
-    padding: 0 1vw;
-  }
-  .menu-category-section {
-    padding: 6px 2vw 4px 2vw;
   }
   .menu-item-row {
     flex-direction: column;
@@ -343,8 +326,64 @@
     min-width: 18px;
     font-size: 1rem;
   }
+  .item-modal-content {
+    padding: 18px 8px;
+    min-width: 180px;
+  }
 }
-@media (min-width: 601px) {
+@media (max-width: 600px) {
+  .menu-fullpage-container {
+    padding: 0;
+    width: 100vw;
+    min-height: 100vh;
+  }
+  .menu-sections-list {
+    max-width: 100vw;
+    gap: 0;
+    padding: 0 1vw;
+  }
+  .menu-category-section {
+    padding: 6px 2vw 4px 2vw;
+  }
+  .menu-item-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 8px 4px;
+    border-radius: 8px;
+  }
+  .item-info {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+  }
+  .item-name {
+    font-size: 0.95rem;
+  }
+  .item-price {
+    font-size: 0.92rem;
+  }
+  .qty-controls {
+    margin-left: 0;
+    gap: 4px;
+  }
+  .qty-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 0.95rem;
+  }
+  .qty-value {
+    min-width: 14px;
+    font-size: 0.95rem;
+  }
+  .item-modal-content {
+    padding: 10px 2px;
+    min-width: 120px;
+  }
+}
+@media (min-width: 901px) {
   .menu-sections-list {
     max-width: 900px;
     margin: 0 auto;
@@ -387,5 +426,9 @@
   .qty-value {
     min-width: 28px;
     font-size: 1.15rem;
+  }
+  .item-modal-content {
+    padding: 36px 28px;
+    min-width: 280px;
   }
 }

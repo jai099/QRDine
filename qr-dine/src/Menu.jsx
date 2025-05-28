@@ -172,7 +172,9 @@ const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
 	// Scroll to section when category is clicked
 	const handleCategoryClick = (category) => {
 		setActiveCategory(category);
-		sectionRefs.current[category]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		setTimeout(() => {
+			sectionRefs.current[category]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}, 50);
 	};
 
 	// Detect scroll and update active category
