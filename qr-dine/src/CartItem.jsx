@@ -14,7 +14,7 @@ export default function CartItem({ item, onQuantityChange, onDelete }) {
               onClick={() => onQuantityChange(item.id, -1)}
               aria-label="Decrease quantity"
             >−</button>
-            <span className="cartitem-qty">{item.quantity}</span>
+            <span className="cartitem-qty">{item.qty}</span>
             <button
               className="cartitem-qty-btn cartitem-qty-plus"
               onClick={() => onQuantityChange(item.id, 1)}
@@ -23,7 +23,7 @@ export default function CartItem({ item, onQuantityChange, onDelete }) {
           </div>
         </div>
       </div>
-      <div className="cartitem-totalprice">₹{(item.price * item.quantity).toFixed(2)}</div>
+      <div className="cartitem-totalprice">₹{(item.price * item.qty).toFixed(2)}</div>
       <button
         className="cartitem-delete-btn"
         onClick={() => onDelete(item.id)}
