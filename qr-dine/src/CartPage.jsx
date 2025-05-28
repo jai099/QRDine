@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CartItem from "./CartItem";
 import AddItemSection from "./AddItemSection";
 import "./CartPage.css";
@@ -18,9 +18,24 @@ const initialCartItems = [
   { id: 3, name: "Chicken Biryani", price: 180, quantity: 1 }
 ];
 
-export default function CartPage() {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+function getStoredCart() {
+  try {
+    const cart = JSON.parse(localStorage.getItem('cartItems'));
+    if (Array.isArray(cart)) return cart;
+  } catch {}
+  return initialCartItems;
+}
+
+export default function CartPage({ onCartChange, onProceedToCheckout }) {
+  const [cartItems, setCartItems] = useState(getStoredCart());
   const [addItemId, setAddItemId] = useState(menuItems[0].id);
+
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    if (onCartChange) onCartChange();
+    // Also trigger storage event for other tabs
+    window.dispatchEvent(new Event('storage'));
+  }, [cartItems, onCartChange]);
 
   const handleQuantityChange = (id, delta) => {
     setCartItems(items =>
@@ -77,14 +92,17 @@ export default function CartPage() {
           setAddItemId={setAddItemId}
           onAddItem={handleAddItem}
         />
-        <div className="cartpage-total-row">
+      </div>
+      <div className="cartpage-sticky-checkout">
+        <div className="cartpage-total-row sticky">
           <span>Total</span>
           <span>₹{total.toFixed(2)}</span>
         </div>
         <button
-          className="cartpage-checkout-btn"
-          onMouseOver={e => e.currentTarget.style.background = "linear-gradient(90deg, #fb8c00 0%, #ffd54f 100%)"}
-          onMouseOut={e => e.currentTarget.style.background = ""}
+          className="cartpage-checkout-btn sticky"
+          onMouseOver={e => e.currentTarget.classList.add("glow")}
+          onMouseOut={e => e.currentTarget.classList.remove("glow")}
+          onClick={onProceedToCheckout}
         >
           Proceed to Checkout
         </button>
