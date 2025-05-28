@@ -100,6 +100,7 @@
 }
 
 .menu-item-row {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -112,6 +113,24 @@
 
 .menu-item-row.unavailable {
   filter: blur(2px) grayscale(0.5) opacity(0.6);
+  pointer-events: none;
+}
+
+.not-available-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.85);
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  z-index: 2;
   pointer-events: none;
 }
 

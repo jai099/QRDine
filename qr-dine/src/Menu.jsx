@@ -233,7 +233,7 @@ const Menu = () => {
 
 	return (
 		<div className="menu-fullpage-container">
-			<h1 className="restaurant-title">TARS Bhojnalaya</h1>
+			<h1 className="restaurant-title">HOTEL TARS MAHAL</h1>
 			<div className="menu-categories-top sticky">
 				{menuData.map((cat) => (
 					<button
@@ -256,14 +256,7 @@ const Menu = () => {
 					>
 						<ul className="menu-items-list">
 							{cat.items.map((item) => (
-								<li
-									key={item.name}
-									className={`menu-item-row${
-										item.available === false ? ' unavailable' : ''
-									}`}
-									onClick={() => item.available !== false && setSelectedItem(item)}
-									style={{ cursor: item.available === false ? 'not-allowed' : 'pointer' }}
-								>
+								<li key={item.name} className="menu-item-row">
 									<div className="item-info">
 										<span className="item-name">{item.name}</span>
 										<span className="item-price">₹{item.price}</span>
@@ -271,26 +264,23 @@ const Menu = () => {
 									<div className="qty-controls">
 										<button
 											className="qty-btn"
-											onClick={(e) => {
-												e.stopPropagation();
-												decreaseQty(item);
-											}}
-											disabled={getQty(item) === 0 || item.available === false}
+											onClick={() => decreaseQty(item)}
+											disabled={getQty(item) === 0 || !item.available}
 										>
 											-
 										</button>
 										<span className="qty-value">{getQty(item)}</span>
 										<button
 											className="qty-btn"
-											onClick={(e) => {
-												e.stopPropagation();
-												addToCart(item);
-											}}
-											disabled={item.available === false}
+											onClick={() => addToCart(item)}
+											disabled={!item.available}
 										>
 											+
 										</button>
 									</div>
+									{!item.available && (
+										<div className="not-available-overlay">Not available</div>
+									)}
 								</li>
 							))}
 						</ul>
