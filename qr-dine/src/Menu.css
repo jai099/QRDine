@@ -110,6 +110,11 @@
   margin-bottom: 0;
 }
 
+.menu-item-row.unavailable {
+  filter: blur(2px) grayscale(0.5) opacity(0.6);
+  pointer-events: none;
+}
+
 .food-item-image {
   display: none;
 }
@@ -219,12 +224,59 @@
   font-weight: 500;
 }
 
+.item-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.item-modal-content {
+  background: #fff;
+  border-radius: 14px;
+  padding: 32px 24px;
+  min-width: 280px;
+  max-width: 90vw;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  text-align: center;
+}
+.close-modal-btn {
+  margin-top: 18px;
+  background: #e67e22;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 22px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.close-modal-btn:hover {
+  background: #c95d0c;
+}
+
+@media (max-width: 1200px) {
+  .menu-sections-list {
+    max-width: 98vw;
+    padding: 0 1vw;
+  }
+}
 @media (max-width: 900px) {
   .menu-category-section {
     padding: 18px 8px 12px 8px;
   }
   .menu-sections-list {
-    gap: 0;
+    gap: 16px;
+    max-width: 100vw;
+    padding: 0 2vw;
+  }
+  .restaurant-title {
+    font-size: 2rem;
   }
 }
 @media (max-width: 600px) {
@@ -251,6 +303,7 @@
   .menu-sections-list {
     max-width: 100vw;
     gap: 0;
+    padding: 0 1vw;
   }
   .menu-category-section {
     padding: 6px 2vw 4px 2vw;
@@ -258,7 +311,7 @@
   .menu-item-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: 6px;
     padding: 10px 8px;
     border-radius: 8px;
   }
@@ -287,5 +340,50 @@
   .qty-value {
     min-width: 18px;
     font-size: 1rem;
+  }
+}
+@media (min-width: 601px) {
+  .menu-sections-list {
+    max-width: 900px;
+    margin: 0 auto;
+    gap: 0;
+    padding: 0 2vw;
+  }
+  .menu-category-section {
+    padding: 16px 2vw 10px 2vw;
+  }
+  .menu-item-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    border-radius: 10px;
+    margin-bottom: 0;
+  }
+  .item-info {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+  }
+  .item-name {
+    font-size: 1.1rem;
+  }
+  .item-price {
+    font-size: 1.05rem;
+  }
+  .qty-controls {
+    margin-left: 0;
+    gap: 8px;
+  }
+  .qty-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+  }
+  .qty-value {
+    min-width: 22px;
+    font-size: 1.1rem;
   }
 }
