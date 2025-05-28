@@ -1,0 +1,54 @@
+.menu-container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 32px 24px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.restaurant-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #2d3a4b;
+  margin-bottom: 32px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.menu-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.menu-category h2 {
+  color: #e67e22;
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #e67e22;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px dashed #e0e0e0;
+  font-size: 1.1rem;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.item-name {
+  color: #34495e;
+}
+
+.item-price {
+  color: #27ae60;
+  font-weight: 600;
+}
