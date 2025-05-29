@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import CartPage from './CartPage';
 import ConfirmPage from './ConfirmPage';
 import ThankYouPage from './ThankYouPage';
+import WaiterDashboard from './WaiterDashboard';
 
 function App() {
   const [showCart, setShowCart] = useState(false);
@@ -109,6 +110,7 @@ function App() {
       />
       <Route path="/confirm" element={<ConfirmPage />} />
       <Route path="/thank-you" element={<ThankYouPage />} />
+      <Route path="/waiter" element={<WaiterDashboard />} />
     </Routes>
   );
 }
