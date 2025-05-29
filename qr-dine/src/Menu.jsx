@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Menu.css';
+import { Link } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/menu/available';
 
@@ -84,6 +85,14 @@ const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
 	return (
 		<div className="menu-fullpage-container">
 			<h1 className="restaurant-title">HOTEL TARS MAHAL</h1>
+
+			{/* Login/Register link */}
+			<div style={{ textAlign: 'right', marginBottom: '1rem' }}>
+				<Link to="/auth" className="underline text-blue-500 hover:text-blue-700">
+					Login / Register
+				</Link>
+			</div>
+
 			<div className="menu-categories-top sticky">
 				{menuData.map((cat) => (
 					<button
@@ -95,6 +104,7 @@ const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
 					</button>
 				))}
 			</div>
+
 			<div className="menu-sections-list">
 				{menuData.map((cat) => (
 					<section
@@ -135,6 +145,7 @@ const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
 					</section>
 				))}
 			</div>
+
 			{selectedItem && (
 				<div className="item-modal" onClick={() => setSelectedItem(null)}>
 					<div className="item-modal-content" onClick={(e) => e.stopPropagation()}>

@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Menu from './Menu';
 import { useState, useEffect } from 'react';
@@ -6,6 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import CartPage from './CartPage';
 import ConfirmPage from './ConfirmPage';
 import ThankYouPage from './ThankYouPage';
+import LoginRegister from './LoginRegister'; // ✅ Import the new component
 
 function App() {
   const [showCart, setShowCart] = useState(false);
@@ -26,9 +26,10 @@ function App() {
     setCart((prev) => {
       const found = prev.find((i) => i.name === item.name);
       if (found) {
-        return prev.map((i) => (i.name === item.name ? { ...i, qty: i.qty + 1 } : i));
+        return prev.map((i) =>
+          i.name === item.name ? { ...i, qty: i.qty + 1 } : i
+        );
       } else {
-        // Assign a unique id if not present
         return [...prev, { ...item, qty: 1, id: item.id || Date.now() }];
       }
     });
@@ -38,12 +39,15 @@ function App() {
     setCart((prev) => prev.filter((i) => i.name !== item.name));
   };
 
-  const decreaseQty = (item) => {
-    setCart((prev) => {
-      return prev
-        .map((i) => (i.name === item.name ? { ...i, qty: i.qty - 1 } : i))
-        .filter((i) => i.qty > 0);
-    });
+  const decreaseQty
+  = (item) => {
+    setCart((prev) =>
+      prev
+        .map((i) =>
+          i.name === item.name ? { ...i, qty: i.qty - 1 } : i
+        )
+        .filter((i) => i.qty > 0)
+    );
   };
 
   const handleCartOpen = () => setShowCart(true);
@@ -51,9 +55,6 @@ function App() {
   const handleProceedToCheckout = () => {
     setShowCart(false);
     setTimeout(() => {
-      // Optionally, sync cart state here if needed
-      // setCart(getCartFromStorage());
-      // Navigate to confirm page
       window.location.href = '/confirm';
     }, 200);
   };
@@ -70,9 +71,8 @@ function App() {
               removeFromCart={removeFromCart}
               decreaseQty={decreaseQty}
             />
-            {/* Floating Cart Icon */}
             <button
-              className={`floating-cart-btn${showCart ? " hide" : ""}`}
+              className={`floating-cart-btn${showCart ? ' hide' : ''}`}
               onClick={handleCartOpen}
               aria-label="View Cart"
             >
@@ -83,11 +83,16 @@ function App() {
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
               </span>
-              <span className="cart-count-badge">{cart.reduce((sum, item) => sum + (item.qty || 0), 0)}</span>
+              <span className="cart-count-badge">
+                {cart.reduce((sum, item) => sum + (item.qty || 0), 0)}
+              </span>
             </button>
-            {/* Slide-in Cart Panel */}
-            <div className={`cart-slide-overlay${showCart ? " open" : ""}`} onClick={handleCartClose} />
-            <div className={`cart-slide-panel${showCart ? " open" : ""}`}>
+
+            <div
+              className={`cart-slide-overlay${showCart ? ' open' : ''}`}
+              onClick={handleCartClose}
+            />
+            <div className={`cart-slide-panel${showCart ? ' open' : ''}`}>
               <button
                 onClick={handleCartClose}
                 className="cart-slide-close-btn"
@@ -107,6 +112,7 @@ function App() {
           </div>
         }
       />
+      <Route path="/auth" element={<LoginRegister />} /> {/* ✅ Login/Register route */}
       <Route path="/confirm" element={<ConfirmPage />} />
       <Route path="/thank-you" element={<ThankYouPage />} />
     </Routes>

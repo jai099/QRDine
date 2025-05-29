@@ -15,11 +15,16 @@ exports.getItemsByCategory = async (req, res) => {
 
 //Add a new item
 exports.adddMenuItem = async (req, res) => {
-    const newItem = new MenuItem(req.body);
-    await newItem.save();
-    res.status(201).json(newItem);
-};
+    try {
+        const data = Array.isArray(req.body) ? req.body : [req.body];
 
+        // Validate and save using insertMany
+        const savedItems = await MenuItem.insertMany(data);
+        res.status(201).json({ message: 'Menu item(s) added successfully', data: savedItems });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 // Edit item
 exports.updateMenuItem = async (req, res) => {
     const updatedItem = await MenuItem.findByIdAndUpdate(req.params.id, req.body, { new: true });
