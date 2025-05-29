@@ -27,20 +27,18 @@
 }
 
 .menu-categories-top {
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: center;
   gap: 18px;
   margin-bottom: 28px;
   background: #fff;
   padding: 18px 0 10px 0;
-  z-index: 10;
+  z-index: 20;
   border-radius: 0 0 24px 24px;
   box-shadow: 0 2px 8px rgba(255,152,0,0.07);
   animation: slideDown 0.7s cubic-bezier(.4,0,.2,1);
-}
-@keyframes slideDown {
-  0% { transform: translateY(-40px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
 }
 
 .category-btn {
@@ -259,6 +257,33 @@
 .close-modal-btn:hover {
   background: #c95d0c;
   transform: scale(1.05);
+}
+
+.menu-categories-bottom {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  background: #fff;
+  padding: 10px 0 8px 0;
+  z-index: 30;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -2px 12px rgba(255,152,0,0.13);
+  transition: transform 0.3s;
+  animation: slideUp 0.7s cubic-bezier(.4,0,.2,1);
+}
+@keyframes slideUp {
+  0% { transform: translateY(60px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.menu-categories-bottom.hide {
+  transform: translateY(100%);
+  pointer-events: none;
+  opacity: 0;
 }
 
 /* Responsive Tweaks */
