@@ -1,5 +1,12 @@
 {
+  "name": "qrdine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start"
+  },
   "dependencies": {
-    "react-router-dom": "^7.6.1"
+    "react-scripts": "^5.0.1"
   }
 }
