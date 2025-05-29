@@ -7,6 +7,13 @@ export default function ThankYouPage() {
   const navigate = useNavigate();
   const table = location.state?.table || 12;
 
+  // Reset cart and menu state on mount
+  React.useEffect(() => {
+    localStorage.removeItem('cartItems');
+    // Optionally, clear other localStorage keys if needed
+    // localStorage.removeItem('menuData');
+  }, []);
+
   return (
     <div className="thankyou-bg">
       <div className="thankyou-card">

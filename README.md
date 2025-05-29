@@ -5,3 +5,4 @@ This is a project on QR Based Restraunt Food Ordering System.
 
 # Date: 28-05-2025
 use npm install react-router-dom@latest 
+use npm instsall jspdf

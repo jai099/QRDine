@@ -239,6 +239,49 @@
   0% { transform: translateY(-40px) scale(0.8); opacity: 0; }
   100% { transform: translateY(0) scale(1); opacity: 1; }
 }
+.confirm-bill-summary {
+  margin-top: 18px;
+  background: #fffde7;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #ffe0b2;
+  padding: 18px 18px 10px 18px;
+  max-width: 340px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.confirm-bill-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.08rem;
+  margin-bottom: 6px;
+  color: #e65100;
+}
+.confirm-bill-row.total {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #43a047;
+  border-top: 2px solid #ffb74d;
+  margin-top: 10px;
+  padding-top: 6px;
+}
+.confirm-download-btn {
+  background: linear-gradient(90deg, #ff9800 0%, #ffb74d 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px #ffe0b2;
+  transition: background 0.2s, transform 0.18s;
+  margin-top: 18px;
+  cursor: pointer;
+  width: 100%;
+}
+.confirm-download-btn:hover {
+  background: #c95d0c;
+  transform: scale(1.03);
+}
 @media (max-width: 900px) {
   .confirm-split-layout {
     flex-direction: column;
