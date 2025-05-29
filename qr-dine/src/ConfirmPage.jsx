@@ -31,6 +31,16 @@ export default function ConfirmPage() {
   const grandTotal = total + tipAmount;
 
   function handleConfirm() {
+    // Save order to chefOrders in localStorage
+    const chefOrders = JSON.parse(localStorage.getItem('chefOrders') || '[]');
+    chefOrders.push({
+      id: Date.now(),
+      table: tableNumber,
+      items: cart,
+      notes: orderNotes,
+      total: total,
+    });
+    localStorage.setItem('chefOrders', JSON.stringify(chefOrders));
     setShowToast(true);
     setTimeout(() => {
       setShowToast(false);

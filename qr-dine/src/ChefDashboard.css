@@ -1,0 +1,245 @@
+.chef-dashboard-bg {
+  min-height: 100vh;
+  background: linear-gradient(120deg, #fff3e0 60%, #ffe0b2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+.chef-dashboard-container {
+  background: #fffde7;
+  border-radius: 24px;
+  box-shadow: 0 4px 32px 0 rgba(255, 152, 0, 0.13);
+  padding: 48px 36px 36px 36px;
+  min-width: 340px;
+  max-width: 600px;
+  width: 100%;
+  animation: popIn 0.7s cubic-bezier(.4,0,.2,1);
+}
+.chef-dashboard-title {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #ff9800;
+  margin-bottom: 10px;
+  letter-spacing: 1.2px;
+  text-align: center;
+}
+.chef-dashboard-sub {
+  font-size: 1.3rem;
+  color: #e65100;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.chef-dashboard-empty {
+  color: #ff9800;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 40px 0;
+}
+.chef-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.chef-order-card {
+  background: #fff3e0;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px #ffe0b2;
+  padding: 18px 22px;
+  animation: foodCardPop 0.7s cubic-bezier(.4,0,.2,1);
+}
+.chef-order-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  color: #e65100;
+  margin-bottom: 10px;
+}
+.chef-order-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px 0;
+}
+.chef-order-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.08rem;
+  color: #ff9800;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.chef-order-item-name {
+  flex: 1;
+}
+.chef-order-item-qty {
+  margin-left: 12px;
+}
+.chef-order-notes {
+  color: #e65100;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+.chef-order-total {
+  color: #43a047;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: right;
+}
+.chef-dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(120deg, #fff3e0 60%, #ffe0b2 100%);
+}
+.chef-sidebar {
+  width: 180px;
+  background: #fffde7;
+  border-right: 2px solid #ffb74d;
+  box-shadow: 2px 0 12px #ffe0b2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0 0 0;
+  min-height: 100vh;
+}
+.chef-sidebar-header {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #ff9800;
+  margin-bottom: 32px;
+  text-align: center;
+}
+.chef-sidebar-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+.chef-sidebar-list li {
+  padding: 16px 0;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #e65100;
+  cursor: pointer;
+  font-weight: 700;
+  border-left: 4px solid transparent;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.chef-sidebar-list li.active, .chef-sidebar-list li:hover {
+  background: #ffb74d33;
+  color: #ff9800;
+  border-left: 4px solid #ff9800;
+}
+.chef-dashboard-main {
+  flex: 1 1 0;
+  padding: 48px 36px 36px 36px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.chef-order-meta {
+  display: flex;
+  gap: 18px;
+  font-size: 1rem;
+  color: #e65100;
+  margin: 8px 0 0 0;
+  flex-wrap: wrap;
+}
+.chef-order-btn {
+  background: linear-gradient(90deg, #ff9800 0%, #ffb74d 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 8px 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.10);
+  transition: background 0.2s, color 0.2s;
+}
+.chef-order-btn.secondary {
+  background: #ffe0b2;
+  color: #e65100;
+}
+.chef-order-btn:hover {
+  filter: brightness(1.1) drop-shadow(0 0 8px #ff9800cc);
+}
+.chef-modal-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chef-modal-content {
+  background: #fffde7;
+  border-radius: 18px;
+  padding: 36px 28px;
+  min-width: 280px;
+  max-width: 90vw;
+  box-shadow: 0 4px 32px #ff9800cc;
+  text-align: center;
+  animation: popIn 0.5s cubic-bezier(.4,0,.2,1);
+}
+@media (max-width: 900px) {
+  .chef-dashboard-layout {
+    flex-direction: column;
+  }
+  .chef-sidebar {
+    flex-direction: row;
+    width: 100vw;
+    min-height: unset;
+    height: 64px;
+    padding: 0;
+    border-right: none;
+    border-bottom: 2px solid #ffb74d;
+    box-shadow: 0 2px 12px #ffe0b2;
+    align-items: center;
+    justify-content: center;
+  }
+  .chef-sidebar-header {
+    font-size: 1.3rem;
+    margin-bottom: 0;
+    margin-right: 18px;
+  }
+  .chef-sidebar-list {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+  }
+  .chef-sidebar-list li {
+    padding: 0 18px;
+    font-size: 1rem;
+    border-left: none;
+    border-bottom: 4px solid transparent;
+  }
+  .chef-sidebar-list li.active, .chef-sidebar-list li:hover {
+    background: #ffb74d33;
+    color: #ff9800;
+    border-bottom: 4px solid #ff9800;
+    border-left: none;
+  }
+  .chef-dashboard-main {
+    padding: 18px 6vw 18px 6vw;
+  }
+}
+@media (max-width: 600px) {
+  .chef-modal-content {
+    padding: 10px 2px;
+    min-width: 120px;
+  }
+  .chef-order-meta {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+@keyframes popIn {
+  0% { transform: scale(0.92); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes foodCardPop {
+  0% { transform: scale(0.97); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
