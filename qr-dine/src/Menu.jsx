@@ -9,6 +9,7 @@ const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
 	const [error, setError] = useState(null);
 	const [activeCategory, setActiveCategory] = useState('');
 	const [selectedItem, setSelectedItem] = useState(null);
+	const [showBottomNav, setShowBottomNav] = useState(false);
 	const sectionRefs = useRef({});
 
 	// Fetch menu data from backend
@@ -44,7 +45,9 @@ const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
 	// Scroll to section when category is clicked
 	const handleCategoryClick = (category) => {
 		setActiveCategory(category);
-		sectionRefs.current[category]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		setTimeout(() => {
+			sectionRefs.current[category]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}, 50);
 	};
 
 	// Detect scroll and update active category
@@ -67,6 +70,19 @@ const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
 			} else if (menuData.length > 0) {
 				setActiveCategory(menuData[0].category);
 			}
+		};
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, [menuData]);
+
+	// Show bottom nav when near bottom
+	useEffect(() => {
+		const handleScroll = () => {
+			const scrollY = window.scrollY || window.pageYOffset;
+			const windowHeight = window.innerHeight;
+			const docHeight = document.documentElement.scrollHeight;
+			// Show when user is within 300px of bottom
+			setShowBottomNav(scrollY + windowHeight >= docHeight - 300);
 		};
 		window.addEventListener('scroll', handleScroll, { passive: true });
 		return () => window.removeEventListener('scroll', handleScroll);
@@ -133,6 +149,19 @@ const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
 							))}
 						</ul>
 					</section>
+				))}
+			</div>
+			{/* Bottom sticky nav for categories */}
+			<div className={`menu-categories-bottom${showBottomNav ? '' : ' hide'}`}
+				style={{ pointerEvents: showBottomNav ? 'auto' : 'none' }}>
+				{menuData.map((cat) => (
+					<button
+						key={cat.category}
+						className={`category-btn${activeCategory === cat.category ? ' active' : ''}`}
+						onClick={() => handleCategoryClick(cat.category)}
+					>
+						{cat.category}
+					</button>
 				))}
 			</div>
 			{selectedItem && (

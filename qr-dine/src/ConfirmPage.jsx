@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import jsPDF from "jspdf";
 import "./ConfirmPage.css";
 
 // Dummy data for demo
@@ -26,17 +27,64 @@ export default function ConfirmPage() {
   const [showToast, setShowToast] = useState(false);
   const tableNumber = 12; // Example, could be dynamic
   const cart = getCart();
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tipAmount = (total * tip) / 100;
-  const grandTotal = total + tipAmount;
+  // GST and taxes (Indian):
+  // CGST: 2.5%, SGST: 2.5%, Service Charge: 5%
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const cgst = subtotal * 0.025;
+  const sgst = subtotal * 0.025;
+  const serviceCharge = subtotal * 0.05;
+  const total = subtotal + cgst + sgst + serviceCharge;
 
   function handleConfirm() {
+    // Save order to chefOrders in localStorage
+    const chefOrders = JSON.parse(localStorage.getItem('chefOrders') || '[]');
+    chefOrders.push({
+      id: Date.now(),
+      table: tableNumber,
+      items: cart,
+      notes: orderNotes,
+      total: total,
+    });
+    localStorage.setItem('chefOrders', JSON.stringify(chefOrders));
     setShowToast(true);
     setTimeout(() => {
       setShowToast(false);
       navigate("/thank-you", { state: { table: tableNumber } });
     }, 1200);
   }
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("QRDine Bill Receipt", 14, 16);
+    doc.setFontSize(12);
+    let y = 28;
+    doc.text(`Table: #${tableNumber}`, 14, y);
+    y += 8;
+    doc.text("Items:", 14, y);
+    y += 8;
+    cart.forEach((item) => {
+      doc.text(
+        `${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toFixed(2)}`,
+        16,
+        y
+      );
+      y += 7;
+    });
+    y += 4;
+    doc.text(`Subtotal: ₹${subtotal.toFixed(2)}`, 14, y);
+    y += 7;
+    doc.text(`CGST (2.5%): ₹${cgst.toFixed(2)}`, 14, y);
+    y += 7;
+    doc.text(`SGST (2.5%): ₹${sgst.toFixed(2)}`, 14, y);
+    y += 7;
+    doc.text(`Service Charge (5%): ₹${serviceCharge.toFixed(2)}`, 14, y);
+    y += 7;
+    doc.text(`Total: ₹${total.toFixed(2)}`, 14, y);
+    y += 10;
+    doc.text("Thank you for dining with us!", 14, y);
+    doc.save("QRDine_Bill.pdf");
+  };
 
   return (
     <div className="confirm-split-layout">
@@ -49,26 +97,28 @@ export default function ConfirmPage() {
         </div>
         <div className="confirm-items-list">
           {cart.map(item => (
-            <div className="confirm-item-card" key={item.id}>
-              <div className="confirm-item-img">
-                <span role="img" aria-label="food">🍽️</span>
-              </div>
-              <div className="confirm-item-info">
-                <div className="confirm-item-name">{item.name}</div>
-                <div className="confirm-item-details">
-                  <span className="confirm-item-qty">x{item.quantity}</span>
-                  <span className="confirm-item-price">₹{item.price}</span>
-                </div>
-                {item.notes && <div className="confirm-item-notes">📝 {item.notes}</div>}
-              </div>
-              <div className="confirm-item-total">₹{(item.price * item.quantity).toFixed(2)}</div>
+            <div className="confirm-item-row" key={item.name}>
+              <span className="confirm-item-name">{item.name}</span>
+              <span className="confirm-item-qty">x{item.quantity}</span>
+              <span className="confirm-item-price">₹{(item.price * item.quantity).toFixed(2)}</span>
             </div>
           ))}
         </div>
-        <div className="confirm-summary-row">
-          <span>Total</span>
-          <span>₹{total.toFixed(2)}</span>
+        <div className="confirm-bill-summary">
+          <div className="confirm-bill-row"><span>Subtotal</span><span>₹{subtotal.toFixed(2)}</span></div>
+          <div className="confirm-bill-row"><span>CGST (2.5%)</span><span>₹{cgst.toFixed(2)}</span></div>
+          <div className="confirm-bill-row"><span>SGST (2.5%)</span><span>₹{sgst.toFixed(2)}</span></div>
+          <div className="confirm-bill-row"><span>Service Charge (5%)</span><span>₹{serviceCharge.toFixed(2)}</span></div>
+          <div className="confirm-bill-row total"><span><b>Total</b></span><span><b>₹{total.toFixed(2)}</b></span></div>
         </div>
+        <button
+          className="confirm-download-btn"
+          style={{ marginTop: 16, width: "100%" }}
+          onClick={handleDownloadPDF}
+          disabled={cart.length === 0}
+        >
+          Download Bill as PDF
+        </button>
         <button className="confirm-edit-btn" onClick={() => navigate("/")}>← Edit Order</button>
       </div>
       {/* Right: Confirm & Submit */}
@@ -110,7 +160,7 @@ export default function ConfirmPage() {
         </div>
         <div className="confirm-summary-row grand">
           <span>Grand Total</span>
-          <span>₹{grandTotal.toFixed(2)}</span>
+          <span>₹{total.toFixed(2)}</span>
         </div>
         <button
           className="confirm-place-btn"
