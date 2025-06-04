@@ -108,13 +108,6 @@ export default function CartPage({ cart, setCart, onProceedToCheckout }) {
         >
           Proceed to Checkout
         </button>
-        <button
-          className="w-full mt-2 py-4 bg-gradient-to-r from-orange-500 to-amber-300 text-white rounded-xl text-lg font-extrabold tracking-wider shadow-[0_4px_16px_rgba(255,152,0,0.18)] hover:bg-gradient-to-r hover:from-amber-400 hover:to-amber-200 hover:filter hover:brightness-110 hover:drop-shadow-[0_0_12px_#ff9800cc] hover:shadow-[0_0_32px_#ff9800cc,0_4px_24px_rgba(255,152,0,0.18)] transition-all duration-200 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
-          onClick={handleDownloadPDF}
-          disabled={cart.length === 0}
-        >
-          Download Bill as PDF
-        </button>
       </div>
     </div>
   );

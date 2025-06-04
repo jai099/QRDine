@@ -8,5 +8,4 @@ use npm install react-router-dom@latest
 use npm instsall jspdf
 use npm install qrcode.react
 
-
 Refer below website for tailwind installation: https://v3.tailwindcss.com/docs/installation/using-postcss

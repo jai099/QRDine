@@ -32,7 +32,7 @@ export default function CartItem({ item, onQuantityChange, onDelete }) {
           </div>
         </div>
       </div>
-      <div className="font-bold text-lg text-orange-700 bg-warm-100 px-4 py-2 rounded-lg shadow-[0_1px_4px_#ffe0b2] ml-2 min-w-[90px] text-right">
+      <div className="font-bold text-l bg-warm-100 px-4 py-2 rounded-lg shadow-[0_1px_4px_#ffe0b2] ml-2 min-w-[90px] text-right">
         ₹{(item.price * item.qty).toFixed(2)}
       </div>
       <button
