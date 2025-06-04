@@ -8,6 +8,7 @@ import ConfirmPage from './Components/Thank_you/ConfirmPage.jsx';
 import ThankYouPage from './Components/Thank_you/ThankYouPage.jsx';
 import ChefDashboard from './Components/ChefDashboard/ChefDashboard';
 import WaiterDashboard from './Components/waiter/WaiterDashboard';
+import WebsiteQR from './Components/WebsiteQR.jsx';
 
 
 function App() {
@@ -114,6 +115,8 @@ function App() {
       <Route path="/thank-you" element={<ThankYouPage />} />
       <Route path="/chef" element={<ChefDashboard />} />
       <Route path="/waiter" element={<WaiterDashboard />} />
+      {/* Add a route for QR code page */}
+      <Route path="/qr" element={<WebsiteQR url={window.location.origin} />} />
     </Routes>
   );
 }
