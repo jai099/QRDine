@@ -1,7 +1,7 @@
 .menu-fullpage-container {
   width: 100vw;
   min-height: 100vh;
-  background: linear-gradient(120deg, #fff3e0 60%, #ffe0b2 100%);
+  background: linear-gradient(120deg, #f8fafc 60%, #fff8f0 100%);
   padding-bottom: 40px;
   font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
   animation: fadeInBg 1.2s cubic-bezier(.4,0,.2,1);
@@ -14,7 +14,7 @@
 .restaurant-title {
   text-align: center;
   font-size: 2.7rem;
-  color: #ff9800;
+  color: #dfdad2;
   margin-bottom: 32px;
   letter-spacing: 2px;
   font-weight: 900;
