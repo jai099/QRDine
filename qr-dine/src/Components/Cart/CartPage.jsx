@@ -1,5 +1,5 @@
 import React from "react";
-import CartItem from "./CartItem";
+import CartItem from "./CartItem.jsx";
 import "./CartPage.css";
 import jsPDF from "jspdf";
 

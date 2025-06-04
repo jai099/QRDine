@@ -3,10 +3,12 @@ import './App.css';
 import Menu from './Menu';
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import CartPage from './CartPage';
-import ConfirmPage from './ConfirmPage';
-import ThankYouPage from './ThankYouPage';
-import ChefDashboard from './ChefDashboard';
+import CartPage from './Components/Cart/CartPage';
+import ConfirmPage from './Components/Thank_you/ConfirmPage.jsx';
+import ThankYouPage from './Components/Thank_you/ThankYouPage.jsx';
+import ChefDashboard from './Components/ChefDashboard/ChefDashboard';
+import WaiterDashboard from './Components/waiter/WaiterDashboard';
+
 
 function App() {
   const [showCart, setShowCart] = useState(false);
@@ -111,6 +113,7 @@ function App() {
       <Route path="/confirm" element={<ConfirmPage />} />
       <Route path="/thank-you" element={<ThankYouPage />} />
       <Route path="/chef" element={<ChefDashboard />} />
+      <Route path="/waiter" element={<WaiterDashboard />} />
     </Routes>
   );
 }
