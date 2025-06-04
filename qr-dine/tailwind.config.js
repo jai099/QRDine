@@ -36,7 +36,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ["Segoe UI", "Roboto", "Arial", "sans-serif"],
+        sans: ["Monsterat"],
       },
       animation: {
         fadeInBg: "fadeInBg 1.2s cubic-bezier(0.4, 0, 0.2, 1)",

@@ -7,7 +7,7 @@ import ConfirmPage from './Components/Thank_you/ConfirmPage.jsx';
 import ThankYouPage from './Components/Thank_you/ThankYouPage.jsx';
 import ChefDashboard from './Components/ChefDashboard/ChefDashboard';
 import WaiterDashboard from './Components/waiter/WaiterDashboard';
-import WebsiteQR from './Components/WebsiteQR.jsx';
+import WebsiteQR from './Components/QR/WebsiteQR.jsx';
 
 
 function App() {
