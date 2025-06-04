@@ -152,18 +152,7 @@ const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
 				))}
 			</div>
 			{/* Bottom sticky nav for categories */}
-			<div className={`menu-categories-bottom${showBottomNav ? '' : ' hide'}`}
-				style={{ pointerEvents: showBottomNav ? 'auto' : 'none' }}>
-				{menuData.map((cat) => (
-					<button
-						key={cat.category}
-						className={`category-btn${activeCategory === cat.category ? ' active' : ''}`}
-						onClick={() => handleCategoryClick(cat.category)}
-					>
-						{cat.category}
-					</button>
-				))}
-			</div>
+			
 			{selectedItem && (
 				<div className="item-modal" onClick={() => setSelectedItem(null)}>
 					<div className="item-modal-content" onClick={(e) => e.stopPropagation()}>
