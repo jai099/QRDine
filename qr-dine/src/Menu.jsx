@@ -152,7 +152,7 @@ const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
 				))}
 			</div>
 			{/* Bottom sticky nav for categories */}
-			
+			 
 			{selectedItem && (
 				<div className="item-modal" onClick={() => setSelectedItem(null)}>
 					<div className="item-modal-content" onClick={(e) => e.stopPropagation()}>

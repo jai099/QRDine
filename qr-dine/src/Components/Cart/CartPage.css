@@ -113,15 +113,12 @@
 }
 
 .cartitem-name {
-  font-weight: 700;
-  font-size: 1.18rem;
-  color: #e65100;
-  letter-spacing: 0.5px;
+  max-width: 100px; /* or whatever suits your layout */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 2px;
-  text-shadow: 0 1px 0 #fffde7;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
 .cartitem-details-row {
