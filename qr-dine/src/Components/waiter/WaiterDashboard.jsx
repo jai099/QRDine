@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './WaiterDashboard.css';
-import './waiter/WaiterOrderCard.css';
-import './waiter/WaiterOrdersList.css';
-import './waiter/WaiterSidebar.css';
-import './waiter/WaiterProfile.css';
-import WaiterSidebar from './waiter/WaiterSidebar';
-import WaiterOrdersList from './waiter/WaiterOrdersList';
-import WaiterProfile from './waiter/WaiterProfile';
+import './WaiterOrderCard.css';
+import './WaiterOrdersList.css';
+import './WaiterSidebar.css';
+import './WaiterProfile.css';
+import WaiterSidebar from './WaiterSidebar.jsx';
+import WaiterOrdersList from './WaiterOrdersList';
+import WaiterProfile from './WaiterProfile.jsx';
 
 function getInitialHistory() {
   // In real app, fetch from backend
