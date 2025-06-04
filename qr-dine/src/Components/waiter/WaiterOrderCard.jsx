@@ -1,5 +1,5 @@
 import React from 'react';
-// import './WaiterOrderCard.css';
+import './WaiterOrderCard.css';
 
 export default function WaiterOrderCard({ order, assigned, onAssign, onServe, isHistory, waiterName }) {
   function timeSince(ts) {
