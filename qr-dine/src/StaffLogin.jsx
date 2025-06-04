@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './ChefLogin.css'; // reuse same styling
+import './StaffLogin.css'; // reuse same styling
 
 const StaffLogin = ({ onLogin }) => {
   const [username, setUsername] = useState('');

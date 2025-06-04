@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styles from './AdminRegisterForm.module.css';
 
 const AdminRegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ const AdminRegisterForm = () => {
 
   useEffect(() => {
     if (localStorage.getItem('isAdmin') !== 'true') {
-      window.location.href = '/admin-login'; // redirect if not admin
+      window.location.href = '/admin-login';
     }
   }, []);
 
@@ -23,8 +24,7 @@ const AdminRegisterForm = () => {
     e.preventDefault();
     setMessage('');
     try {
-        const res = await axios.post('http://localhost:5000/api/auth/register', formData);
-
+      const res = await axios.post('http://localhost:5000/api/auth/register', formData);
       setMessage(res.data.message);
       setFormData({ username: '', password: '', role: 'waiter' });
     } catch (err) {
@@ -33,8 +33,8 @@ const AdminRegisterForm = () => {
   };
 
   return (
-    <div>
-      <h2>Register New Staff</h2>
+    <div className={styles.container}>
+      <h2 className={styles.heading}>Register New Staff</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -43,7 +43,8 @@ const AdminRegisterForm = () => {
           value={formData.username}
           onChange={handleChange}
           required
-        /><br />
+          className={styles.input}
+        />
         <input
           type="password"
           name="password"
@@ -51,14 +52,22 @@ const AdminRegisterForm = () => {
           value={formData.password}
           onChange={handleChange}
           required
-        /><br />
-        <select name="role" value={formData.role} onChange={handleChange}>
+          className={styles.input}
+        />
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          className={styles.select}
+        >
           <option value="waiter">Waiter</option>
           <option value="chef">Chef</option>
-        </select><br />
-        <button type="submit">Register</button>
+        </select>
+        <button type="submit" className={styles.button}>
+          Register
+        </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className={styles.message}>{message}</p>}
     </div>
   );
 };

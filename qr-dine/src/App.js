@@ -9,6 +9,9 @@ import ThankYouPage from './Components/Thank_you/ThankYouPage.jsx';
 import ChefDashboard from './Components/ChefDashboard/ChefDashboard';
 import WaiterDashboard from './Components/waiter/WaiterDashboard';
 
+// Import the admin pages you created
+import AdminLogin from './Components/AdminLogin';          // Adjust path if needed
+import AdminRegisterForm from './Components/AdminRegisterForm.jsx'; // Adjust path if needed
 
 function App() {
   const [showCart, setShowCart] = useState(false);
@@ -31,7 +34,6 @@ function App() {
       if (found) {
         return prev.map((i) => (i.name === item.name ? { ...i, qty: i.qty + 1 } : i));
       } else {
-        // Assign a unique id if not present
         return [...prev, { ...item, qty: 1, id: item.id || Date.now() }];
       }
     });
@@ -54,9 +56,6 @@ function App() {
   const handleProceedToCheckout = () => {
     setShowCart(false);
     setTimeout(() => {
-      // Optionally, sync cart state here if needed
-      // setCart(getCartFromStorage());
-      // Navigate to confirm page
       window.location.href = '/confirm';
     }, 200);
   };
@@ -73,7 +72,6 @@ function App() {
               removeFromCart={removeFromCart}
               decreaseQty={decreaseQty}
             />
-            {/* Floating Cart Icon */}
             <button
               className={`floating-cart-btn${showCart ? " hide" : ""}`}
               onClick={handleCartOpen}
@@ -88,7 +86,6 @@ function App() {
               </span>
               <span className="cart-count-badge">{cart.reduce((sum, item) => sum + (item.qty || 0), 0)}</span>
             </button>
-            {/* Slide-in Cart Panel */}
             <div className={`cart-slide-overlay${showCart ? " open" : ""}`} onClick={handleCartClose} />
             <div className={`cart-slide-panel${showCart ? " open" : ""}`}>
               <button
@@ -114,6 +111,10 @@ function App() {
       <Route path="/thank-you" element={<ThankYouPage />} />
       <Route path="/chef" element={<ChefDashboard />} />
       <Route path="/waiter" element={<WaiterDashboard />} />
+
+      {/* New routes for admin */}
+      <Route path="/admin-login" element={<AdminLogin />} />
+      <Route path="/register-staff" element={<AdminRegisterForm />} />
     </Routes>
   );
 }

@@ -1,0 +1,57 @@
+.container {
+    max-width: 28rem;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.75rem;
+    color: #374151;
+}
+
+.input,
+.select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1.125rem;
+    outline: none;
+}
+
+.input:focus,
+.select:focus {
+    border-color: #fb923c;
+    box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.5);
+}
+
+.button {
+    width: 100%;
+    padding: 0.75rem 0;
+    background-color: #fb923c;
+    color: white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    border: none;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #f97316;
+}
+
+.message {
+    margin-top: 1.25rem;
+    font-weight: 600;
+    color: #374151;
+}

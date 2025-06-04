@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from './AdminLogin.module.css';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -8,18 +9,17 @@ const AdminLogin = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Hardcoded credentials
     if (username === 'admin' && password === 'admin123') {
       localStorage.setItem('isAdmin', 'true');
-      window.location.href = '/register-staff'; // redirect to registration page
+      window.location.href = '/register-staff';
     } else {
       setError('Invalid username or password');
     }
   };
 
   return (
-    <div>
-      <h2>Admin Login</h2>
+    <div className={styles.container}>
+      <h2 className={styles.heading}>Admin Login</h2>
       <form onSubmit={handleLogin}>
         <input
           type="text"
@@ -27,17 +27,21 @@ const AdminLogin = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-        /><br />
+          className={styles.input}
+        />
         <input
           type="password"
           placeholder="Admin Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-        /><br />
-        <button type="submit">Login</button>
+          className={styles.input}
+        />
+        <button type="submit" className={styles.button}>
+          Login
+        </button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
 };
