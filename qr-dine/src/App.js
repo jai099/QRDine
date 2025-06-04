@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Menu from './Menu';
+import Menu from './Components/Menu/Menu.jsx';
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import CartPage from './Components/Cart/CartPage';

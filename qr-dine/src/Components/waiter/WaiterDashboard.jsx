@@ -3,11 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSpring, animated } from '@react-spring/web';
 import toast, { Toaster } from 'react-hot-toast';
 import { Search, RefreshCw, Clock, TrendingUp, Award, Zap } from 'lucide-react';
-import './WaiterDashboard.css';
-import './WaiterOrderCard.css';
-import './WaiterOrdersList.css';
-import './WaiterSidebar.css';
-import './WaiterProfile.css';
 import WaiterSidebar from './WaiterSidebar.jsx';
 import WaiterOrdersList from './WaiterOrdersList';
 import WaiterProfile from './WaiterProfile.jsx';
@@ -207,30 +202,48 @@ export default function WaiterDashboard() {
   // --- Stats Bar ---
   function StatsBar() {
     return (
-      <animated.div className="waiter-stats-bar" style={statsSpring}>
-        <div className="waiter-stat"><Clock size={18}/> <b>{stats.totalOrders}</b> Orders</div>
-        <div className="waiter-stat"><Zap size={18}/> <b>{stats.assignedOrders}</b> Assigned</div>
-        <div className="waiter-stat"><Award size={18}/> <b>{stats.completedToday}</b> Served Today</div>
-        <div className="waiter-stat"><TrendingUp size={18}/> <b>{stats.avgDeliveryTime || 0} min</b> Avg Delivery</div>
+      <animated.div
+        className="flex gap-8 my-4.5 mb-7 bg-gradient-to-r from-amber-300 to-warm-300 rounded-2xl shadow-[0_2px_8px_#ffe0b2] p-4.5 justify-center items-center text-orange-600 font-bold text-lg animate-statsGlow md:p-2.5 md:gap-2.5 md:text-base"
+        style={statsSpring}
+      >
+        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 shadow-[0_1px_4px_#ffe0b2] text-orange-500 text-base transition-shadow duration-200">
+          <Clock size={18} /> <b className="text-orange-600 text-lg">{stats.totalOrders}</b> Orders
+        </div>
+        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 shadow-[0_1px_4px_#ffe0b2] text-orange-500 text-base transition-shadow duration-200">
+          <Zap size={18} /> <b className="text-orange-600 text-lg">{stats.assignedOrders}</b> Assigned
+        </div>
+        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 shadow-[0_1px_4px_#ffe0b2] text-orange-500 text-base transition-shadow duration-200">
+          <Award size={18} /> <b className="text-orange-600 text-lg">{stats.completedToday}</b> Served Today
+        </div>
+        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 shadow-[0_1px_4px_#ffe0b2] text-orange-500 text-base transition-shadow duration-200">
+          <TrendingUp size={18} /> <b className="text-orange-600 text-lg">{stats.avgDeliveryTime || 0} min</b> Avg Delivery
+        </div>
       </animated.div>
     );
   }
 
   return (
-    <div className="waiter-dashboard-root">
+    <div className="flex min-h-screen bg-gradient-to-r from-warm-300 to-warm-200 font-sans animate-waiterBgAnim">
       <Toaster position="top-right" />
       <WaiterSidebar view={view} setView={setView} />
-      <main className="waiter-main">
-        <animated.div className="waiter-main-header" style={headerSpring}>
-          <h2>Waiter Dashboard</h2>
-          <div className="waiter-header-actions">
-            <button className="waiter-refresh-btn" onClick={()=>fetchOrders(true)} disabled={refreshing} title="Refresh">
-              <RefreshCw size={20} className={refreshing ? 'spin' : ''}/> {refreshing ? 'Refreshing...' : 'Refresh'}
+      <main className="flex-1 p-9 flex flex-col min-w-0 bg-white/85 rounded-tl-[32px] rounded-bl-[32px] shadow-[0_8px_32px_rgba(255,152,0,0.10),0_2px_8px_rgba(60,60,120,0.10)] my-6 md:p-2.5 md:rounded-none md:m-0">
+        <animated.div
+          className="flex items-center justify-between mb-6 bg-gradient-to-r from-warm-300 to-warm-200 rounded-2xl shadow-[0_2px_8px_#ffe0b2] p-4.5 relative md:p-2.5 md:rounded-xl"
+          style={headerSpring}>
+          <h2 className="text-2xl font-extrabold text-orange-500">Waiter Dashboard</h2>
+          <div className="flex items-center gap-4.5">
+            <button
+              className="bg-gradient-to-r from-orange-500 to-amber-300 text-white border-none rounded-[10px] font-bold text-base py-2 px-4.5 flex items-center gap-2 shadow-[0_2px_8px_rgba(255,152,0,0.10)] transition-all duration-200 active:brightness-95 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+              onClick={() => fetchOrders(true)}
+              disabled={refreshing}
+              title="Refresh"
+            >
+              <RefreshCw size={20} className={refreshing ? 'animate-spin' : ''} /> {refreshing ? 'Refreshing...' : 'Refresh'}
             </button>
-            <div className="waiter-searchbar">
-              <Search size={18}/>
+            <div className="flex items-center bg-warm-100 rounded-lg shadow-[0_1px_4px_#ffe0b2] p-1 px-2.5 gap-1.5">
+              <Search size={18} />
               <input
-                className="waiter-search"
+                className="border-none bg-transparent text-orange-600 font-semibold text-base outline-none py-1.5 min-w-[120px]"
                 placeholder="Search by table or order ID"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
@@ -249,7 +262,9 @@ export default function WaiterDashboard() {
               transition={{ duration: 0.3 }}
             >
               {loading ? (
-                <div className="waiter-loading">Loading orders...</div>
+                <div className="text-center text-orange-500 font-bold text-xl mt-12 animate-pulseText">
+                  Loading orders...
+                </div>
               ) : (
                 <WaiterOrdersList
                   orders={filtered}
@@ -272,8 +287,8 @@ export default function WaiterDashboard() {
               <WaiterOrdersList
                 orders={history}
                 assigned={[]}
-                onAssign={()=>{}}
-                onServe={()=>{}}
+                onAssign={() => {}}
+                onServe={() => {}}
                 isHistory={true}
                 waiterName={WAITER_PROFILE.name}
               />
@@ -291,7 +306,7 @@ export default function WaiterDashboard() {
             </motion.div>
           )}
         </AnimatePresence>
-        <audio ref={audioRef} src="/notification.mp3" preload="auto" style={{display:'none'}} />
+        <audio ref={audioRef} src="/notification.mp3" preload="auto" style={{ display: 'none' }} />
       </main>
     </div>
   );
