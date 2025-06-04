@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/menu/available';
 
-const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
+const Menu = (props) => {
+  const { cart = [], addToCart = () => {}, removeFromCart = () => {}, decreaseQty = () => {} } = props;
   const [menuData, setMenuData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -162,19 +163,6 @@ const Menu = ({ cart, addToCart, removeFromCart, decreaseQty }) => {
               ))}
             </ul>
           </section>
-        ))}
-      </div>
-      <div
-        className={`fixed bottom-0 left-0 w-full flex justify-center gap-4 bg-white py-2.5 px-0 z-30 rounded-t-3xl shadow-[0_-2px_12px_rgba(255,152,0,0.13)] transition-transform duration-300 animate-slideUp ${showBottomNav ? '' : 'translate-y-full opacity-0 pointer-events-none'}`}
-      >
-        {menuData.map((cat) => (
-          <button
-            key={cat.category}
-            className={`bg-gradient-to-r from-warm-300 to-amber-300 text-orange-600 font-bold text-base py-3 px-7 rounded-[20px] shadow-[0_2px_8px_#ffe0b2] transition-all duration-200 hover:bg-gradient-to-r hover:from-orange-500 hover:to-amber-300 hover:text-white hover:scale-105 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_#ff9800cc] ${activeCategory === cat.category ? 'bg-gradient-to-r from-orange-500 to-amber-300 text-white scale-105 -translate-y-0.5 shadow-[0_4px_16px_#ff9800cc]' : ''} md:text-sm md:py-2 md:px-3 sm:text-[0.95rem] sm:rounded-4 sm:gap-2`}
-            onClick={() => handleCategoryClick(cat.category)}
-          >
-            {cat.category}
-          </button>
         ))}
       </div>
       {selectedItem && (
