@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 
 export default function WebsiteQR({ url }) {
-  const [qrUrl, setQrUrl] = useState(url || window.location.origin);
+  const [qrUrl] = useState("https://qr-dine-five.vercel.app/" || window.location.origin);
 
   return (
     <div className='w-screen h-screen flex flex-col justify-center items-center gap-5'>

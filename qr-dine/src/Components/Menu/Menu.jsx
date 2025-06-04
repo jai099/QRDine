@@ -9,7 +9,6 @@ const Menu = (props) => {
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
-  const [showBottomNav, setShowBottomNav] = useState(false);
   const sectionRefs = useRef({});
 
   // Fetch menu data from backend
@@ -69,18 +68,6 @@ const Menu = (props) => {
       } else if (menuData.length > 0) {
         setActiveCategory(menuData[0].category);
       }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [menuData]);
-
-  // Show bottom nav when near bottom
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY || window.pageYOffset;
-      const windowHeight = window.innerHeight;
-      const docHeight = document.documentElement.scrollHeight;
-      setShowBottomNav(scrollY + windowHeight >= docHeight - 300);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
