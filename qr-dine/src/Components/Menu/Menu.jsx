@@ -9,7 +9,7 @@ const Menu = (props) => {
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
-  const [showBottomNav, setShowBottomNav] = useState(false);
+  const [setShowBottomNav] = useState(false);
   const sectionRefs = useRef({});
 
   // Fetch menu data from backend
