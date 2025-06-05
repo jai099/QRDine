@@ -8,8 +8,8 @@ export default function TableQRList({ baseUrl }) {
       <h2>Scan QR for Each Table</h2>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2rem' }}>
         {tables.map(table => (
-          <div key={table} style={{ margin: '1rem', padding: '1rem', border: '1px solid #eee', borderRadius: 12, background: '#fff' }}>
-            <div style={{ fontWeight: 'bold', marginBottom: 8 }}>Table {table}</div>
+          <div key={table} className='m-[1rem] p-[1rem] rounded-[12px] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex flex-col items-center gap-4'>
+            <div className='bold flex flex-none items-center justify-center'>Table {table}</div>
             <QRCodeSVG value={`${baseUrl}/?table=${table}`} size={160}/>
             <div style={{ marginTop: 8, fontSize: 12, wordBreak: 'break-all' }}>{`${baseUrl}/?table=${table}`}</div>
           </div>
