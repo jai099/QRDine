@@ -10,10 +10,13 @@ const Menu = (props) => {
   const [activeCategory, setActiveCategory] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showFilter, setShowFilter] = useState(false);
+  const [filterVeg, setFilterVeg] = useState(false);
+  const [filterNonVeg, setFilterNonVeg] = useState(false);
+  const [filterCategory, setFilterCategory] = useState('');
+  const [filterPrice, setFilterPrice] = useState('');
   const sectionRefs = useRef({});
   const location = useLocation();
-
-  // Get table number from URL query param (?table=1)
   const tableNumber = (() => {
     const params = new URLSearchParams(location.search);
     const t = params.get('table');
@@ -90,26 +93,39 @@ const Menu = (props) => {
     return found ? found.qty : 0;
   };
 
-  // Filtered menu data based on search
-  const filteredMenuData = searchTerm.trim()
-    ? menuData
-        .map((section) => ({
-            ...section,
-            items: section.items.filter(
-                (item) =>
-                    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    (item.desc && item.desc.toLowerCase().includes(searchTerm.toLowerCase()))
-            ),
-        }))
-        .filter((section) => section.items.length > 0)
-    : menuData;
+  // Filtered menu data based on search and filter
+  const filteredMenuData = menuData
+    .map((section) => ({
+      ...section,
+      items: section.items.filter((item) => {
+        // Search filter
+        const matchesSearch =
+          !searchTerm.trim() ||
+          item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (item.desc && item.desc.toLowerCase().includes(searchTerm.toLowerCase()));
+        // Veg/Non-Veg filter
+        const isVeg = item.isVeg || item.veg === true || item.type === 'veg';
+        const isNonVeg = item.isVeg === false || item.veg === false || item.type === 'non-veg';
+        const matchesVeg = !filterVeg || isVeg;
+        const matchesNonVeg = !filterNonVeg || isNonVeg;
+        // Category filter
+        const matchesCategory = !filterCategory || item.category === filterCategory;
+        // Price filter (e.g. '<200', '200-400', '>400')
+        let matchesPrice = true;
+        if (filterPrice === '<200') matchesPrice = item.price < 200;
+        else if (filterPrice === '200-400') matchesPrice = item.price >= 200 && item.price <= 400;
+        else if (filterPrice === '>400') matchesPrice = item.price > 400;
+        return matchesSearch && matchesVeg && matchesNonVeg && matchesCategory && matchesPrice;
+      }),
+    }))
+    .filter((section) => section.items.length > 0);
 
   if (loading) return <div className="w-screen min-h-screen font-sans">Loading menu...</div>;
   if (error) return <div className="w-screen min-h-screen font-sans">Error: {error}</div>;
   if (!menuData.length) return <div className="w-screen min-h-screen font-sans">No menu items found.</div>;
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] font-sans">
+    <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col">
       {/* Top NavBar */}
       <nav className="bg-white shadow-md rounded-xl mx-2 sm:mx-4 mt-2 sm:mt-4 flex flex-col sm:flex-row items-center px-2 sm:px-6 py-2 sm:py-3 justify-between sticky top-0 z-30">
         <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto mb-2 sm:mb-0">
@@ -162,13 +178,60 @@ const Menu = (props) => {
           onChange={e => setSearchTerm(e.target.value)}
           className="flex-1 px-3 py-2 sm:px-4 sm:py-3 rounded-lg border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-300 text-sm sm:text-base w-full"
         />
-        <button className="bg-orange-500 text-white px-4 sm:px-6 py-2 rounded-lg font-bold shadow hover:bg-orange-600 transition flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
-          <span className="material-icons">filter</span>
+        <button
+          className="bg-orange-500 text-white px-4 sm:px-6 py-2 rounded-lg font-bold shadow hover:bg-orange-600 transition flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0"
+          onClick={() => setShowFilter(true)}
+        >
+          <span className="material-icons">filter_list</span> Filter
         </button>
       </div>
 
+      {/* Filter Modal */}
+      {showFilter && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center" onClick={() => setShowFilter(false)}>
+          <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-xs sm:max-w-sm" onClick={e => e.stopPropagation()}>
+            <h3 className="text-lg font-bold mb-4 text-orange-600">Filter Menu</h3>
+            <div className="mb-3">
+              <label className="block font-semibold mb-1">Type</label>
+              <div className="flex gap-3">
+                <label className="flex items-center gap-1">
+                  <input type="checkbox" checked={filterVeg} onChange={e => setFilterVeg(e.target.checked)} />
+                  Veg
+                </label>
+                <label className="flex items-center gap-1">
+                  <input type="checkbox" checked={filterNonVeg} onChange={e => setFilterNonVeg(e.target.checked)} />
+                  Non-Veg
+                </label>
+              </div>
+            </div>
+            <div className="mb-3">
+              <label className="block font-semibold mb-1">Category</label>
+              <select className="w-full border rounded px-2 py-1" value={filterCategory} onChange={e => setFilterCategory(e.target.value)}>
+                <option value="">All</option>
+                {menuData.map((cat) => (
+                  <option key={cat.category} value={cat.category}>{cat.category}</option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <label className="block font-semibold mb-1">Price</label>
+              <select className="w-full border rounded px-2 py-1" value={filterPrice} onChange={e => setFilterPrice(e.target.value)}>
+                <option value="">All</option>
+                <option value="<200">Below ₹200</option>
+                <option value="200-400">₹200 - ₹400</option>
+                <option value=">400">Above ₹400</option>
+              </select>
+            </div>
+            <div className="flex gap-3 mt-4">
+              <button className="flex-1 bg-orange-500 text-white py-2 rounded font-bold hover:bg-orange-600 transition" onClick={() => setShowFilter(false)}>Apply</button>
+              <button className="flex-1 bg-gray-200 text-gray-700 py-2 rounded font-bold hover:bg-gray-300 transition" onClick={() => { setFilterVeg(false); setFilterNonVeg(false); setFilterCategory(''); setFilterPrice(''); setShowFilter(false); }}>Clear</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Dynamic Menu Sections */}
-      <div className="w-full px-1 sm:px-4">
+      <div className="w-full px-1 sm:px-4 flex-1">
         {filteredMenuData.length === 0 && (
           <div className="text-center text-gray-500 mt-8">No items found for "{searchTerm}"</div>
         )}
@@ -207,8 +270,8 @@ const Menu = (props) => {
         ))}
       </div>
 
-      {/* Footer (optional) */}
-      <footer className="mt-8 sm:mt-12 mb-2 sm:mb-4 flex flex-col sm:flex-row justify-between items-center px-2 sm:px-8 text-gray-500 text-xs sm:text-sm gap-2 sm:gap-0">
+      {/* Footer (always at bottom) */}
+      <footer className="mt-8 sm:mt-12 mb-2 sm:mb-4 flex flex-col sm:flex-row justify-between items-center px-2 sm:px-8 text-gray-500 text-xs sm:text-sm gap-2 sm:gap-0 w-full">
         <div className="flex items-center gap-2">
           <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="location" className="w-4 h-4 sm:w-5 sm:h-5" />
           <span>🍊 Nagpur</span>
