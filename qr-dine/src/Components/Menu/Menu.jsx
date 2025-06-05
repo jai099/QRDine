@@ -138,7 +138,7 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
     setTimeout(() => {
-      sectionRefs.current[category]?.scrollIntoView({ behavior: ' airsmooth', block: 'start' });
+      sectionRefs.current[category]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
   };
 
@@ -237,8 +237,7 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
           className="bg-orange-500 text-white px-4 sm:px-6 py-2 rounded-lg font-bold shadow hover:bg-orange-600 transition flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0"
           onClick={() => setShowFilter(true)}
         >
-          <span className="material-icons">filter_list</span>
-          Filter
+          <span className="material-icons">Filter</span>
         </button>
       </div>
 
@@ -337,17 +336,16 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
             ref={(el) => (sectionRefs.current[section.category] = el)}
             className="w-full mt-6"
           >
-            <h2 className="text-lg sm:text-xl font-extrabold text-gray-800 mb-3 sm:mb-4 pl-1">{section.category}</h2>
+            <h2 className="text-lg sm:text-xl font-extrabold text-gray-800 mb-3 sm:mb-4 pl-1 ">{section.category}</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-6">
               {section.items.map((item, idx) => (
                 <div
                   key={item._id || idx}
-                  className="bg-white rounded-xl shadow-md p-2 sm:p-4 flex flex-col items-center w-full"
-                >
+                  className="bg-white shadow-md flex flex-col items-center w-full rounded-lg">
                   <img
-                    src={item.img || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=120&q=80'}
+                    src={item.img}
                     alt={item.name}
-                    className="rounded-lg w-20 h-16 sm:w-32 sm:h-24 object-cover mb-2"
+                    className="w-full h-20 object-cover rounded-l-lg rounded-r-lg rounded-b-none"
                   />
                   <div className="font-bold text-base sm:text-lg text-gray-800 text-center w-full line-clamp-2">{item.name}</div>
                   <div className="text-gray-500 text-xs sm:text-sm mb-1 text-center w-full line-clamp-2">{item.desc}</div>
@@ -357,7 +355,7 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
                     {item.discount && <span className="text-green-600 text-xs font-bold">{item.discount}</span>}
                   </div>
                   <button
-                    className="bg-orange-500 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-lg font-bold shadow hover:bg-orange-600 transition w-full mt-1"
+                    className="bg-orange-500 text-white w-[110px] h-[50px] rounded-lg font-bold shadow hover:bg-orange-600 transition mt-1"
                     onClick={() => handleAddToCart(item)}
                   >
                     Add
