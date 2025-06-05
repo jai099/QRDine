@@ -182,7 +182,7 @@ const Menu = (props) => {
           className="bg-orange-500 text-white px-4 sm:px-6 py-2 rounded-lg font-bold shadow hover:bg-orange-600 transition flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0"
           onClick={() => setShowFilter(true)}
         >
-          <span className="material-icons">filter_list</span> Filter
+          <span className="material-icons">Filter</span>
         </button>
       </div>
 
