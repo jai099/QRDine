@@ -14,6 +14,7 @@ const Menu = (props) => {
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const sectionRefs = useRef({});
   const location = useLocation();
 
@@ -94,6 +95,20 @@ const Menu = (props) => {
     return found ? found.qty : 0;
   };
 
+  // Filtered menu data based on search
+  const filteredMenuData = searchTerm.trim()
+    ? menuData
+        .map((section) => ({
+            ...section,
+            items: section.items.filter(
+                (item) =>
+                    item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    (item.desc && item.desc.toLowerCase().includes(searchTerm.toLowerCase()))
+            ),
+        }))
+        .filter((section) => section.items.length > 0)
+    : menuData;
+
   if (loading) return <div className="w-screen min-h-screen font-sans">Loading menu...</div>;
   if (error) return <div className="w-screen min-h-screen font-sans">Error: {error}</div>;
   if (!menuData.length) return <div className="w-screen min-h-screen font-sans">No menu items found.</div>;
@@ -148,6 +163,8 @@ const Menu = (props) => {
         <input
           type="text"
           placeholder="Search for dishes..."
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
           className="flex-1 px-3 py-2 sm:px-4 sm:py-3 rounded-lg border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-300 text-sm sm:text-base w-full"
         />
         <button className="bg-orange-500 text-white px-4 sm:px-6 py-2 rounded-lg font-bold shadow hover:bg-orange-600 transition flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
@@ -157,7 +174,10 @@ const Menu = (props) => {
 
       {/* Dynamic Menu Sections */}
       <div className="w-full px-1 sm:px-4">
-        {menuData.map((section) => (
+        {filteredMenuData.length === 0 && (
+          <div className="text-center text-gray-500 mt-8">No items found for "{searchTerm}"</div>
+        )}
+        {filteredMenuData.map((section) => (
           <div
             key={section.category}
             ref={(el) => (sectionRefs.current[section.category] = el)}
@@ -196,7 +216,7 @@ const Menu = (props) => {
       <footer className="mt-8 sm:mt-12 mb-2 sm:mb-4 flex flex-col sm:flex-row justify-between items-center px-2 sm:px-8 text-gray-500 text-xs sm:text-sm gap-2 sm:gap-0">
         <div className="flex items-center gap-2">
           <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="location" className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span>Bangalore</span>
+          <span>🍊 Nagpur</span>
         </div>
         <div className="flex gap-4 sm:gap-6 items-center">
           <button className="flex items-center gap-1 hover:text-orange-500"><span className="material-icons">search</span> <span className="hidden sm:inline">Search</span></button>
