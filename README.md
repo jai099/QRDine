@@ -7,5 +7,6 @@ This is a project on QR Based Restraunt Food Ordering System.
 use npm install react-router-dom@latest 
 use npm instsall jspdf
 use npm install qrcode.react
+use npm install axios
 
 Refer below website for tailwind installation: https://v3.tailwindcss.com/docs/installation/using-postcss

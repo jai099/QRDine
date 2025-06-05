@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function MenuCategorySection({ cat, sectionRefs, getQty, decreaseQty, addToCart }) {
+export default function MenuCategorySection({ cat, sectionRefs, getQty, decreaseQty, addToCart, tableNumber }) {
   return (
     <section
       key={cat.category}
@@ -37,7 +37,7 @@ export default function MenuCategorySection({ cat, sectionRefs, getQty, decrease
               </span>
               <button
                 className="bg-gradient-to-r from-orange-500 to-amber-300 text-white border-none rounded-full w-9 h-9 text-xl font-extrabold cursor-pointer shadow-[0_2px_8px_#ffe0b2] flex items-center justify-center transition-all duration-200 active:scale-90 disabled:bg-gray-300 disabled:text-gray-400 disabled:cursor-not-allowed md:w-7 md:h-7 md:text-base sm:w-6 sm:h-6 sm:text-sm"
-                onClick={() => addToCart(item)}
+                onClick={() => addToCart({ ...item, tableNumber })}
                 disabled={item.isAvailable === false}
               >
                 +

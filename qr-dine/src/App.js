@@ -30,9 +30,9 @@ function App() {
 
   const addToCart = (item) => {
     setCart((prev) => {
-      const found = prev.find((i) => i.name === item.name);
+      const found = prev.find((i) => i.name === item.name && i.tableNumber === item.tableNumber);
       if (found) {
-        return prev.map((i) => (i.name === item.name ? { ...i, qty: i.qty + 1 } : i));
+        return prev.map((i) => (i.name === item.name && i.tableNumber === item.tableNumber ? { ...i, qty: i.qty + 1 } : i));
       } else {
         return [...prev, { ...item, qty: 1, id: item.id || Date.now() }];
       }
@@ -113,8 +113,8 @@ function App() {
       <Route path="/thank-you" element={<ThankYouPage />} />
       <Route path="/chef" element={<ChefDashboard />} />
       <Route path="/waiter" element={<WaiterDashboard />} />
-      <Route path="/qr" element={<WebsiteQR url={window.location.origin} />} />
-      <Route path="/qr-tables" element={<TableQRList baseUrl={window.location.origin} />} />
+      <Route path="/qr" element={<WebsiteQR url={"https://qr-dine-five.vercel.app/"} />} />
+      <Route path="/qr-tables" element={<TableQRList baseUrl={"https://qr-dine-five.vercel.app/"} />} />
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/register-staff" element={<AdminRegisterForm />} />
     </Routes>
