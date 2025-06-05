@@ -106,7 +106,6 @@ const Menu = (props) => {
           <button className="text-xl sm:text-2xl text-orange-500 font-bold mr-2">
             <span className="material-icons">menu</span>
           </button>
-          <span className="font-extrabold text-lg sm:text-xl text-gray-800">Menu</span>
         </div>
         <div className="flex flex-wrap gap-2 sm:gap-6 text-sm sm:text-base font-semibold text-gray-700 w-full sm:w-auto justify-center">
           {menuData.map((cat) => (
