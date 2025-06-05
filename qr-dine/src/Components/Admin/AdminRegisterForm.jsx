@@ -1,3 +1,5 @@
+// src/Components/Admin/AdminRegisterForm.jsx
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -8,11 +10,22 @@ const AdminRegisterForm = () => {
     role: 'waiter',
   });
   const [message, setMessage] = useState('');
+  const [accessAllowed, setAccessAllowed] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('isAdmin') !== 'true') {
-      window.location.href = '/admin-login'; // redirect if not admin
-    }
+    const checkAccess = () => {
+      const canAccess = sessionStorage.getItem('canAccessRegisterStaff');
+
+      if (canAccess === 'true') {
+        sessionStorage.removeItem('canAccessRegisterStaff'); // Allow only once
+        setAccessAllowed(true);
+      } else {
+        window.location.href = '/admin-login'; // Redirect if not allowed
+      }
+    };
+
+    // Delay check slightly to avoid race condition
+    setTimeout(checkAccess, 100); // 100ms delay
   }, []);
 
   const handleChange = (e) => {
@@ -23,14 +36,17 @@ const AdminRegisterForm = () => {
     e.preventDefault();
     setMessage('');
     try {
-        const res = await axios.post('http://localhost:5000/api/auth/register', formData);
-
+      const res = await axios.post('http://localhost:5000/api/auth/register', formData);
       setMessage(res.data.message);
       setFormData({ username: '', password: '', role: 'waiter' });
     } catch (err) {
       setMessage(err.response?.data?.message || 'Error occurred');
     }
   };
+
+  if (!accessAllowed) {
+    return <p>Checking admin access...</p>; // Temporary placeholder
+  }
 
   return (
     <div>

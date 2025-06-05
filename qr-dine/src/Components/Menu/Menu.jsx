@@ -133,14 +133,9 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
             cat={cat}
             sectionRefs={sectionRefs}
             getQty={getQty}
-<<<<<<< HEAD
-            decreaseQty={handleRemove}
-            addToCart={handleAdd}
-=======
             decreaseQty={decreaseQty}
             addToCart={addToCart}
             tableNumber={tableNumber}
->>>>>>> 1cbc44bc4140921b1f31a67ec7418fa07a967c1b
           />
         ))}
       </div>
