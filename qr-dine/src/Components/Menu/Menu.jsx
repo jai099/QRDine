@@ -142,13 +142,6 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
     }, 50);
   };
 
-<<<<<<< HEAD
- const handleAddToCart = (item) => {
-  addToCart(item, tableNumber);
-  showToast(`${item.name} added to cart`);
-};
-
-=======
   const handleAddToCart = (item) => {
     addToCart(item, tableNumber);
     toast.success(`${item.name} added to cart`, {
@@ -156,18 +149,12 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
       autoClose: 2000,
     });
   };
->>>>>>> f5b1bcb4a3f5833acabd22511b628c55f78843f7
 
   if (loading) return <div className="w-screen min-h-screen font-sans">Loading menu...</div>;
   if (error) return <div className="w-screen min-h-screen font-sans">Error: {error}</div>;
   if (!menuData.length) return <div className="w-screen min-h-screen font-sans">No menu items found.</div>;
 
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen bg-[#f8fafc] font-sans">
-      {/* Sticky Scroll Progress */}
-      <div className="fixed top-0 left-0 h-1 bg-orange-500 z-50 transition-all duration-200 ease-in-out" style={{ width: `${scrollProgress}%` }} />
-=======
     <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col">
       {/* Scroll Progress Bar */}
       <div
@@ -201,7 +188,6 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
           </div>
         </div>
       </div>
->>>>>>> f5b1bcb4a3f5833acabd22511b628c55f78843f7
 
       {/* Top NavBar */}
       <nav className="bg-white shadow-md rounded-xl mx-2 sm:mx-4 mt-2 sm:mt-4 flex flex-col sm:flex-row items-center px-2 sm:px-6 py-2 sm:py-3 justify-between sticky top-0 z-30">
