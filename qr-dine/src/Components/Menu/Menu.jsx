@@ -1,10 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import MenuHeader from './MenuHeader.jsx';
-import MenuCategoryNav from './MenuCategoryNav.jsx';
-import MenuCategorySection from './MenuCategorySection.jsx';
-import MenuItemModal from './MenuItemModal.jsx';
-
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/menu/available';
 
 const Menu = (props) => {
