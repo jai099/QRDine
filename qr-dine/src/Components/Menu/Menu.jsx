@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import Image1 from '../../assets/Menu/logoimage.jpg'
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/menu/available';
 
 const Menu = (props) => {
@@ -126,30 +127,10 @@ const Menu = (props) => {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col">
-      {/* Top NavBar */}
-      <nav className="bg-white shadow-md rounded-xl mx-2 sm:mx-4 mt-2 sm:mt-4 flex flex-col sm:flex-row items-center px-2 sm:px-6 py-2 sm:py-3 justify-between sticky top-0 z-30">
-        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto mb-2 sm:mb-0">
-          <button className="text-xl sm:text-2xl text-orange-500 font-bold mr-2">
-            <span className="material-icons">menu</span>
-          </button>
-        </div>
-        <div className="flex flex-wrap gap-2 sm:gap-6 text-sm sm:text-base font-semibold text-gray-700 w-full sm:w-auto justify-center">
-          {menuData.map((cat) => (
-            <button
-              key={cat.category}
-              className={`hover:text-orange-500 transition ${activeCategory === cat.category ? 'text-orange-500' : ''}`}
-              onClick={() => handleCategoryClick(cat.category)}
-            >
-              {cat.category}
-            </button>
-          ))}
-        </div>
-      </nav>
-
       {/* Restaurant Banner */}
       <div className="bg-[#fff8ee] rounded-xl shadow-md mx-2 sm:mx-4 mt-4 p-3 sm:p-6 flex flex-col gap-2 sm:gap-4">
         <div className="flex gap-2 sm:gap-4 items-center flex-col sm:flex-row">
-          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=120&q=80" alt="banner" className="rounded-xl w-24 h-24 sm:w-32 sm:h-32 object-cover border-2 border-orange-200" />
+          <img src={Image1} alt="banner" className="rounded-xl w-24 h-24 sm:w-32 sm:h-32 object-cover border-2 border-orange-200" />
           <div className="flex-1 w-full">
             <div className="flex flex-wrap items-center gap-2 mb-1">
               <span className="text-lg sm:text-2xl font-bold text-orange-700">Hotel TARS Mahal</span>
@@ -168,6 +149,26 @@ const Menu = (props) => {
           </div>
         </div>
       </div>
+
+      {/* Top NavBar */}
+      <nav className="bg-white shadow-md rounded-xl mx-2 sm:mx-4 mt-2 sm:mt-4 flex flex-col sm:flex-row items-center px-2 sm:px-6 py-2 sm:py-3 justify-between sticky top-0 z-30">
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto mb-2 sm:mb-0">
+          <button className="text-xl sm:text-2xl text-orange-500 font-bold mr-2">
+            <span className="material-icons">Menu</span>
+          </button>
+        </div>
+        <div className="flex flex-wrap gap-2 sm:gap-6 text-sm sm:text-base font-semibold text-gray-700 w-full sm:w-auto justify-center">
+          {menuData.map((cat) => (
+            <button
+              key={cat.category}
+              className={`hover:text-orange-500 transition ${activeCategory === cat.category ? 'text-orange-500' : ''}`}
+              onClick={() => handleCategoryClick(cat.category)}
+            >
+              {cat.category}
+            </button>
+          ))}
+        </div>
+      </nav>
 
       {/* Search and Filter */}
       <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mx-2 sm:mx-4 mt-4 sm:mt-6">
