@@ -109,10 +109,11 @@ const Menu = (props) => {
     });
   };
 
-  const handleAddToCart = (item) => {
-    addToCart(item, tableNumber);
-    showToast(${item.name} added to cart);
-  };
+ const handleAddToCart = (item) => {
+  addToCart(item, tableNumber);
+  showToast(`${item.name} added to cart`);
+};
+
 
   if (loading) return <div className="w-screen min-h-screen font-sans">Loading menu...</div>;
   if (error) return <div className="w-screen min-h-screen font-sans">Error: {error}</div>;
@@ -121,7 +122,7 @@ const Menu = (props) => {
   return (
     <div className="min-h-screen bg-[#f8fafc] font-sans">
       {/* Sticky Scroll Progress */}
-      <div className="fixed top-0 left-0 h-1 bg-orange-500 z-50 transition-all duration-200 ease-in-out" style={{ width: ${scrollProgress}% }} />
+      <div className="fixed top-0 left-0 h-1 bg-orange-500 z-50 transition-all duration-200 ease-in-out" style={{ width: `${scrollProgress}%` }} />
 
       {/* Top NavBar */}
       <nav className="bg-white shadow-md rounded-xl mx-2 sm:mx-4 mt-2 sm:mt-4 flex flex-col sm:flex-row items-center px-2 sm:px-6 py-2 sm:py-3 justify-between sticky top-1 z-30">
