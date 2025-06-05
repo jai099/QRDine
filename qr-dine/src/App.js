@@ -8,6 +8,9 @@ import ThankYouPage from './Components/Thank_you/ThankYouPage.jsx';
 import ChefDashboard from './Components/ChefDashboard/ChefDashboard';
 import WaiterDashboard from './Components/waiter/WaiterDashboard';
 import WebsiteQR from './Components/QR/WebsiteQR.jsx';
+import TableQRList from './Components/QR/TableQRList.jsx';
+import AdminLogin from './Components/Admin/AdminLogin.jsx';
+import AdminRegisterForm from './Components/Admin/AdminRegisterForm.jsx';
 
 
 function App() {
@@ -31,7 +34,6 @@ function App() {
       if (found) {
         return prev.map((i) => (i.name === item.name ? { ...i, qty: i.qty + 1 } : i));
       } else {
-        // Assign a unique id if not present
         return [...prev, { ...item, qty: 1, id: item.id || Date.now() }];
       }
     });
@@ -54,9 +56,6 @@ function App() {
   const handleProceedToCheckout = () => {
     setShowCart(false);
     setTimeout(() => {
-      // Optionally, sync cart state here if needed
-      // setCart(getCartFromStorage());
-      // Navigate to confirm page
       window.location.href = '/confirm';
     }, 200);
   };
@@ -114,8 +113,10 @@ function App() {
       <Route path="/thank-you" element={<ThankYouPage />} />
       <Route path="/chef" element={<ChefDashboard />} />
       <Route path="/waiter" element={<WaiterDashboard />} />
-      {/* Add a route for QR code page */}
       <Route path="/qr" element={<WebsiteQR url={window.location.origin} />} />
+      <Route path="/qr-tables" element={<TableQRList baseUrl={window.location.origin} />} />
+      <Route path="/admin-login" element={<AdminLogin />} />
+      <Route path="/register-staff" element={<AdminRegisterForm />} />
     </Routes>
   );
 }
