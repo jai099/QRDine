@@ -121,7 +121,7 @@ const Menu = (props) => {
           {menuData.map((cat) => (
             <button
               key={cat.category}
-              className={`hover:text-orange-500 transition ${activeCategory === cat.category ? 'text-orange-500' : ''}`}
+              className={hover:text-orange-500 transition ${activeCategory === cat.category ? 'text-orange-500' : ''}}
               onClick={() => handleCategoryClick(cat.category)}
             >
               {cat.category}

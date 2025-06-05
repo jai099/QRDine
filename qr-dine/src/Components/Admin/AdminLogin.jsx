@@ -1,3 +1,5 @@
+// src/Components/Admin/AdminLogin.jsx
+
 import React, { useState } from 'react';
 
 const AdminLogin = () => {
@@ -10,7 +12,7 @@ const AdminLogin = () => {
 
     // Hardcoded credentials
     if (username === 'admin' && password === 'admin123') {
-      localStorage.setItem('isAdmin', 'true');
+      sessionStorage.setItem('canAccessRegisterStaff', 'true');
       window.location.href = '/register-staff'; // redirect to registration page
     } else {
       setError('Invalid username or password');
