@@ -1,3 +1,4 @@
+// AdminLogin.jsx
 import React, { useState } from 'react';
 
 const AdminLogin = () => {
@@ -8,11 +9,12 @@ const AdminLogin = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Hardcoded credentials
     if (username === 'admin' && password === 'admin123') {
-      localStorage.setItem('isAdmin', 'true');
-      window.location.href = '/register-staff'; // redirect to registration page
-    } else {
+      localStorage.setItem('adminLoggedInOnce', 'true');
+
+      window.location.href = '/register-staff?access=true';
+    }
+     else {
       setError('Invalid username or password');
     }
   };

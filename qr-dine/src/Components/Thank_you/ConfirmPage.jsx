@@ -1,9 +1,8 @@
-// Same imports
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
 
-// Cart fetch helper
+// Helper to get cart items
 const getCart = () => {
   try {
     const cart = JSON.parse(localStorage.getItem("cartItems"));
@@ -23,6 +22,7 @@ export default function ConfirmPage() {
   const [customerName, setCustomerName] = useState("");
   const [orderNotes, setOrderNotes] = useState("");
   const [tip, setTip] = useState(0);
+  const [customTip, setCustomTip] = useState("");
   const [showToast, setShowToast] = useState(false);
   const tableNumber = 12;
 
@@ -31,7 +31,10 @@ export default function ConfirmPage() {
   const cgst = subtotal * 0.025;
   const sgst = subtotal * 0.025;
   const serviceCharge = subtotal * 0.05;
-  const total = subtotal + cgst + sgst + serviceCharge;
+
+  const effectiveTip = customTip !== "" ? parseFloat(customTip) : tip;
+const tipAmount = isNaN(effectiveTip) ? 0 : effectiveTip;
+const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
 
   function handleConfirm() {
     const chefOrders = JSON.parse(localStorage.getItem("chefOrders") || "[]");
@@ -69,8 +72,8 @@ export default function ConfirmPage() {
     doc.text(`CGST (2.5%): ₹${cgst.toFixed(2)}`, 14, y); y += 7;
     doc.text(`SGST (2.5%): ₹${sgst.toFixed(2)}`, 14, y); y += 7;
     doc.text(`Service Charge (5%): ₹${serviceCharge.toFixed(2)}`, 14, y); y += 7;
-    doc.text(`Total: ₹${total.toFixed(2)}`, 14, y);
-    y += 10;
+   doc.text(`Tip: ₹${tipAmount.toFixed(2)}`, 14, y);
+    doc.text(`Total: ₹${total.toFixed(2)}`, 14, y); y += 10;
     doc.text("Thank you for dining with us!", 14, y);
     doc.save("QRDine_Bill.pdf");
   }
@@ -78,7 +81,7 @@ export default function ConfirmPage() {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 font-sans">
       
-      {/* Left: Order Summary */}
+      {/* Left Side: Order Summary */}
       <div className="w-full md:w-1/2 p-6 md:p-10 bg-orange-100 border-b-2 md:border-b-0 md:border-r-2 border-orange-300 shadow-md">
         <h2 className="text-3xl font-extrabold text-orange-600 mb-5">📋 Order Summary</h2>
         <p className="text-lg font-bold text-orange-700 mb-4">Table #{tableNumber}</p>
@@ -93,11 +96,12 @@ export default function ConfirmPage() {
           ))}
         </div>
 
-        <div className="bg-white p-4 rounded-xl shadow-inner space-y-2">
+        <div className="bg-white p-4 rounded-xl shadow-inner space-y-2 text-sm md:text-base">
           <div className="flex justify-between"><span>Subtotal</span><span>₹{subtotal.toFixed(2)}</span></div>
           <div className="flex justify-between"><span>CGST (2.5%)</span><span>₹{cgst.toFixed(2)}</span></div>
           <div className="flex justify-between"><span>SGST (2.5%)</span><span>₹{sgst.toFixed(2)}</span></div>
           <div className="flex justify-between"><span>Service Charge (5%)</span><span>₹{serviceCharge.toFixed(2)}</span></div>
+          <div className="flex justify-between"><span>Tip ({effectiveTip}%)</span><span>₹{tipAmount.toFixed(2)}</span></div>
           <div className="flex justify-between font-bold text-green-700 border-t pt-2 mt-2"><span>Total</span><span>₹{total.toFixed(2)}</span></div>
         </div>
 
@@ -117,7 +121,7 @@ export default function ConfirmPage() {
         </button>
       </div>
 
-      {/* Right: Confirm and Submit */}
+      {/* Right Side: Confirmation */}
       <div className="w-full md:w-1/2 p-6 md:p-10 bg-white shadow-md">
         <h2 className="text-3xl font-extrabold text-orange-600 mb-5">✍️ Confirm & Submit</h2>
 
@@ -139,22 +143,36 @@ export default function ConfirmPage() {
         />
 
         <label className="block mb-2 font-semibold text-orange-700">Tip</label>
-        <div className="flex gap-3 mb-6">
-          {[0, 5, 10, 15].map(val => (
-            <button
-              key={val}
-              onClick={() => setTip(val)}
-              type="button"
-              className={`px-4 py-2 rounded border ${
-                tip === val
-                  ? "bg-orange-500 text-white"
-                  : "bg-orange-100 text-orange-700 hover:bg-orange-200"
-              }`}
-            >
-              {val}%
-            </button>
-          ))}
-        </div>
+<div className="flex flex-wrap gap-3 mb-4">
+  {[0, 50, 100, 200, 300].map(val => (
+    <button
+      key={val}
+      onClick={() => {
+        setTip(val);
+        setCustomTip("");
+      }}
+      type="button"
+      className={`px-4 py-2 rounded border font-semibold ${
+        tip === val && customTip === ""
+          ? "bg-orange-500 text-white"
+          : "bg-orange-100 text-orange-700 hover:bg-orange-200"
+      }`}
+    >
+      ₹{val}
+    </button>
+  ))}
+  <input
+    type="number"
+    placeholder="Custom ₹"
+    min="0"
+    value={customTip}
+    onChange={e => {
+      setCustomTip(e.target.value);
+      setTip(0);
+    }}
+    className="w-28 px-3 py-2 border border-orange-200 rounded text-orange-700 focus:outline-orange-500"
+  />
+</div>
 
         <div className="flex justify-between text-xl font-bold text-green-700 border-t pt-4 mb-6">
           <span>Grand Total</span>
