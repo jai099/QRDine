@@ -1,578 +1,363 @@
 [{
   "_id": {
-    "$oid": "68380566341c7c6b878aa460"
+    "$oid": "68416e0b3b08d82ecc87f821"
   },
   "name": "Veg Pulao",
   "description": "Aromatic rice with mixed vegetables and mild spices",
   "price": 240,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T06:57:42.890Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T06:57:42.890Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/2212836819/photo/indian-veg-biryani-veg-pulav-indian-vegetable-pulav-biriyani-vegetable-biriyani-served-in-a.webp?a=1&b=1&s=612x612&w=0&k=20&c=bZcqDkHE3n-8zDn9sxkG1q1sVvwJmZP21wKtSq6M278="
 },
 {
   "_id": {
-    "$oid": "68380cf1341c7c6b878aa472"
+    "$oid": "68416e0b3b08d82ecc87f822"
   },
   "name": "Veg Spring Rolls",
   "description": "Crispy rolls filled with vegetables and spices",
   "price": 180,
   "category": "Starters",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:29:53.047Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:29:53.047Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/510073708/photo/veg-spring-rolls-on-white-dish-and-wooden-table.webp?a=1&b=1&s=612x612&w=0&k=20&c=4ev6LGsgI9pTAeFqOLkoCNpN--Gyfc17ADxqAchKsEU="
 },
 {
   "_id": {
-    "$oid": "68380d1e341c7c6b878aa474"
+    "$oid": "68416e0b3b08d82ecc87f823"
   },
   "name": "Paneer Tikka",
   "description": "Grilled paneer cubes marinated in tandoori masala",
   "price": 240,
   "category": "Starters",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:30:38.417Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:30:38.417Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1474136049/photo/close-up-image-of-paneer-kebabs-marinated-curd-cheese-pieces-on-metal-skewers-red-onion-and.webp?a=1&b=1&s=612x612&w=0&k=20&c=cvfV2qr33X-FNf0E4GCYnVovx3w7DdXmyIxv4EuMLII="
 },
 {
   "_id": {
-    "$oid": "68380d33341c7c6b878aa476"
+    "$oid": "68416e0b3b08d82ecc87f824"
   },
   "name": "Hara Bhara Kabab",
   "description": "Vegetable patties made with spinach and green peas",
   "price": 190,
   "category": "Starters",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:30:59.055Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:30:59.055Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/694707014/photo/hara-bhara-kabab-or-green-peas-pakode-favourite-indian-starter-menu-or-snacks.webp?a=1&b=1&s=612x612&w=0&k=20&c=CqMa7CJ-I3ibeWDaAZvYex0yro8rU035IC5asc1ugHg="
 },
 {
   "_id": {
-    "$oid": "68380d3e341c7c6b878aa478"
+    "$oid": "68416e0b3b08d82ecc87f825"
   },
   "name": "Crispy Corn",
   "description": "Fried corn kernels tossed with spices and herbs",
   "price": 200,
   "category": "Starters",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:31:10.845Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:31:10.845Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1132064062/photo/crispy-sweet-corn-popular-indian-snack-street-food.webp?a=1&b=1&s=612x612&w=0&k=20&c=cDoxZsmatalS5XhhjdjamlFQ7aKlY2y8A7yyWc4LLIk="
 },
 {
   "_id": {
-    "$oid": "68380d53341c7c6b878aa47a"
+    "$oid": "68416e0b3b08d82ecc87f826"
   },
   "name": "Tandoori Mushrooms",
   "description": "Spicy grilled mushrooms with Indian spices",
   "price": 210,
   "category": "Starters",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:31:31.790Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:31:31.790Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1389160681/photo/chilli-mushroom-indian-snack-food.jpg?s=612x612&w=0&k=20&c=YjI-qBxvYow2ExmwrEvxv63pEU4hRHu4sn4Dr_4a3to="
 },
 {
   "_id": {
-    "$oid": "68380d5f341c7c6b878aa47c"
+    "$oid": "68416e0b3b08d82ecc87f827"
   },
   "name": "Fish Amritsari",
   "description": "Spicy deep-fried fish with Punjabi masala",
   "price": 280,
   "category": "Starters",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:31:43.658Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:31:43.658Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1420212298/photo/amritsari-fried-fish-or-macchi-fry-served-in-a-dish-isolated-on-table-background-top-view-of.webp?a=1&b=1&s=612x612&w=0&k=20&c=4ucQ0GhLSnQGHA1k_OsCN1FMTpsXnn_X8kgxfhDiZvU="
 },
 {
   "_id": {
-    "$oid": "68380d74341c7c6b878aa47e"
+    "$oid": "68416e0b3b08d82ecc87f828"
   },
   "name": "Papdi Chaat",
   "description": "Crispy papdi with yogurt, chutneys, and spices",
   "price": 150,
   "category": "Starters",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:32:04.242Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:32:04.242Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1445161890/photo/holding-indian-street-food-masala-chaat-sev-puri-dish.webp?a=1&b=1&s=612x612&w=0&k=20&c=2uV0OUE3h7O7uePijUEVOnYlwaH_MM4KgeIyhhv3Sq0="
 },
 {
   "_id": {
-    "$oid": "68380d7e341c7c6b878aa480"
+    "$oid": "68416e0b3b08d82ecc87f829"
   },
   "name": "Butter Chicken",
   "description": "Chicken cooked in creamy tomato-based gravy",
   "price": 420,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:32:14.148Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:32:14.148Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1479262112/photo/butter-chicken.webp?a=1&b=1&s=612x612&w=0&k=20&c=zlL-vxHvAftRnyGhEwIKba37oSSwVwZU1UjPlMS847E="
 },
 {
   "_id": {
-    "$oid": "68380d8c341c7c6b878aa482"
+    "$oid": "68416e0b3b08d82ecc87f82a"
   },
   "name": "Paneer Butter Masala",
   "description": "Chopped paneer dipped in a delicious gravy",
   "price": 380,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:32:28.983Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:32:28.983Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1305516669/photo/shahi-paneer-or-paneer-kadai.webp?a=1&b=1&s=612x612&w=0&k=20&c=6FZjTED4AMVhUlQ6-fM__MMSds-h18jj7qFuZRKqFsk="
 },
 {
   "_id": {
-    "$oid": "68380d96341c7c6b878aa484"
+    "$oid": "68416e0b3b08d82ecc87f82b"
   },
   "name": "Dal Makhani",
   "description": "Slow-cooked black lentils in a buttery gravy",
   "price": 280,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:32:38.859Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:32:38.859Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1170374719/photo/dal-makhani-at-dark-background.webp?a=1&b=1&s=612x612&w=0&k=20&c=FWHhW6SnrLvmwaR-APN3pIxEjLJe073-PQ0cfvOGoTI="
 },
 {
   "_id": {
-    "$oid": "68380d9f341c7c6b878aa486"
+    "$oid": "68416e0b3b08d82ecc87f82c"
   },
   "name": "Chicken Biryani",
   "description": "Fragrant basmati rice layered with spiced chicken",
   "price": 350,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:32:47.790Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:32:47.790Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/509568543/photo/indian-food.webp?a=1&b=1&s=612x612&w=0&k=20&c=LeBJ49oJ4ty_Uoa1xQ2DGAvz_9RCsQn7gVcu6pk3GFk="
 },
 {
   "_id": {
-    "$oid": "68380dab341c7c6b878aa488"
+    "$oid": "68416e0b3b08d82ecc87f82d"
   },
   "name": "Veg Biryani",
   "description": "Basmati rice cooked with vegetables and spices",
   "price": 300,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:32:59.673Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:32:59.673Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/495184588/photo/indian-pulav-vegetable-rice-veg-biryani-basmati-rice.webp?a=1&b=1&s=612x612&w=0&k=20&c=74nnoEfGLMtHrSCvLd8juywI5Ztlm_9iT00-OCIDqLg="
 },
 {
   "_id": {
-    "$oid": "68380de9341c7c6b878aa48a"
+    "$oid": "68416e0b3b08d82ecc87f82e"
   },
   "name": "Kadai Paneer",
   "description": "Paneer cooked with bell peppers and spicy tomato gravy",
   "price": 360,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:34:01.708Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:34:01.708Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/968505648/photo/indian-food-or-indian-curry-in-a-copper-brass-serving-bowl-with-bread-or-roti.webp?a=1&b=1&s=612x612&w=0&k=20&c=zwscnY2M-18M3h2UbtJzGVsvQxMMKGemlL8qs55xMyM="
 },
 {
   "_id": {
-    "$oid": "68380e30341c7c6b878aa48c"
-  },
-  "name": "Kadai Paneer",
-  "description": "Paneer cooked with bell peppers and spicy tomato gravy",
-  "price": 360,
-  "category": "Main Course",
-  "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:35:12.498Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:35:12.498Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "68380e3c341c7c6b878aa48e"
+    "$oid": "68416e0b3b08d82ecc87f82f"
   },
   "name": "Chole Bhature",
   "description": "Spicy chickpeas served with fluffy fried bread",
   "price": 200,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:35:24.440Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:35:24.440Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1328524499/photo/katlambe-chole.webp?a=1&b=1&s=612x612&w=0&k=20&c=EPCKvlLn-1WeHHL_KL-60mkMjuD6p3BvI17YA8bfrC0="
 },
 {
   "_id": {
-    "$oid": "68380e48341c7c6b878aa490"
+    "$oid": "68416e0b3b08d82ecc87f830"
   },
   "name": "Palak Paneer",
   "description": "Spinach puree cooked with cubes of paneer",
   "price": 330,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:35:36.490Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:35:36.490Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1250399530/photo/vegetarian-palak-paneer.webp?a=1&b=1&s=612x612&w=0&k=20&c=2euIGtU3mYxSOh3_23NS0K0b0lh3BooXrHU1y4Q2ZIA="
 },
 {
   "_id": {
-    "$oid": "68380e53341c7c6b878aa492"
+    "$oid": "68416e0b3b08d82ecc87f831"
   },
   "name": "Mutton Rogan Josh",
   "description": "Kashmiri-style mutton curry rich in flavor and spices",
   "price": 480,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:35:47.775Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:35:47.775Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1253934130/photo/mutton-masala-curry-in-plastic-container-for-home-delivery.webp?a=1&b=1&s=612x612&w=0&k=20&c=YfBWKFt3Zje8yRAlAdteLnL5vhJvCnf2Vj2CU2ytgE4="
 },
 {
   "_id": {
-    "$oid": "68380e5d341c7c6b878aa494"
+    "$oid": "68416e0b3b08d82ecc87f832"
   },
   "name": "Jeera Rice",
   "description": "Basmati rice tempered with cumin seeds",
   "price": 150,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:35:57.720Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:35:57.720Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1170077387/photo/jeera-rice-in-pink-plate-at-dark-bacgkround.jpg?s=612x612&w=0&k=20&c=tgdfeui6JpDp7B50gQ6LRnKcx4evOGqQAeunnv6taAY="
 },
 {
   "_id": {
-    "$oid": "68380e69341c7c6b878aa496"
+    "$oid": "68416e0b3b08d82ecc87f833"
   },
   "name": "Tandoori Roti",
   "description": "Whole wheat roti cooked in tandoor",
   "price": 30,
   "category": "Main Course",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:36:09.986Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:36:09.986Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1412774152/photo/tandoori-roti-indian-baked-flatbread.webp?a=1&b=1&s=612x612&w=0&k=20&c=hqcymPESaKQCVOkLT7Me8mXe8_0NyUskDeMoAPcrCDY="
 },
 {
   "_id": {
-    "$oid": "68380e76341c7c6b878aa498"
+    "$oid": "68416e0b3b08d82ecc87f834"
   },
   "name": "Masala Chaas",
   "description": "Spiced buttermilk served chilled",
   "price": 60,
   "category": "Drinks",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:36:22.719Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:36:22.719Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1145350623/photo/traditional-summer-drink-i-e-is-most-popular-in-asia-and-india-i-e-chas-or-chaas-or.jpg?s=612x612&w=0&k=20&c=glmPHeoVRoy9BfWtZ3fH4sCtKItwyxUrDvCRlNP3LoQ="
 },
 {
   "_id": {
-    "$oid": "68380e82341c7c6b878aa49a"
+    "$oid": "68416e0b3b08d82ecc87f835"
   },
   "name": "Sweet Lassi",
   "description": "Sweetened yogurt-based drink served cold",
   "price": 80,
   "category": "Drinks",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:36:34.380Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:36:34.380Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1008799838/photo/image-of-a-glass-of-lassi-made-from-milk-curd.webp?a=1&b=1&s=612x612&w=0&k=20&c=wdvfsvCrrVMKEdwK2WYpYftts022m-1PYMUUgFxFOk8="
 },
 {
   "_id": {
-    "$oid": "68380e93341c7c6b878aa49c"
+    "$oid": "68416e0b3b08d82ecc87f836"
   },
   "name": "Fresh Lime Soda",
   "description": "Refreshing soda with lime and sugar/salt",
   "price": 70,
   "category": "Drinks",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:36:51.583Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:36:51.583Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/596803774/photo/cold-cocktail-with-lime-lemon-tonic-vodka-and-ice.jpg?s=612x612&w=0&k=20&c=1Fp2ACTL-3Ifedqxj0_OZTPl0Ty-lfW-eDDcepTTfO0="
 },
 {
   "_id": {
-    "$oid": "68380ea0341c7c6b878aa49e"
+    "$oid": "68416e0b3b08d82ecc87f837"
   },
   "name": "Cold Coffee",
   "description": "Iced coffee blended with milk and sugar",
   "price": 110,
   "category": "Drinks",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:37:04.400Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:37:04.400Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/867813076/photo/cold-coffee-shake.webp?a=1&b=1&s=612x612&w=0&k=20&c=DoOHqT0W-z3o6f8nBHEGrpebkb0_gYsnkVyDDjK1J4o="
 },
 {
   "_id": {
-    "$oid": "68380ea8341c7c6b878aa4a0"
+    "$oid": "68416e0b3b08d82ecc87f838"
   },
   "name": "Mango Shake",
   "description": "Thick mango milkshake topped with dry fruits",
   "price": 120,
   "category": "Drinks",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:37:12.853Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:37:12.853Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1150000171/photo/mango-smoothie-in-a-bottle-with-slices-of-mango-fruit.webp?a=1&b=1&s=612x612&w=0&k=20&c=3XxypAIzOvPZICYrTUju67QkWbfwfLpFKUD8Zmh7vlM="
 },
 {
   "_id": {
-    "$oid": "68380eb0341c7c6b878aa4a2"
+    "$oid": "68416e0b3b08d82ecc87f839"
   },
   "name": "Coca-Cola",
   "description": "Chilled soft drink",
   "price": 50,
   "category": "Drinks",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:37:20.786Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:37:20.786Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/181878115/photo/soda-splash.webp?a=1&b=1&s=612x612&w=0&k=20&c=2Jp5jwDEMudkLAxkisMKUEJ2Qa1XpjfQ_9LNds3S79w="
 },
 {
   "_id": {
-    "$oid": "68380ebc341c7c6b878aa4a4"
+    "$oid": "68416e0b3b08d82ecc87f83a"
   },
   "name": "Jaljeera",
   "description": "Tangy, spicy Indian summer drink",
   "price": 60,
   "category": "Drinks",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:37:32.000Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:37:32.000Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1474136049/photo/close-up-image-of-paneer-kebabs-marinated-curd-cheese-pieces-on-metal-skewers-red-onion-and.webp?a=1&b=1&s=612x612&w=0&k=20&c=cvfV2qr33X-FNf0E4GCYnVovx3w7DdXmyIxv4EuMLII="
 },
 {
   "_id": {
-    "$oid": "68380ec6341c7c6b878aa4a6"
+    "$oid": "68416e0b3b08d82ecc87f83b"
   },
   "name": "Gulab Jamun",
   "description": "Soft deep-fried balls soaked in sugar syrup",
   "price": 100,
   "category": "Desserts",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:37:42.679Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:37:42.679Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1188000786/photo/gulab-jamun-in-bowl-on-wooden-background-indian-dessert-or-sweet-dish.webp?a=1&b=1&s=612x612&w=0&k=20&c=4kVDa_BP4pypOSvfDSL2mmLNO3SYdoAs1VG-qi4WAtI="
 },
 {
   "_id": {
-    "$oid": "68380f0a341c7c6b878aa4a8"
+    "$oid": "68416e0b3b08d82ecc87f83c"
   },
   "name": "Rasgulla",
   "description": "Spongy cottage cheese balls in light sugar syrup",
   "price": 90,
   "category": "Desserts",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:38:50.362Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:38:50.362Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1044080542/photo/indian-rasgulla-or-rosogulla-dessert-sweet-served-in-a-bowl-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=DIQag-19lJnJ1PX5T2ppu2fc3hH0Pg83j2-9A-YPeSo="
 },
 {
   "_id": {
-    "$oid": "68380f15341c7c6b878aa4aa"
+    "$oid": "68416e0b3b08d82ecc87f83d"
   },
   "name": "Kulfi",
   "description": "Traditional Indian ice cream made with thickened milk",
   "price": 80,
   "category": "Desserts",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:39:01.727Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:39:01.727Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/657073780/photo/rajwari-or-rajwadi-sweet-kesar-badam-pista-kulfi-or-ice-cream-candy.webp?a=1&b=1&s=612x612&w=0&k=20&c=D4gZyAdK340jjnX8KGhXaflZISqBkmdd9Od0wTmQi1U="
 },
 {
   "_id": {
-    "$oid": "68380f1f341c7c6b878aa4ac"
+    "$oid": "68416e0b3b08d82ecc87f83e"
   },
   "name": "Brownie with Ice Cream",
   "description": "Warm chocolate brownie topped with vanilla ice cream",
   "price": 180,
   "category": "Desserts",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:39:11.342Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:39:11.342Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/134203159/photo/brownie-cake.webp?a=1&b=1&s=612x612&w=0&k=20&c=qu1txGWytRZPqWjVl617ayc7r3ZEB4_U3PXm25vifno="
 },
 {
   "_id": {
-    "$oid": "68380f28341c7c6b878aa4ae"
+    "$oid": "68416e0b3b08d82ecc87f83f"
   },
   "name": "Kheer",
   "description": "Rice pudding flavored with cardamom and dry fruits",
   "price": 100,
   "category": "Desserts",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:39:20.097Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:39:20.097Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/980089086/photo/rice-pudding-or-kheer-from-india-called-also-called-firnee-served-in-a-bowl-selective-focus.webp?a=1&b=1&s=612x612&w=0&k=20&c=Rw_oIvR4K1lu_m81T5UlZ38YnrhbvNB3R4GCCKTU78M="
 },
 {
   "_id": {
-    "$oid": "68380f33341c7c6b878aa4b0"
+    "$oid": "68416e0b3b08d82ecc87f840"
   },
   "name": "Moong Dal Halwa",
   "description": "Rich Indian dessert made from yellow lentils and ghee",
   "price": 130,
   "category": "Desserts",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:39:31.361Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:39:31.361Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/1256978725/photo/moong-dal-halwa-or-mung-daal-halva-is-an-indian-sweet-dessert-recipe-garnished-with-dry-fruits.webp?a=1&b=1&s=612x612&w=0&k=20&c=piX6_BmOv2QGmSO0nrNzi7-qC5pN4Lqfzmr5bqAuKOQ="
 },
 {
   "_id": {
-    "$oid": "68380f45341c7c6b878aa4b2"
+    "$oid": "68416e0b3b08d82ecc87f841"
   },
   "name": "Ice Cream Sundae",
   "description": "Layered dessert with ice cream, chocolate, and nuts",
   "price": 150,
   "category": "Desserts",
   "isAvailable": true,
-  "createdAt": {
-    "$date": "2025-05-29T07:39:49.330Z"
-  },
-  "updatedAt": {
-    "$date": "2025-05-29T07:39:49.330Z"
-  },
-  "__v": 0
+  "img": "https://media.istockphoto.com/id/471859630/photo/fancy-ice-cream-sundae-with-hot-fudge-sprinkles-cherries.webp?a=1&b=1&s=612x612&w=0&k=20&c=mZJO7e9t7lKY3eX8kgwPrpeFlUfGieiniYc-ErHne98="
 }]
