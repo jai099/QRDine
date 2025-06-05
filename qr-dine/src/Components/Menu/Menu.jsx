@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import MenuHeader from './MenuHeader.jsx';
 import MenuCategoryNav from './MenuCategoryNav.jsx';
 import MenuCategorySection from './MenuCategorySection.jsx';
@@ -14,6 +15,14 @@ const Menu = (props) => {
   const [activeCategory, setActiveCategory] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
   const sectionRefs = useRef({});
+  const location = useLocation();
+
+  // Get table number from URL query param (?table=1)
+  const tableNumber = (() => {
+    const params = new URLSearchParams(location.search);
+    const t = params.get('table');
+    return t ? parseInt(t, 10) : null;
+  })();
 
   // Fetch menu data from backend
   useEffect(() => {
@@ -99,6 +108,7 @@ const Menu = (props) => {
             getQty={getQty}
             decreaseQty={decreaseQty}
             addToCart={addToCart}
+            tableNumber={tableNumber}
           />
         ))}
       </div>

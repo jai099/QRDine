@@ -30,9 +30,9 @@ function App() {
 
   const addToCart = (item) => {
     setCart((prev) => {
-      const found = prev.find((i) => i.name === item.name);
+      const found = prev.find((i) => i.name === item.name && i.tableNumber === item.tableNumber);
       if (found) {
-        return prev.map((i) => (i.name === item.name ? { ...i, qty: i.qty + 1 } : i));
+        return prev.map((i) => (i.name === item.name && i.tableNumber === item.tableNumber ? { ...i, qty: i.qty + 1 } : i));
       } else {
         return [...prev, { ...item, qty: 1, id: item.id || Date.now() }];
       }

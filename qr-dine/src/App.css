@@ -684,7 +684,6 @@ code {
   bottom: 32px;
   right: 32px;
   z-index: 1001;
-  background: linear-gradient(90deg, #ff9800 0%, #ffc107 100%);
   border: none;
   border-radius: 50%;
   width: 64px;
