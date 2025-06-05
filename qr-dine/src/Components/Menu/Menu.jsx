@@ -13,14 +13,12 @@ const Menu = (props) => {
   const sectionRefs = useRef({});
   const location = useLocation();
 
-  // Get table number from URL query param (?table=1)
   const tableNumber = (() => {
     const params = new URLSearchParams(location.search);
     const t = params.get('table');
     return t ? parseInt(t, 10) : null;
   })();
 
-  // Fetch menu data from backend
   useEffect(() => {
     setLoading(true);
     fetch(API_URL)
@@ -35,7 +33,6 @@ const Menu = (props) => {
           acc[cat].push(item);
           return acc;
         }, {});
-        // Featured section: items with isFeatured flag
         const featured = data.filter((item) => item.isFeatured);
         const menuArr = [];
         if (featured.length) menuArr.push({ category: 'Featured', items: featured });
@@ -52,7 +49,6 @@ const Menu = (props) => {
       });
   }, []);
 
-  // Scroll to section when category is clicked
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
     setTimeout(() => {
@@ -60,7 +56,6 @@ const Menu = (props) => {
     }, 50);
   };
 
-  // Detect scroll and update active category
   useEffect(() => {
     const handleScroll = () => {
       const offsets = menuData
@@ -90,7 +85,6 @@ const Menu = (props) => {
     return found ? found.qty : 0;
   };
 
-  // Filtered menu data based on search
   const filteredMenuData = searchTerm.trim()
     ? menuData
         .map((section) => ({
@@ -121,7 +115,9 @@ const Menu = (props) => {
           {menuData.map((cat) => (
             <button
               key={cat.category}
-              className={hover:text-orange-500 transition ${activeCategory === cat.category ? 'text-orange-500' : ''}}
+              className={`hover:text-orange-500 transition ${
+                activeCategory === cat.category ? 'text-orange-500' : 'text-gray-700'
+              }`}
               onClick={() => handleCategoryClick(cat.category)}
             >
               {cat.category}
@@ -207,7 +203,7 @@ const Menu = (props) => {
         ))}
       </div>
 
-      {/* Footer (optional) */}
+      {/* Footer */}
       <footer className="mt-8 sm:mt-12 mb-2 sm:mb-4 flex flex-col sm:flex-row justify-between items-center px-2 sm:px-8 text-gray-500 text-xs sm:text-sm gap-2 sm:gap-0">
         <div className="flex items-center gap-2">
           <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="location" className="w-4 h-4 sm:w-5 sm:h-5" />
