@@ -386,7 +386,7 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
               {section.items.map((item, idx) => (
                 <div
                   key={item._id || idx}
-                  className="bg-white shadow-md flex flex-col items-center w-full rounded-lg">
+                  className="bg-white shadow-md flex flex-col items-center w-full rounded-lg rounded-b-none">
                   <img
                     src={item.img}
                     alt={item.name}
@@ -422,8 +422,7 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
       {/* Footer */}
       <footer className="mt-8 sm:mt-12 mb-2 sm:mb-4 flex flex-col sm:flex-row justify-between items-center px-2 sm:px-8 text-gray-500 text-xs sm:text-sm gap-2 sm:gap-0 w-full">
         <div className="flex items-center gap-2">
-          <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="location" className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span>📍 {userCity}</span>
+          <span className='font-semibold text-2xl'>📍 {userCity}</span>
         </div>
       </footer>
 
