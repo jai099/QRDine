@@ -2,7 +2,10 @@ import React from "react";
 import CartItem from "./CartItem.jsx";
 import jsPDF from "jspdf";
 
-export default function CartPage({ cart, setCart, onProceedToCheckout }) {
+export default function CartPage({ cart, setCart, onProceedToCheckout, tableNumber }) {
+  // Only show cart items for this table
+  const filteredCart = tableNumber ? cart.filter(item => item.tableNumber === tableNumber) : cart;
+
   const handleQuantityChange = (id, delta) => {
     setCart((items) =>
       items
@@ -21,7 +24,7 @@ export default function CartPage({ cart, setCart, onProceedToCheckout }) {
 
   // GST and taxes (Indian):
   // CGST: 2.5%, SGST: 2.5%, Service Charge: 5%
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const subtotal = filteredCart.reduce((sum, item) => sum + item.price * item.qty, 0);
   const cgst = subtotal * 0.025;
   const sgst = subtotal * 0.025;
   const serviceCharge = subtotal * 0.05;
@@ -35,7 +38,7 @@ export default function CartPage({ cart, setCart, onProceedToCheckout }) {
     let y = 28;
     doc.text("Items:", 14, y);
     y += 8;
-    cart.forEach((item) => {
+    filteredCart.forEach((item) => {
       doc.text(
         `${item.name} x${item.qty} - ₹${(item.price * item.qty).toFixed(2)}`,
         16,
@@ -60,17 +63,28 @@ export default function CartPage({ cart, setCart, onProceedToCheckout }) {
 
   return (
     <div className="flex flex-col min-h-screen font-sans bg-gradient-to-r from-[#fff3e0] to-[#ffe0b2] animate-fadeInCartBg">
+      {/* Table number visual confirmation */}
+      {tableNumber && (
+        <div className="w-full bg-orange-100 text-orange-700 text-center py-2 font-bold text-lg shadow-sm">
+          You are ordering for <span className="text-orange-600">Table #{tableNumber}</span>
+        </div>
+      )}
+      {!tableNumber && (
+        <div className="bg-red-100 text-red-700 p-2 mb-4 rounded font-bold text-center">
+          Warning: Table number not found. Please scan the QR code again.
+        </div>
+      )}
       <div className="flex-1 overflow-y-auto px-8 pt-14 pb-8">
         <h2 className="text-center text-4xl font-extrabold text-orange-500 tracking-wider mb-7 drop-shadow-[0_2px_8px_#ffe0b2] animate-popInCart">
           Your Cart
         </h2>
         <div>
-          {cart.length === 0 ? (
+          {filteredCart.length === 0 ? (
             <div className="text-center text-orange-500 font-bold text-xl mt-10 tracking-wide">
               Your cart is empty!
             </div>
           ) : (
-            cart.map((item) => (
+            filteredCart.map((item) => (
               <CartItem
                 key={item.id}
                 item={item}

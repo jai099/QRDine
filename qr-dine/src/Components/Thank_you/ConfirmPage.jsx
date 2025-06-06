@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import jsPDF from "jspdf";
 
 // Helper to get cart items
@@ -19,14 +19,20 @@ const getCart = () => {
 
 export default function ConfirmPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [customerName, setCustomerName] = useState("");
   const [orderNotes, setOrderNotes] = useState("");
   const [tip, setTip] = useState(0);
   const [customTip, setCustomTip] = useState("");
   const [showToast, setShowToast] = useState(false);
-  const tableNumber = 12;
 
   const cart = getCart();
+  // Get table number from cart, navigation state, or fallback
+  let tableNumber = null;
+  if (cart.length > 0 && cart[0].tableNumber) tableNumber = cart[0].tableNumber;
+  else if (location.state && location.state.table) tableNumber = location.state.table;
+  else tableNumber = null;
+
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const cgst = subtotal * 0.025;
   const sgst = subtotal * 0.025;
@@ -189,6 +195,13 @@ const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
         {showToast && (
           <div className="fixed top-5 right-5 bg-green-600 text-white font-semibold px-6 py-3 rounded shadow-lg z-50">
             ✅ Order Confirmed!
+          </div>
+        )}
+
+        {/* Warning for missing table number */}
+        {!tableNumber && (
+          <div className="bg-red-100 text-red-700 p-2 mb-4 rounded font-bold text-center">
+            Warning: Table number not found. Please scan the QR code again.
           </div>
         )}
       </div>
