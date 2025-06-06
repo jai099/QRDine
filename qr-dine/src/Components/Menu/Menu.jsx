@@ -331,7 +331,7 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
                   <img
                     src={item.img}
                     alt={item.name}
-                    className="w-full h-20 object-cover rounded-l-lg rounded-r-lg rounded-b-none"
+                    className="w-full h-40 object-cover rounded-l-lg rounded-r-lg rounded-b-none"
                   />
                   <div className="font-bold text-base sm:text-lg text-gray-800 text-center w-full line-clamp-2">{item.name}</div>
                   <div className="text-gray-500 text-xs sm:text-sm mb-1 text-center w-full line-clamp-2">{item.desc}</div>
