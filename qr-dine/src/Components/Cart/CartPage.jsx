@@ -62,7 +62,7 @@ export default function CartPage({ cart, setCart, onProceedToCheckout, tableNumb
   };
 
   return (
-    <div className="flex flex-col min-h-screen font-sans bg-gradient-to-r from-[#fff3e0] to-[#ffe0b2] animate-fadeInCartBg">
+    <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col">
       {/* Table number visual confirmation */}
       {tableNumber && (
         <div className="w-full bg-orange-100 text-orange-700 text-center py-2 font-bold text-lg shadow-sm">
@@ -74,11 +74,11 @@ export default function CartPage({ cart, setCart, onProceedToCheckout, tableNumb
           Warning: Table number not found. Please scan the QR code again.
         </div>
       )}
-      <div className="flex-1 overflow-y-auto px-8 pt-14 pb-8">
-        <h2 className="text-center text-4xl font-extrabold text-orange-500 tracking-wider mb-7 drop-shadow-[0_2px_8px_#ffe0b2] animate-popInCart">
+      <div className="flex-1 overflow-y-auto px-2 sm:px-8 pt-8 pb-8">
+        <h2 className="text-center text-3xl sm:text-4xl font-extrabold text-orange-500 tracking-wider mb-7 drop-shadow-[0_2px_8px_#ffe0b2] animate-popInCart">
           Your Cart
         </h2>
-        <div>
+        <div className="space-y-4">
           {filteredCart.length === 0 ? (
             <div className="text-center text-orange-500 font-bold text-xl mt-10 tracking-wide">
               Your cart is empty!
@@ -95,32 +95,40 @@ export default function CartPage({ cart, setCart, onProceedToCheckout, tableNumb
           )}
         </div>
       </div>
-      <div className="sticky bottom-0 left-0 w-full bg-white/85 backdrop-blur-lg shadow-[0_-2px_16px_rgba(255,152,0,0.08)] px-8 pb-6 z-10 rounded-b-3xl">
-        <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2] animate-fadeInCartTotal">
-          <span>Subtotal</span>
-          <span>₹{subtotal.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
-          <span>CGST (2.5%)</span>
-          <span>₹{cgst.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
-          <span>SGST (2.5%)</span>
-          <span>₹{sgst.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
-          <span>Service Charge (5%)</span>
-          <span>₹{serviceCharge.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
-          <span className="font-extrabold">Total</span>
-          <span className="font-extrabold">₹{total.toFixed(2)}</span>
+      <div className="sticky bottom-0 left-0 w-full bg-white/90 backdrop-blur-lg shadow-[0_-2px_16px_rgba(255,152,0,0.08)] px-2 sm:px-8 pb-6 z-10 rounded-b-3xl border-t border-orange-100">
+        <div className="flex flex-col gap-2 pt-4">
+          <div className="flex justify-between items-center text-orange-600 text-lg sm:text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2] px-4 py-2 animate-fadeInCartTotal">
+            <span>Subtotal</span>
+            <span>₹{subtotal.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between items-center text-orange-600 text-lg sm:text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2] px-4 py-2">
+            <span>CGST (2.5%)</span>
+            <span>₹{cgst.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between items-center text-orange-600 text-lg sm:text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2] px-4 py-2">
+            <span>SGST (2.5%)</span>
+            <span>₹{sgst.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between items-center text-orange-600 text-lg sm:text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2] px-4 py-2">
+            <span>Service Charge (5%)</span>
+            <span>₹{serviceCharge.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between items-center text-orange-600 text-lg sm:text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2] px-4 py-2">
+            <span className="font-extrabold">Total</span>
+            <span className="font-extrabold">₹{total.toFixed(2)}</span>
+          </div>
         </div>
         <button
-          className="w-full mt-4 py-4 bg-gradient-to-r from-orange-500 to-amber-300 text-white rounded-xl text-xl font-extrabold tracking-wider shadow-[0_4px_16px_rgba(255,152,0,0.18)] hover:bg-gradient-to-r hover:from-amber-400 hover:to-amber-200 hover:filter hover:brightness-110 hover:drop-shadow-[0_0_12px_#ff9800cc] hover:shadow-[0_0_32px_#ff9800cc,0_4px_24px_rgba(255,152,0,0.18)] transition-all duration-200 animate-ctaGlow active:filter active:brightness-95 active:scale-95"
+          className="w-full mt-6 py-4 bg-gradient-to-r from-orange-500 to-amber-300 text-white rounded-xl text-xl font-extrabold tracking-wider shadow-[0_4px_16px_rgba(255,152,0,0.18)] hover:bg-gradient-to-r hover:from-amber-400 hover:to-amber-200 hover:filter hover:brightness-110 hover:drop-shadow-[0_0_12px_#ff9800cc] hover:shadow-[0_0_32px_#ff9800cc,0_4px_24px_rgba(255,152,0,0.18)] transition-all duration-200 animate-ctaGlow active:filter active:brightness-95 active:scale-95"
           onClick={onProceedToCheckout}
         >
           Proceed to Checkout
+        </button>
+        <button
+          className="w-full mt-3 py-3 bg-orange-100 text-orange-700 rounded-xl text-lg font-bold hover:bg-orange-200 transition-all duration-200"
+          onClick={handleDownloadPDF}
+        >
+          Download Bill (PDF)
         </button>
       </div>
     </div>
