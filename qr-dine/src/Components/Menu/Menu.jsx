@@ -29,6 +29,9 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
   const [filterCategory, setFilterCategory] = useState('');
   const [filterPrice, setFilterPrice] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [userCity, setUserCity] = useState('Fetching...');
+  const [locationReady, setLocationReady] = useState(false);
+  const [locationError, setLocationError] = useState(null);
   const sectionRefs = useRef({});
   const location = useLocation();
 
@@ -39,8 +42,51 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
     return t ? parseInt(t, 10) : null;
   }, [location.search]);
 
-  // Fetch menu data
+  // Only show cart items for this table
+  const filteredCart = useMemo(() => {
+    if (!tableNumber) return cart;
+    return cart.filter(item => item.tableNumber === tableNumber);
+  }, [cart, tableNumber]);
+
+  // Geolocation effect to detect user city
   useEffect(() => {
+    if (!navigator.geolocation) {
+      setUserCity('Unknown');
+      setLocationReady(true);
+      setLocationError('Geolocation not supported.');
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+          );
+          const data = await res.json();
+          const city =
+            data.address?.city ||
+            data.address?.town ||
+            data.address?.village ||
+            data.address?.state ||
+            'Unknown';
+          setUserCity(city);
+        } catch {
+          setUserCity('Unknown');
+        }
+        setLocationReady(true);
+      },
+      (err) => {
+        setUserCity('Unknown');
+        setLocationReady(true);
+        setLocationError('Location permission denied. Please allow location access to use this service.');
+      }
+    );
+  }, []);
+
+  // Only fetch menu after location is ready
+  useEffect(() => {
+    if (!locationReady) return;
     const fetchMenu = async () => {
       try {
         setLoading(true);
@@ -74,7 +120,7 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
     };
 
     fetchMenu();
-  }, []);
+  }, [locationReady]);
 
   // Handle scroll for category highlighting and progress bar
   useEffect(() => {
@@ -153,9 +199,22 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
   if (loading) return <div className="w-screen min-h-screen font-sans">Loading menu...</div>;
   if (error) return <div className="w-screen min-h-screen font-sans">Error: {error}</div>;
   if (!menuData.length) return <div className="w-screen min-h-screen font-sans">No menu items found.</div>;
+  if (!locationReady) {
+    return <div className="w-screen min-h-screen flex items-center justify-center font-sans text-orange-700 text-xl">Requesting your location... Please allow location access to continue.</div>;
+  }
+  if (locationError) {
+    return <div className="w-screen min-h-screen flex items-center justify-center font-sans text-red-700 text-xl">{locationError}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col">
+      {/* Table number visual confirmation */}
+      {tableNumber && (
+        <div className="w-full bg-orange-100 text-orange-700 text-center py-2 font-bold text-lg shadow-sm">
+          You are ordering for <span className="text-orange-600">Table #{tableNumber}</span>
+        </div>
+      )}
+
       {/* Scroll Progress Bar */}
       <div
         className="fixed top-0 left-0 h-1 bg-orange-500 z-50 transition-all duration-200 ease-in-out"
@@ -331,9 +390,10 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
                   <img
                     src={item.img}
                     alt={item.name}
-                    className="w-full h-20 object-cover rounded-l-lg rounded-r-lg rounded-b-none"
+                    className="w-full h-40 object-cover rounded-l-lg rounded-lg rounded-b-none"
                   />
-                  <div className="font-bold text-base sm:text-lg text-gray-800 text-center w-full line-clamp-2">{item.name}</div>
+                  <div className="p-3 flex items-center justify-center gap-1 w-full">
+                  <div className="font-bold text-base sm:text-md text-gray-800 text-center w-full line-clamp-2">{item.name}</div>
                   <div className="text-gray-500 text-xs sm:text-sm mb-1 text-center w-full line-clamp-2">{item.desc}</div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-orange-600 font-bold text-base sm:text-lg">₹{item.price}</span>
@@ -341,11 +401,12 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
                     {item.discount && <span className="text-green-600 text-xs font-bold">{item.discount}</span>}
                   </div>
                   <button
-                    className="bg-orange-500 text-white w-[110px] h-[50px] rounded-lg font-bold shadow hover:bg-orange-600 transition mt-1"
+                    className="bg-orange-500 text-white w-[20em] h-[50px] rounded-lg font-bold shadow hover:bg-orange-600 transition mt-1"
                     onClick={() => handleAddToCart(item)}
                   >
                     Add
                   </button>
+                </div>
                 </div>
               ))}
             </div>
@@ -354,16 +415,16 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
       </div>
 
       {/* Floating Cart Popup */}
-      {cart.length > 0 && (
+      {filteredCart.length > 0 && (
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-4 py-2 rounded-full shadow-lg z-50 transition-all hover:bg-orange-600 cursor-pointer">
-          {cart.length} item{cart.length > 1 ? 's' : ''} in cart
+          {filteredCart.length} item{filteredCart.length > 1 ? 's' : ''} in cart
         </div>
       )}
 
       {/* Footer */}
       <footer className="mt-8 sm:mt-12 mb-2 sm:mb-4 flex flex-col sm:flex-row justify-between items-center px-2 sm:px-8 text-gray-500 text-xs sm:text-sm gap-2 sm:gap-0 w-full">
         <div className="flex items-center gap-2">
-          <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="location" className="w-4 h-4 sm:w-5 sm:h-5" />, <span>🍊 Nagpur</span>
+          <span className='font-semibold text-2xl'>📍 {userCity}</span>
         </div>
       </footer>
 

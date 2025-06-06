@@ -1,37 +1,52 @@
 import React from 'react';
+import { FaUtensils, FaUserCircle, FaSignOutAlt, FaClock } from 'react-icons/fa';
 
-const Sidebar = ({ active, onNavigate, chefName }) => (
-  <nav className="w-[180px] bg-warm-100 border-r-2 border-amber-300 shadow-[2px_0_12px_#ffe0b2] flex flex-col items-center pt-8 min-h-screen md:flex-row md:w-full md:min-h-[64px] md:h-16 md:p-0 md:border-r-0 md:border-b-2 md:shadow-[0_2px_12px_#ffe0b2] md:justify-center">
-    <div className="text-4xl font-extrabold text-orange-500 mb-8 text-center md:text-2xl md:mb-0 md:mr-4.5">
-      👨‍🍳<br />{chefName || 'Chef'}
-    </div>
-    <ul className="list-none p-0 w-full flex flex-col md:flex-row md:w-auto">
-      <li
-        className={`py-4 text-center text-lg text-orange-600 font-bold cursor-pointer border-l-4 border-transparent transition-all duration-200 hover:bg-amber-300/20 hover:text-orange-500 hover:border-l-orange-500 ${active === 'orders' ? 'bg-amber-300/20 text-orange-500 border-l-orange-500' : ''} md:border-l-0 md:border-b-4 md:px-4.5 md:text-base md:py-0`}
-        onClick={() => onNavigate('orders')}
+const Sidebar = ({ active, onNavigate, chefName }) => {
+  const navItems = [
+    { key: 'orders', label: 'Orders', icon: <FaUtensils /> },
+    { key: 'history', label: 'History', icon: <FaClock /> },
+    { key: 'profile', label: 'Profile', icon: <FaUserCircle /> },
+  ];
+
+  const handleLogout = () => {
+    localStorage.removeItem('chefName');
+    localStorage.removeItem('chefOrders');
+    window.location.reload();
+  };
+
+  return (
+    <aside className="w-full md:w-64 bg-white shadow-md border-r border-orange-100 p-6 flex flex-col gap-4">
+      <div className="text-2xl font-bold text-orange-600 text-center mb-8">
+        👨‍🍳 {chefName}
+      </div>
+
+      <nav className="flex-1">
+        {navItems.map((item) => (
+          <button
+            key={item.key}
+            onClick={() => onNavigate(item.key)}
+            className={`flex items-center w-full px-4 py-2 rounded-lg text-left transition duration-200 mb-2
+              ${
+                active === item.key
+                  ? 'bg-orange-100 text-orange-700 font-semibold'
+                  : 'text-orange-600 hover:bg-orange-50'
+              }`}
+          >
+            <span className="mr-3 text-lg">{item.icon}</span>
+            {item.label}
+          </button>
+        ))}
+      </nav>
+
+      <button
+        onClick={handleLogout}
+        className="mt-auto bg-red-100 hover:bg-red-200 text-red-600 font-medium py-2 px-4 rounded-lg flex items-center justify-center transition duration-200"
       >
-        Orders
-      </li>
-      <li
-        className={`py-4 text-center text-lg text-orange-600 font-bold cursor-pointer border-l-4 border-transparent transition-all duration-200 hover:bg-amber-300/20 hover:text-orange-500 hover:border-l-orange-500 ${active === 'history' ? 'bg-amber-300/20 text-orange-500 border-l-orange-500' : ''} md:border-l-0 md:border-b-4 md:px-4.5 md:text-base md:py-0`}
-        onClick={() => onNavigate('history')}
-      >
-        History
-      </li>
-      <li
-        className={`py-4 text-center text-lg text-orange-600 font-bold cursor-pointer border-l-4 border-transparent transition-all duration-200 hover:bg-amber-300/20 hover:text-orange-500 hover:border-l-orange-500 ${active === 'profile' ? 'bg-amber-300/20 text-orange-500 border-l-orange-500' : ''} md:border-l-0 md:border-b-4 md:px-4.5 md:text-base md:py-0`}
-        onClick={() => onNavigate('profile')}
-      >
-        Profile
-      </li>
-      <li
-        className={`py-4 text-center text-lg text-orange-600 font-bold cursor-pointer border-l-4 border-transparent transition-all duration-200 hover:bg-amber-300/20 hover:text-orange-500 hover:border-l-orange-500 ${active === 'logout' ? 'bg-amber-300/20 text-orange-500 border-l-orange-500' : ''} md:border-l-0 md:border-b-4 md:px-4.5 md:text-base md:py-0`}
-        onClick={() => onNavigate('logout')}
-      >
+        <FaSignOutAlt className="mr-2" />
         Logout
-      </li>
-    </ul>
-  </nav>
-);
+      </button>
+    </aside>
+  );
+};
 
 export default Sidebar;

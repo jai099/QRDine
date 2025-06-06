@@ -1,7 +1,7 @@
 import './App.css';
 import Menu from './Components/Menu/Menu.jsx';
 import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import CartPage from './Components/Cart/CartPage';
 import ConfirmPage from './Components/Thank_you/ConfirmPage.jsx';
 import ThankYouPage from './Components/Thank_you/ThankYouPage.jsx';
@@ -62,6 +62,14 @@ function App() {
     }, 200);
   };
 
+  const location = useLocation();
+  // Extract table number from URL
+  const tableNumber = (() => {
+    const params = new URLSearchParams(location.search);
+    const t = params.get('table');
+    return t ? parseInt(t, 10) : null;
+  })();
+
   return (
     <Routes>
       <Route
@@ -106,6 +114,7 @@ function App() {
                 cart={cart}
                 setCart={setCart}
                 onProceedToCheckout={handleProceedToCheckout}
+                tableNumber={tableNumber}
               />
             </div>
           </div>

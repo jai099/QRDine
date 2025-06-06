@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import jsPDF from "jspdf";
 
 // Helper to get cart items
@@ -19,14 +19,20 @@ const getCart = () => {
 
 export default function ConfirmPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [customerName, setCustomerName] = useState("");
   const [orderNotes, setOrderNotes] = useState("");
   const [tip, setTip] = useState(0);
   const [customTip, setCustomTip] = useState("");
   const [showToast, setShowToast] = useState(false);
-  const tableNumber = 12;
 
   const cart = getCart();
+  // Get table number from cart, navigation state, or fallback
+  let tableNumber = null;
+  if (cart.length > 0 && cart[0].tableNumber) tableNumber = cart[0].tableNumber;
+  else if (location.state && location.state.table) tableNumber = location.state.table;
+  else tableNumber = null;
+
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const cgst = subtotal * 0.025;
   const sgst = subtotal * 0.025;
@@ -79,116 +85,106 @@ const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
   }
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 font-sans">
-      
+    <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col md:flex-row">
       {/* Left Side: Order Summary */}
-      <div className="w-full md:w-1/2 p-6 md:p-10 bg-orange-100 border-b-2 md:border-b-0 md:border-r-2 border-orange-300 shadow-md">
-        <h2 className="text-3xl font-extrabold text-orange-600 mb-5">📋 Order Summary</h2>
-        <p className="text-lg font-bold text-orange-700 mb-4">Table #{tableNumber}</p>
-
+      <div className="w-full md:w-1/2 p-6 md:p-10 bg-[#fff8ee] border-b-2 md:border-b-0 md:border-r-2 border-orange-200 shadow-md rounded-xl m-2 flex flex-col">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-orange-700 mb-4">📋 Order Summary</h2>
+        <p className="text-lg font-bold text-orange-600 mb-4">Table #{tableNumber}</p>
         <div className="space-y-3 mb-6">
           {cart.map(item => (
-            <div key={item.name} className="flex justify-between items-center bg-orange-50 px-4 py-2 rounded shadow-sm border border-orange-200">
+            <div key={item.name} className="flex justify-between items-center bg-orange-50 px-4 py-2 rounded-lg shadow-sm border border-orange-100">
               <span className="text-orange-800 font-medium">{item.name}</span>
               <span className="text-orange-600 font-bold">x{item.quantity}</span>
               <span className="text-orange-600 font-semibold">₹{(item.price * item.quantity).toFixed(2)}</span>
             </div>
           ))}
         </div>
-
         <div className="bg-white p-4 rounded-xl shadow-inner space-y-2 text-sm md:text-base">
           <div className="flex justify-between"><span>Subtotal</span><span>₹{subtotal.toFixed(2)}</span></div>
           <div className="flex justify-between"><span>CGST (2.5%)</span><span>₹{cgst.toFixed(2)}</span></div>
           <div className="flex justify-between"><span>SGST (2.5%)</span><span>₹{sgst.toFixed(2)}</span></div>
           <div className="flex justify-between"><span>Service Charge (5%)</span><span>₹{serviceCharge.toFixed(2)}</span></div>
-          <div className="flex justify-between"><span>Tip ({effectiveTip}%)</span><span>₹{tipAmount.toFixed(2)}</span></div>
+          <div className="flex justify-between"><span>Tip</span><span>₹{tipAmount.toFixed(2)}</span></div>
           <div className="flex justify-between font-bold text-green-700 border-t pt-2 mt-2"><span>Total</span><span>₹{total.toFixed(2)}</span></div>
         </div>
-
         <button
           onClick={handleDownloadPDF}
           disabled={cart.length === 0}
-          className="mt-5 w-full bg-orange-500 text-white font-bold py-2 rounded-lg hover:bg-orange-600 transition disabled:bg-gray-300"
+          className="mt-5 w-full bg-gradient-to-r from-orange-500 to-amber-400 text-white font-bold py-2 rounded-lg shadow hover:brightness-110 transition disabled:bg-gray-300"
         >
-          Download Bill as PDF
+          Download Bill (PDF)
         </button>
-
         <button
           onClick={() => navigate("/")}
-          className="mt-4 w-full bg-orange-200 text-orange-700 font-bold py-2 rounded-lg hover:bg-orange-300 transition"
+          className="mt-4 w-full bg-orange-100 text-orange-700 font-bold py-2 rounded-lg hover:bg-orange-200 transition"
         >
           ← Edit Order
         </button>
       </div>
-
       {/* Right Side: Confirmation */}
-      <div className="w-full md:w-1/2 p-6 md:p-10 bg-white shadow-md">
-        <h2 className="text-3xl font-extrabold text-orange-600 mb-5">✍️ Confirm & Submit</h2>
-
+      <div className="w-full md:w-1/2 p-6 md:p-10 bg-white shadow-md rounded-xl m-2 flex flex-col">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-orange-700 mb-4">✍️ Confirm & Submit</h2>
         <label className="block mb-2 font-semibold text-orange-700">Customer Name (optional)</label>
         <input
           value={customerName}
           onChange={(e) => setCustomerName(e.target.value)}
           placeholder="e.g. John Doe"
-          className="w-full mb-4 px-4 py-2 border border-orange-200 rounded focus:outline-orange-500"
+          className="w-full mb-4 px-4 py-2 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300"
         />
-
         <label className="block mb-2 font-semibold text-orange-700">Order Notes (optional)</label>
         <textarea
           value={orderNotes}
           onChange={(e) => setOrderNotes(e.target.value)}
           placeholder="e.g. No onions please"
           rows="3"
-          className="w-full mb-4 px-4 py-2 border border-orange-200 rounded focus:outline-orange-500"
+          className="w-full mb-4 px-4 py-2 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300"
         />
-
         <label className="block mb-2 font-semibold text-orange-700">Tip</label>
-<div className="flex flex-wrap gap-3 mb-4">
-  {[0, 50, 100, 200, 300].map(val => (
-    <button
-      key={val}
-      onClick={() => {
-        setTip(val);
-        setCustomTip("");
-      }}
-      type="button"
-      className={`px-4 py-2 rounded border font-semibold ${
-        tip === val && customTip === ""
-          ? "bg-orange-500 text-white"
-          : "bg-orange-100 text-orange-700 hover:bg-orange-200"
-      }`}
-    >
-      ₹{val}
-    </button>
-  ))}
-  <input
-    type="number"
-    placeholder="Custom ₹"
-    min="0"
-    value={customTip}
-    onChange={e => {
-      setCustomTip(e.target.value);
-      setTip(0);
-    }}
-    className="w-28 px-3 py-2 border border-orange-200 rounded text-orange-700 focus:outline-orange-500"
-  />
-</div>
-
+        <div className="flex flex-wrap gap-3 mb-4">
+          {[0, 50, 100, 200, 300].map(val => (
+            <button
+              key={val}
+              onClick={() => {
+                setTip(val);
+                setCustomTip("");
+              }}
+              type="button"
+              className={`px-4 py-2 rounded-lg border font-semibold transition-all duration-150 ${tip === val && customTip === "" ? "bg-orange-500 text-white" : "bg-orange-100 text-orange-700 hover:bg-orange-200"}`}
+            >
+              ₹{val}
+            </button>
+          ))}
+          <input
+            type="number"
+            placeholder="Custom ₹"
+            min="0"
+            value={customTip}
+            onChange={e => {
+              setCustomTip(e.target.value);
+              setTip(0);
+            }}
+            className="w-28 px-3 py-2 border border-orange-200 rounded-lg text-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-300"
+          />
+        </div>
         <div className="flex justify-between text-xl font-bold text-green-700 border-t pt-4 mb-6">
           <span>Grand Total</span>
           <span>₹{total.toFixed(2)}</span>
         </div>
-
         <button
           onClick={handleConfirm}
-          className="w-full bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 transition"
+          className="w-full bg-gradient-to-r from-green-500 to-lime-400 text-white font-bold py-3 rounded-lg shadow hover:brightness-110 transition"
         >
           🟢 Place Order
         </button>
-
         {showToast && (
           <div className="fixed top-5 right-5 bg-green-600 text-white font-semibold px-6 py-3 rounded shadow-lg z-50">
             ✅ Order Confirmed!
+          </div>
+        )}
+        {/* Warning for missing table number */}
+        {!tableNumber && (
+          <div className="bg-red-100 text-red-700 p-2 mb-4 rounded font-bold text-center">
+            Warning: Table number not found. Please scan the QR code again.
           </div>
         )}
       </div>
