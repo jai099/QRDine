@@ -386,7 +386,7 @@ const Menu = ({ cart = [], addToCart = () => { }, removeFromCart = () => { }, de
               {section.items.map((item, idx) => (
                 <div
                   key={item._id || idx}
-                  className="bg-white shadow-md flex flex-col items-center w-full rounded-lg">
+                  className="bg-white shadow-md flex flex-col items-center w-full rounded-lg rounded-b-none">
                   <img
                     src={item.img}
                     alt={item.name}
