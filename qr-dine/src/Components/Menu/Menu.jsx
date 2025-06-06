@@ -39,6 +39,12 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
     return t ? parseInt(t, 10) : null;
   }, [location.search]);
 
+  // Only show cart items for this table
+  const filteredCart = useMemo(() => {
+    if (!tableNumber) return cart;
+    return cart.filter(item => item.tableNumber === tableNumber);
+  }, [cart, tableNumber]);
+
   // Fetch menu data
   useEffect(() => {
     const fetchMenu = async () => {
@@ -156,6 +162,13 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
 
   return (
     <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col">
+      {/* Table number visual confirmation */}
+      {tableNumber && (
+        <div className="w-full bg-orange-100 text-orange-700 text-center py-2 font-bold text-lg shadow-sm">
+          You are ordering for <span className="text-orange-600">Table #{tableNumber}</span>
+        </div>
+      )}
+
       {/* Scroll Progress Bar */}
       <div
         className="fixed top-0 left-0 h-1 bg-orange-500 z-50 transition-all duration-200 ease-in-out"
@@ -354,9 +367,9 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
       </div>
 
       {/* Floating Cart Popup */}
-      {cart.length > 0 && (
+      {filteredCart.length > 0 && (
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-4 py-2 rounded-full shadow-lg z-50 transition-all hover:bg-orange-600 cursor-pointer">
-          {cart.length} item{cart.length > 1 ? 's' : ''} in cart
+          {filteredCart.length} item{filteredCart.length > 1 ? 's' : ''} in cart
         </div>
       )}
 
