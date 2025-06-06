@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import CartItem from "./CartItem.jsx";
 import jsPDF from "jspdf";
+import OtpVerification from "./OtpVerification"; // Import the OTP component
 
 export default function CartPage({ cart, setCart, onProceedToCheckout }) {
+  const [showOtp, setShowOtp] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
+
   const handleQuantityChange = (id, delta) => {
     setCart((items) =>
       items
@@ -19,8 +23,6 @@ export default function CartPage({ cart, setCart, onProceedToCheckout }) {
     setCart((items) => items.filter((item) => item.id !== id));
   };
 
-  // GST and taxes (Indian):
-  // CGST: 2.5%, SGST: 2.5%, Service Charge: 5%
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   const cgst = subtotal * 0.025;
   const sgst = subtotal * 0.025;
@@ -58,57 +60,75 @@ export default function CartPage({ cart, setCart, onProceedToCheckout }) {
     doc.save("QRDine_Bill.pdf");
   };
 
+  const handleProceedClick = () => {
+    setShowOtp(true);
+  };
+
+  const handleOtpVerified = () => {
+    // Place your backend call to place order here
+    setOrderPlaced(true);
+    setShowOtp(false);
+    onProceedToCheckout(); // Proceed with existing logic
+    handleDownloadPDF(); // Download bill after successful verification
+  };
+
   return (
     <div className="flex flex-col min-h-screen font-sans bg-gradient-to-r from-[#fff3e0] to-[#ffe0b2] animate-fadeInCartBg">
-      <div className="flex-1 overflow-y-auto px-8 pt-14 pb-8">
-        <h2 className="text-center text-4xl font-extrabold text-orange-500 tracking-wider mb-7 drop-shadow-[0_2px_8px_#ffe0b2] animate-popInCart">
-          Your Cart
-        </h2>
-        <div>
-          {cart.length === 0 ? (
-            <div className="text-center text-orange-500 font-bold text-xl mt-10 tracking-wide">
-              Your cart is empty!
+      {showOtp && !orderPlaced ? (
+        <OtpVerification onVerified={handleOtpVerified} />
+      ) : (
+        <>
+          <div className="flex-1 overflow-y-auto px-8 pt-14 pb-8">
+            <h2 className="text-center text-4xl font-extrabold text-orange-500 tracking-wider mb-7 drop-shadow-[0_2px_8px_#ffe0b2] animate-popInCart">
+              Your Cart
+            </h2>
+            <div>
+              {cart.length === 0 ? (
+                <div className="text-center text-orange-500 font-bold text-xl mt-10 tracking-wide">
+                  Your cart is empty!
+                </div>
+              ) : (
+                cart.map((item) => (
+                  <CartItem
+                    key={item.id}
+                    item={item}
+                    onQuantityChange={handleQuantityChange}
+                    onDelete={handleDelete}
+                  />
+                ))
+              )}
             </div>
-          ) : (
-            cart.map((item) => (
-              <CartItem
-                key={item.id}
-                item={item}
-                onQuantityChange={handleQuantityChange}
-                onDelete={handleDelete}
-              />
-            ))
-          )}
-        </div>
-      </div>
-      <div className="sticky bottom-0 left-0 w-full bg-white/85 backdrop-blur-lg shadow-[0_-2px_16px_rgba(255,152,0,0.08)] px-8 pb-6 z-10 rounded-b-3xl">
-        <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2] animate-fadeInCartTotal">
-          <span>Subtotal</span>
-          <span>₹{subtotal.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
-          <span>CGST (2.5%)</span>
-          <span>₹{cgst.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
-          <span>SGST (2.5%)</span>
-          <span>₹{sgst.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
-          <span>Service Charge (5%)</span>
-          <span>₹{serviceCharge.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
-          <span className="font-extrabold">Total</span>
-          <span className="font-extrabold">₹{total.toFixed(2)}</span>
-        </div>
-        <button
-          className="w-full mt-4 py-4 bg-gradient-to-r from-orange-500 to-amber-300 text-white rounded-xl text-xl font-extrabold tracking-wider shadow-[0_4px_16px_rgba(255,152,0,0.18)] hover:bg-gradient-to-r hover:from-amber-400 hover:to-amber-200 hover:filter hover:brightness-110 hover:drop-shadow-[0_0_12px_#ff9800cc] hover:shadow-[0_0_32px_#ff9800cc,0_4px_24px_rgba(255,152,0,0.18)] transition-all duration-200 animate-ctaGlow active:filter active:brightness-95 active:scale-95"
-          onClick={onProceedToCheckout}
-        >
-          Proceed to Checkout
-        </button>
-      </div>
+          </div>
+          <div className="sticky bottom-0 left-0 w-full bg-white/85 backdrop-blur-lg shadow-[0_-2px_16px_rgba(255,152,0,0.08)] px-8 pb-6 z-10 rounded-b-3xl">
+            <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2] animate-fadeInCartTotal">
+              <span>Subtotal</span>
+              <span>₹{subtotal.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
+              <span>CGST (2.5%)</span>
+              <span>₹{cgst.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
+              <span>SGST (2.5%)</span>
+              <span>₹{sgst.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
+              <span>Service Charge (5%)</span>
+              <span>₹{serviceCharge.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between items-center pt-4 text-orange-600 text-xl font-extrabold bg-[#fffde7] rounded-xl shadow-[0_2px_8px_#ffe0b2]">
+              <span className="font-extrabold">Total</span>
+              <span className="font-extrabold">₹{total.toFixed(2)}</span>
+            </div>
+            <button
+              className="w-full mt-4 py-4 bg-gradient-to-r from-orange-500 to-amber-300 text-white rounded-xl text-xl font-extrabold tracking-wider shadow-[0_4px_16px_rgba(255,152,0,0.18)] hover:bg-gradient-to-r hover:from-amber-400 hover:to-amber-200 hover:filter hover:brightness-110 hover:drop-shadow-[0_0_12px_#ff9800cc] hover:shadow-[0_0_32px_#ff9800cc,0_4px_24px_rgba(255,152,0,0.18)] transition-all duration-200 animate-ctaGlow active:filter active:brightness-95 active:scale-95"
+              onClick={handleProceedClick}
+            >
+              Proceed to Checkout
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
