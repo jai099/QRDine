@@ -29,6 +29,9 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
   const [filterCategory, setFilterCategory] = useState('');
   const [filterPrice, setFilterPrice] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [userCity, setUserCity] = useState('Fetching...');
+  const [locationReady, setLocationReady] = useState(false);
+  const [locationError, setLocationError] = useState(null);
   const sectionRefs = useRef({});
   const location = useLocation();
 
@@ -45,8 +48,45 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
     return cart.filter(item => item.tableNumber === tableNumber);
   }, [cart, tableNumber]);
 
-  // Fetch menu data
+  // Geolocation effect to detect user city
   useEffect(() => {
+    if (!navigator.geolocation) {
+      setUserCity('Unknown');
+      setLocationReady(true);
+      setLocationError('Geolocation not supported.');
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+          );
+          const data = await res.json();
+          const city =
+            data.address?.city ||
+            data.address?.town ||
+            data.address?.village ||
+            data.address?.state ||
+            'Unknown';
+          setUserCity(city);
+        } catch {
+          setUserCity('Unknown');
+        }
+        setLocationReady(true);
+      },
+      (err) => {
+        setUserCity('Unknown');
+        setLocationReady(true);
+        setLocationError('Location permission denied. Please allow location access to use this service.');
+      }
+    );
+  }, []);
+
+  // Only fetch menu after location is ready
+  useEffect(() => {
+    if (!locationReady) return;
     const fetchMenu = async () => {
       try {
         setLoading(true);
@@ -80,7 +120,7 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
     };
 
     fetchMenu();
-  }, []);
+  }, [locationReady]);
 
   // Handle scroll for category highlighting and progress bar
   useEffect(() => {
@@ -159,6 +199,12 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
   if (loading) return <div className="w-screen min-h-screen font-sans">Loading menu...</div>;
   if (error) return <div className="w-screen min-h-screen font-sans">Error: {error}</div>;
   if (!menuData.length) return <div className="w-screen min-h-screen font-sans">No menu items found.</div>;
+  if (!locationReady) {
+    return <div className="w-screen min-h-screen flex items-center justify-center font-sans text-orange-700 text-xl">Requesting your location... Please allow location access to continue.</div>;
+  }
+  if (locationError) {
+    return <div className="w-screen min-h-screen flex items-center justify-center font-sans text-red-700 text-xl">{locationError}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col">
@@ -376,7 +422,8 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
       {/* Footer */}
       <footer className="mt-8 sm:mt-12 mb-2 sm:mb-4 flex flex-col sm:flex-row justify-between items-center px-2 sm:px-8 text-gray-500 text-xs sm:text-sm gap-2 sm:gap-0 w-full">
         <div className="flex items-center gap-2">
-          <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="location" className="w-4 h-4 sm:w-5 sm:h-5" />, <span>🍊 Nagpur</span>
+          <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="location" className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span>📍 {userCity}</span>
         </div>
       </footer>
 
