@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
-import Image1 from '../../assets/Menu/logoimage.jpg';
+import Image1 from '../../Assets/Menu/logoimage.jpg';
 
 // Use environment variable for API URL
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/menu/available';
