@@ -390,9 +390,10 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
                   <img
                     src={item.img}
                     alt={item.name}
-                    className="w-full h-40 object-cover rounded-l-lg rounded-r-lg rounded-b-none"
+                    className="w-full h-40 object-cover rounded-l-lg rounded-lg rounded-b-none"
                   />
-                  <div className="font-bold text-base sm:text-lg text-gray-800 text-center w-full line-clamp-2">{item.name}</div>
+                  <div className="p-3 flex items-center justify-center gap-1 w-full">
+                  <div className="font-bold text-base sm:text-md text-gray-800 text-center w-full line-clamp-2">{item.name}</div>
                   <div className="text-gray-500 text-xs sm:text-sm mb-1 text-center w-full line-clamp-2">{item.desc}</div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-orange-600 font-bold text-base sm:text-lg">₹{item.price}</span>
@@ -400,11 +401,12 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
                     {item.discount && <span className="text-green-600 text-xs font-bold">{item.discount}</span>}
                   </div>
                   <button
-                    className="bg-orange-500 text-white w-[110px] h-[50px] rounded-lg font-bold shadow hover:bg-orange-600 transition mt-1"
+                    className="bg-orange-500 text-white w-[20em] h-[50px] rounded-lg font-bold shadow hover:bg-orange-600 transition mt-1"
                     onClick={() => handleAddToCart(item)}
                   >
                     Add
                   </button>
+                </div>
                 </div>
               ))}
             </div>
@@ -422,8 +424,7 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
       {/* Footer */}
       <footer className="mt-8 sm:mt-12 mb-2 sm:mb-4 flex flex-col sm:flex-row justify-between items-center px-2 sm:px-8 text-gray-500 text-xs sm:text-sm gap-2 sm:gap-0 w-full">
         <div className="flex items-center gap-2">
-          <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="location" className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span>📍 {userCity}</span>
+          <span className='font-semibold text-2xl'>📍 {userCity}</span>
         </div>
       </footer>
 
