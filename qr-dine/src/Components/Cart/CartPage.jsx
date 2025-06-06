@@ -30,36 +30,6 @@ export default function CartPage({ cart, setCart, onProceedToCheckout, tableNumb
   const serviceCharge = subtotal * 0.05;
   const total = subtotal + cgst + sgst + serviceCharge;
 
-  const handleDownloadPDF = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text("QRDine Bill Receipt", 14, 16);
-    doc.setFontSize(12);
-    let y = 28;
-    doc.text("Items:", 14, y);
-    y += 8;
-    filteredCart.forEach((item) => {
-      doc.text(
-        `${item.name} x${item.qty} - ₹${(item.price * item.qty).toFixed(2)}`,
-        16,
-        y
-      );
-      y += 7;
-    });
-    y += 4;
-    doc.text(`Subtotal: ₹${subtotal.toFixed(2)}`, 14, y);
-    y += 7;
-    doc.text(`CGST (2.5%): ₹${cgst.toFixed(2)}`, 14, y);
-    y += 7;
-    doc.text(`SGST (2.5%): ₹${sgst.toFixed(2)}`, 14, y);
-    y += 7;
-    doc.text(`Service Charge (5%): ₹${serviceCharge.toFixed(2)}`, 14, y);
-    y += 7;
-    doc.text(`Total: ₹${total.toFixed(2)}`, 14, y);
-    y += 10;
-    doc.text("Thank you for dining with us!", 14, y);
-    doc.save("QRDine_Bill.pdf");
-  };
 
   return (
     <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col">
@@ -123,12 +93,6 @@ export default function CartPage({ cart, setCart, onProceedToCheckout, tableNumb
           onClick={onProceedToCheckout}
         >
           Proceed to Checkout
-        </button>
-        <button
-          className="w-full mt-3 py-3 bg-orange-100 text-orange-700 rounded-xl text-lg font-bold hover:bg-orange-200 transition-all duration-200"
-          onClick={handleDownloadPDF}
-        >
-          Download Bill (PDF)
         </button>
       </div>
     </div>
