@@ -144,7 +144,7 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
 
   const handleAddToCart = (item) => {
     addToCart(item, tableNumber);
-    toast.success(${item.name} added to cart, {
+    toast.success(`${item.name} added to cart`, {
       position: 'bottom-center',
       autoClose: 2000,
     });
@@ -159,7 +159,7 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
       {/* Scroll Progress Bar */}
       <div
         className="fixed top-0 left-0 h-1 bg-orange-500 z-50 transition-all duration-200 ease-in-out"
-        style={{ width: ${scrollProgress}% }}
+        style={{ width: `${scrollProgress}%` }}
       />
 
       {/* Restaurant Banner */}
