@@ -10,5 +10,8 @@ use npm install qrcode.react
 use npm install axios
 npm install react-toastify react-icons
 
+npm install @heroicons/react
+
+
 
 Refer below website for tailwind installation: https://v3.tailwindcss.com/docs/installation/using-postcss

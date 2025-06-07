@@ -1,8 +1,6 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-
-import Navbar from './Components/Home/Navbar.jsx';
 import ConfirmPage from './Components/Thank_you/ConfirmPage.jsx';
 import ThankYouPage from './Components/Thank_you/ThankYouPage.jsx';
 import ChefDashboard from './Components/ChefDashboard/ChefDashboard.jsx';
@@ -12,21 +10,20 @@ import TableQRList from './Components/QR/TableQRList.jsx';
 import AdminLogin from './Components/Admin/AdminLogin.jsx';
 import AdminRegisterForm from './Components/Admin/AdminRegisterForm.jsx';
 import StaffLogin from './Components/Staff/StaffLogin.jsx';
-
 import CustomerMenuPage from './Components/Customer/CustomerMenuPage.jsx'; // ✅ New component
-import HomePage from './Components/Home/Navbar.jsx';                     // ✅ Home page for admin/staff
+import HomePage from './Components/Home/HomePage.jsx';                     // ✅ Home page for admin/staff
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
+     <HomePage />
 
       <Routes>
         {/* 👇 Customer scanned QR code lands here */}
         <Route path="/" element={<CustomerMenuPage />} />
 
         {/* 👇 Admin/staff website homepage with login buttons */}
-        <Route path="/home" element={<HomePage />} />
+        {/* <Route path="/home" element={<HomePage />} /> */}
 
         <Route path="/confirm" element={<ConfirmPage />} />
         <Route path="/thank-you" element={<ThankYouPage />} />
