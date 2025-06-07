@@ -2,9 +2,13 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSpring, animated } from '@react-spring/web';
 import toast, { Toaster } from 'react-hot-toast';
+<<<<<<< HEAD
 import { Search, RefreshCw, Clock, TrendingUp, Award, Zap } from 'lucide-react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
+=======
+import { Search, RefreshCw, Clock, TrendingUp, Award, Zap, Menu } from 'lucide-react';
+>>>>>>> cf1dd7d7a0da39e903b22105a7d8cb75e164abd5
 import WaiterSidebar from './WaiterSidebar.jsx';
 import WaiterOrdersList from './WaiterOrdersList';
 import WaiterProfile from './WaiterProfile.jsx';
@@ -98,6 +102,7 @@ export default function WaiterDashboard() {
   const [history, setHistory] = useState(getInitialHistory());
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [stats, setStats] = useState({
     totalOrders: 0,
     assignedOrders: 0,
@@ -212,6 +217,7 @@ export default function WaiterDashboard() {
   function StatsBar() {
     return (
       <animated.div
+<<<<<<< HEAD
         className="flex gap-8 my-4.5 mb-7 bg-gradient-to-r from-amber-300 to-warm-300 rounded-2xl shadow-[0_2px_8px_#ffe0b2] p-4.5 justify-center items-center text-orange-600 font-bold text-lg animate-statsGlow"
         style={statsSpring}
       >
@@ -226,12 +232,29 @@ export default function WaiterDashboard() {
         </div>
         <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 text-base">
           <TrendingUp size={18} /> <b className="text-orange-600 text-lg">{stats.avgDeliveryTime || 0} min</b> Avg Delivery
+=======
+        className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-5 bg-gradient-to-r from-amber-300 to-warm-300 rounded-2xl shadow-[0_2px_8px_#ffe0b2] p-4 justify-center items-center text-orange-600 font-bold text-lg animate-statsGlow"
+        style={statsSpring}
+      >
+        <div className="flex items-center gap-2 bg-warm-100 rounded-lg p-2 shadow-md text-base">
+          <Clock size={18} /> <span>{stats.totalOrders}</span> Orders
+        </div>
+        <div className="flex items-center gap-2 bg-warm-100 rounded-lg p-2 shadow-md text-base">
+          <Zap size={18} /> <span>{stats.assignedOrders}</span> Assigned
+        </div>
+        <div className="flex items-center gap-2 bg-warm-100 rounded-lg p-2 shadow-md text-base">
+          <Award size={18} /> <span>{stats.completedToday}</span> Served Today
+        </div>
+        <div className="flex items-center gap-2 bg-warm-100 rounded-lg p-2 shadow-md text-base">
+          <TrendingUp size={18} /> <span>{stats.avgDeliveryTime || 0} min</span> Avg Delivery
+>>>>>>> cf1dd7d7a0da39e903b22105a7d8cb75e164abd5
         </div>
       </animated.div>
     );
   }
 
   return (
+<<<<<<< HEAD
     <div className="relative min-h-screen bg-transparent font-sans">
       <ThreeBackground />
       <Toaster position="top-right" />
@@ -244,17 +267,49 @@ export default function WaiterDashboard() {
           <div className="flex items-center gap-4.5">
             <button
               className="bg-gradient-to-r from-orange-500 to-amber-300 text-white border-none rounded-[10px] font-bold text-base py-2 px-4.5 flex items-center gap-2"
+=======
+    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-r from-warm-300 to-warm-200 font-sans animate-waiterBgAnim">
+      <Toaster position="top-right" />
+      <div className="md:hidden flex justify-between p-4 bg-orange-100">
+        <button onClick={() => setSidebarOpen(!sidebarOpen)}>
+          <Menu size={28} className="text-orange-600" />
+        </button>
+        <h1 className="text-xl font-bold text-orange-600">Waiter Dashboard</h1>
+      </div>
+      {sidebarOpen && (
+        <div className="md:hidden bg-white shadow-lg">
+          <WaiterSidebar view={view} setView={setView} />
+        </div>
+      )}
+      <div className="hidden md:block">
+        <WaiterSidebar view={view} setView={setView} />
+      </div>
+      <main className="flex-1 p-6 flex flex-col min-w-0 bg-white/85 rounded-tl-3xl rounded-bl-3xl shadow-xl md:p-4">
+        <animated.div
+          className="flex flex-col md:flex-row md:items-center justify-between mb-4 bg-gradient-to-r from-warm-300 to-warm-200 rounded-2xl shadow-md p-4"
+          style={headerSpring}
+        >
+          <h2 className="text-xl md:text-2xl font-extrabold text-orange-500 mb-2 md:mb-0">Waiter Dashboard</h2>
+          <div className="flex flex-col md:flex-row gap-3 items-center">
+            <button
+              className="bg-gradient-to-r from-orange-500 to-amber-300 text-white rounded-lg font-semibold text-sm py-2 px-4 shadow hover:brightness-110 disabled:bg-gray-300"
+>>>>>>> cf1dd7d7a0da39e903b22105a7d8cb75e164abd5
               onClick={() => fetchOrders(true)}
               disabled={refreshing}
               title="Refresh"
             >
-              <RefreshCw size={20} className={refreshing ? 'animate-spin' : ''} /> {refreshing ? 'Refreshing...' : 'Refresh'}
+              <RefreshCw size={18} className={refreshing ? 'animate-spin' : ''} /> {refreshing ? 'Refreshing...' : 'Refresh'}
             </button>
+<<<<<<< HEAD
             <div className="flex items-center bg-warm-100 rounded-lg p-1 px-2.5 gap-1.5">
               <Search size={18} />
+=======
+            <div className="flex items-center bg-warm-100 rounded-lg shadow p-2 gap-2">
+              <Search size={16} />
+>>>>>>> cf1dd7d7a0da39e903b22105a7d8cb75e164abd5
               <input
-                className="border-none bg-transparent text-orange-600 font-semibold text-base outline-none py-1.5 min-w-[120px]"
-                placeholder="Search by table or order ID"
+                className="bg-transparent text-orange-600 font-medium text-sm outline-none"
+                placeholder="Search by table or ID"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />

@@ -3,7 +3,9 @@ import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
-import Image1 from '../../Assets/Menu/logoimage.jpg';
+import Image1 from '../../assets/Menu/logoimage.jpg';
+import VegImg from '../../assets/Veg and Non Veg/Veg.jpg';
+import NonVegImg from '../../assets/Veg and Non Veg/Non Veg.jpg';
 
 // Use environment variable for API URL
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/menu/available';
@@ -17,7 +19,7 @@ const debounce = (func, delay) => {
   };
 };
 
-const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decreaseQty = () => {} }) => {
+const Menu = ({ cart = [], addToCart = () => { }, removeFromCart = () => { }, decreaseQty = () => { } }) => {
   const [menuData, setMenuData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -242,7 +244,6 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
             <div className="text-gray-500 text-xs sm:text-sm mb-2">Italian, Pizza, Fast Food, Main Course</div>
             <div className="flex flex-wrap gap-2">
               <span className="bg-green-100 text-green-600 text-xs font-bold px-2 py-0.5 rounded">20% OFF up to ₹100</span>
-              <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded">Free Delivery</span>
             </div>
           </div>
         </div>
@@ -259,9 +260,8 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
           {menuData.map((cat) => (
             <button
               key={cat.category}
-              className={`hover:text-orange-500 transition ${
-                activeCategory === cat.category ? 'text-orange-500' : ''
-              }`}
+              className={`hover:text-orange-500 transition ${activeCategory === cat.category ? 'text-orange-500' : ''
+                }`}
               onClick={() => handleCategoryClick(cat.category)}
             >
               {cat.category}
@@ -386,27 +386,45 @@ const Menu = ({ cart = [], addToCart = () => {}, removeFromCart = () => {}, decr
               {section.items.map((item, idx) => (
                 <div
                   key={item._id || idx}
-                  className="bg-white shadow-md flex flex-col items-center w-full rounded-lg">
+                  className="bg-white shadow-md flex flex-col items-center w-full rounded-lg rounded-b-none">
                   <img
                     src={item.img}
                     alt={item.name}
                     className="w-full h-40 object-cover rounded-l-lg rounded-lg rounded-b-none"
                   />
-                  <div className="p-3 flex items-center justify-center gap-1 w-full">
-                  <div className="font-bold text-base sm:text-md text-gray-800 text-center w-full line-clamp-2">{item.name}</div>
-                  <div className="text-gray-500 text-xs sm:text-sm mb-1 text-center w-full line-clamp-2">{item.desc}</div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-orange-600 font-bold text-base sm:text-lg">₹{item.price}</span>
-                    {item.oldPrice && <span className="line-through text-gray-400 text-xs sm:text-sm">₹{item.oldPrice}</span>}
-                    {item.discount && <span className="text-green-600 text-xs font-bold">{item.discount}</span>}
+                  <div className="flex items-center gap-2 mt-2">
+                    {item.isVeg || item.veg === true || item.type === 'veg' ? (
+                      <img src={VegImg} alt="Veg" className="w-6 h-6" title="Veg" />
+                    ) : null}
+                    {item.isVeg === false || item.veg === false || item.type === 'non-veg' ? (
+                      <img src={NonVegImg} alt="Non-Veg" className="w-6 h-6" title="Non-Veg" />
+                    ) : null}
                   </div>
-                  <button
-                    className="bg-orange-500 text-white w-[20em] h-[50px] rounded-lg font-bold shadow hover:bg-orange-600 transition mt-1"
-                    onClick={() => handleAddToCart(item)}
-                  >
-                    Add
-                  </button>
-                </div>
+                  <div className='flex flex-col items-center w-full p-2'>
+  <div className="flex items-center gap-2 w-full mb-1">
+    {item.isVeg || item.veg === true || item.type === 'veg' ? (
+      <img src={VegImg} alt="Veg" className="w-5 h-5 rounded-full shadow border border-green-400" title="Veg" />
+    ) : null}
+    {item.isVeg === false || item.veg === false || item.type === 'non-veg' ? (
+      <img src={NonVegImg} alt="Non-Veg" className="w-5 h-5 rounded-full shadow border border-red-400" title="Non-Veg" />
+    ) : null}
+    <span className="font-bold text-base sm:text-md text-gray-800 text-left line-clamp-2">{item.name}</span>
+  </div>
+  <div className="text-gray-500 text-xs sm:text-sm mb-1 text-left w-full line-clamp-2">{item.description}</div>
+</div>
+                  <div className="flex justify-around items-center w-full h-full px-3 py-2">
+                    <div className="flex flex-none items-center justify-center mb-2">
+                      <span className="text-orange-600 font-bold text-base sm:text-lg">₹{item.price}</span>
+                      {item.oldPrice && <span className="line-through text-gray-400 text-xs sm:text-sm">₹{item.oldPrice}</span>}
+                      {item.discount && <span className="text-green-600 text-xs font-bold">{item.discount}</span>}
+                    </div>
+                    <button
+                      className="bg-orange-500 text-white rounded-lg font-bold shadow hover:bg-orange-600 transition mt-1 w-[5em] h-[2.5em]"
+                      onClick={() => handleAddToCart(item)}
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

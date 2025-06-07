@@ -11,6 +11,7 @@ import WebsiteQR from './Components/QR/WebsiteQR.jsx';
 import TableQRList from './Components/QR/TableQRList.jsx';
 import AdminLogin from './Components/Admin/AdminLogin.jsx';
 import AdminRegisterForm from './Components/Admin/AdminRegisterForm.jsx';
+import StaffLogin from './Components/Staff/StaffLogin.jsx';
 
 
 
@@ -127,6 +128,8 @@ function App() {
       <Route path="/qr-tables" element={<TableQRList baseUrl={"https://qr-dine-five.vercel.app/"} />} />
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/register-staff" element={<AdminRegisterForm />} />
+      <Route path="/staff-login" element={<StaffLogin />} />
+
     </Routes>
   );
 }
