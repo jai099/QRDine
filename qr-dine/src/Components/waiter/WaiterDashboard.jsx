@@ -6,6 +6,16 @@ import { Search, RefreshCw, Clock, TrendingUp, Award, Zap, Menu } from 'lucide-r
 import WaiterSidebar from './WaiterSidebar.jsx';
 import WaiterOrdersList from './WaiterOrdersList';
 import WaiterProfile from './WaiterProfile.jsx';
+<<<<<<< HEAD
+=======
+
+// PWA Manifest and Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(err => console.error('Service Worker registration failed:', err));
+  });
+}
+>>>>>>> dc7cf984d9ec9887b7c9bcc56f62507cb07a501e
 
 function getInitialHistory() {
   return JSON.parse(localStorage.getItem('waiterHistory') || '[]');
@@ -220,6 +230,7 @@ export default function WaiterDashboard() {
   }
 
   return (
+<<<<<<< HEAD
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-r from-warm-300 to-warm-200 font-sans animate-waiterBgAnim">
       <Toaster position="top-right" />
       <div className="md:hidden flex justify-between p-4 bg-orange-100">
@@ -243,6 +254,182 @@ export default function WaiterDashboard() {
         >
           <h2 className="text-xl md:text-2xl font-extrabold text-orange-500 mb-2 md:mb-0">Waiter Dashboard</h2>
           <div className="flex flex-col md:flex-row gap-3 items-center">
+=======
+    <div className={`relative min-h-screen bg-transparent font-sans theme-${theme}`}>
+      <Toaster position="top-right" />
+      <div className="flex min-h-screen">
+        <WaiterSidebar view={view} setView={setView} notificationsCount={notifications.length} />
+        <main className="flex-1 p-9 flex flex-col min-w-0 bg-white/90 rounded-tl-[32px] rounded-bl-[32px] shadow-lg my-6 backdrop-blur-xl border-l-4 border-orange-200">
+          <animated.div
+            className="flex items-center justify-between mb-6 bg-gradient-to-r from-orange-100/80 to-amber-100/80 rounded-2xl shadow-lg p-6 border-b-2 border-orange-200"
+            style={headerSpring}
+          >
+            <div className="flex items-center gap-4">
+              <img
+                src={require('../../assets/Menu/logoimage.jpg')}
+                alt="Logo"
+                className="w-14 h-14 rounded-full shadow-lg border-2 border-orange-300 animate-spin-slow"
+              />
+              <h2 className="text-3xl font-extrabold text-orange-600 drop-shadow">Waiter Dashboard</h2>
+            </div>
+            <div className="flex items-center gap-4">
+              <select
+                className="bg-orange-100/70 border border-orange-300 rounded-lg p-2 text-sm font-semibold text-orange-700 shadow-sm focus:ring-2 focus:ring-orange-400"
+                value={theme}
+                onChange={(e) => setTheme(e.target.value)}
+              >
+                <option value="warm">Warm</option>
+                <option value="cool">Cool</option>
+                <option value="dark">Dark</option>
+              </select>
+              <div className="hidden md:flex items-center bg-orange-50/80 rounded-lg p-1 px-2.5 gap-1.5 border border-orange-200 shadow-sm">
+                <Search size={18} className="text-orange-500" />
+                <input
+                  className="bg-transparent font-medium text-sm outline-none text-orange-700"
+                  placeholder="Search by table or ID"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                />
+              </div>
+            </div>
+          </animated.div>
+
+          {view === 'orders' && (
+            <>
+              <div className="flex flex-wrap gap-4 mb-4">
+                <div>
+                  <label className="text-sm font-medium mr-2 text-orange-700">Sort by:</label>
+                  <select
+                    className="bg-orange-50 border border-orange-200 rounded-lg p-2 text-sm text-orange-700 font-semibold shadow-sm"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                  >
+                    <option value="priority">Priority</option>
+                    <option value="chef">Chef</option>
+                    <option value="table">Table</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-sm font-medium mr-2 text-orange-700">Filter by:</label>
+                  <select
+                    className="bg-orange-50 border border-orange-200 rounded-lg p-2 text-sm text-orange-700 font-semibold shadow-sm"
+                    value={filterBy}
+                    onChange={(e) => setFilterBy(e.target.value)}
+                  >
+                    <option value="all">All Orders</option>
+                    <option value="highPriority">High Priority</option>
+                    <option value="assigned">My Assigned</option>
+                  </select>
+                </div>
+              </div>
+              <StatsBar />
+            </>
+          )}
+
+          {view === 'orders' && (
+            <div className="mb-6">
+              <button
+                className="flex items-center gap-2 text-lg font-semibold mb-2 text-orange-700 hover:text-orange-900 transition-all"
+                onClick={() => setShowInsights(!showInsights)}
+              >
+                Today's Insights <ChevronDown size={20} className={showInsights ? 'rotate-180' : ''} />
+              </button>
+              {showInsights && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-orange-50/80 p-4 rounded-lg border border-orange-200 shadow"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2 text-orange-700">Delivery Time Trend</h3>
+                      <ResponsiveContainer width="100%" height={200}>
+                        <LineChart data={deliveryTimeData}>
+                          <XAxis dataKey="time" label={{ value: 'Hour', position: 'bottom' }} />
+                          <YAxis label={{ value: 'Minutes', angle: -90, position: 'insideLeft' }} />
+                          <Tooltip />
+                          <Line type="monotone" dataKey="deliveryTime" stroke="#ff9800" strokeWidth={3} dot={{ r: 5, fill: '#ff9800' }} />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2 text-orange-700">Orders Served Per Hour</h3>
+                      <ResponsiveContainer width="100%" height={200}>
+                        <LineChart data={ordersPerHourData}>
+                          <XAxis dataKey="hour" label={{ value: 'Hour', position: 'bottom' }} />
+                          <YAxis label={{ value: 'Orders', angle: -90, position: 'insideLeft' }} />
+                          <Tooltip />
+                          <Line type="monotone" dataKey="orders" stroke="#43ea5e" strokeWidth={3} dot={{ r: 5, fill: '#43ea5e' }} />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          )}
+
+          <AnimatePresence>
+            {view === 'orders' && (
+              <motion.div
+                key="orders"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.3 }}
+              >
+                {loading ? (
+                  <div className="text-center font-bold text-xl mt-12 animate-pulse text-orange-600">
+                    Loading orders...
+                  </div>
+                ) : (
+                  <WaiterOrdersList
+                    orders={filtered}
+                    assigned={assigned}
+                    onAssign={handleAssign}
+                    onServe={handleServe}
+                    isHistory={false}
+                    waiterName={WAITER_PROFILE.name}
+                  />
+                )}
+              </motion.div>
+            )}
+            {view === 'history' && (
+              <motion.div
+                key="history"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <WaiterOrdersList
+                  orders={history}
+                  assigned={[]}
+                  onAssign={() => {}}
+                  onServe={() => {}}
+                  isHistory={true}
+                  waiterName={WAITER_PROFILE.name}
+                />
+              </motion.div>
+            )}
+            {view === 'profile' && (
+              <motion.div
+                key="profile"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <WaiterProfile profile={WAITER_PROFILE} ordersServed={history.length} />
+              </motion.div>
+            )}
+            {view === 'tables' && <TablesView />}
+            {view === 'notifications' && <NotificationsView />}
+          </AnimatePresence>
+
+          <div className="md:hidden fixed bottom-6 right-6 flex flex-col gap-4 z-50">
+>>>>>>> dc7cf984d9ec9887b7c9bcc56f62507cb07a501e
             <button
               className="bg-gradient-to-r from-orange-500 to-amber-300 text-white rounded-lg font-semibold text-sm py-2 px-4 shadow hover:brightness-110 disabled:bg-gray-300"
               onClick={() => fetchOrders(true)}
