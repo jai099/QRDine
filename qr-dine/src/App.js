@@ -1,8 +1,10 @@
 import './App.css';
+<<<<<<< HEAD
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+=======
+import { Routes, Route } from 'react-router-dom';
+>>>>>>> a51eac0724571f3a02be88117aaf6ae853f8539e
 import { useState, useEffect } from 'react';
-
-import Navbar from './Components/Home/Navbar.jsx';
 import ConfirmPage from './Components/Thank_you/ConfirmPage.jsx';
 import ThankYouPage from './Components/Thank_you/ThankYouPage.jsx';
 import ChefDashboard from './Components/ChefDashboard/ChefDashboard.jsx';
@@ -12,6 +14,7 @@ import TableQRList from './Components/QR/TableQRList.jsx';
 import AdminLogin from './Components/Admin/AdminLogin.jsx';
 import AdminRegisterForm from './Components/Admin/AdminRegisterForm.jsx';
 import StaffLogin from './Components/Staff/StaffLogin.jsx';
+<<<<<<< HEAD
 import Menu from './Components/Menu/Menu.jsx';
 import CartPage from './CartPage.jsx';
 
@@ -76,11 +79,18 @@ function App() {
     }, 200);
   };
 
+=======
+import CustomerMenuPage from './Components/Customer/CustomerMenuPage.jsx'; // ✅ New component
+import HomePage from './Components/Home/HomePage.jsx';                     // ✅ Home page for admin/staff
+
+function App() {
+>>>>>>> a51eac0724571f3a02be88117aaf6ae853f8539e
   return (
     <div className="App">
-      <Navbar />
+     <HomePage />
 
       <Routes>
+<<<<<<< HEAD
         <Route
           path="/"
           element={
@@ -94,10 +104,19 @@ function App() {
             </div>
           }
         />
+=======
+        {/* 👇 Customer scanned QR code lands here */}
+        <Route path="/" element={<CustomerMenuPage />} />
+
+        {/* 👇 Admin/staff website homepage with login buttons */}
+        {/* <Route path="/home" element={<HomePage />} /> */}
+
+>>>>>>> a51eac0724571f3a02be88117aaf6ae853f8539e
         <Route path="/confirm" element={<ConfirmPage />} />
         <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/chef" element={<ChefDashboard />} />
         <Route path="/waiter" element={<WaiterDashboard />} />
+<<<<<<< HEAD
         <Route
           path="/qr"
           element={
@@ -110,6 +129,10 @@ function App() {
             <TableQRList baseUrl={process.env.REACT_APP_BASE_URL || 'https://qr-dine-five.vercel.app/'} />
           }
         />
+=======
+        <Route path="/qr" element={<WebsiteQR url={"https://qr-dine-five.vercel.app/"} />} />
+        <Route path="/qr-tables" element={<TableQRList baseUrl={"https://qr-dine-five.vercel.app/"} />} />
+>>>>>>> a51eac0724571f3a02be88117aaf6ae853f8539e
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/register-staff" element={<AdminRegisterForm />} />
         <Route path="/staff-login" element={<StaffLogin />} />

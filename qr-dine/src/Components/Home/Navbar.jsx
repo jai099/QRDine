@@ -8,8 +8,9 @@ const Navbar = () => {
     <nav className="bg-white shadow-md fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo/Brand */}
+        
         <div className="text-2xl font-bold text-orange-600">
-          <Link to="/">🍽️ QR-Dine</Link>
+          <Link to="/">🍽️ Hotel TARS Mahal</Link>
         </div>
 
         {/* Navigation Links */}

@@ -209,7 +209,7 @@ const Menu = ({ cart = [], addToCart = () => { }, removeFromCart = () => { }, de
   }
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col">
+    <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col lg:pt-[3em]">
       {/* Table number visual confirmation */}
       {tableNumber && (
         <div className="w-full bg-orange-100 text-orange-700 text-center py-2 font-bold text-lg shadow-sm">
