@@ -95,6 +95,8 @@ function App() {
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h7.72a2 2 0 0 0 2-1.61L23 6H6" />
                 </svg>
               </span>
+
+              
               <span className="cart-count-badge">{cart.reduce((sum, item) => sum + (item.qty || 0), 0)}</span>
             </button>
             {/* Slide-in Cart Panel */}

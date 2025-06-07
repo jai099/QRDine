@@ -7,7 +7,6 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'rec
 import WaiterSidebar from './WaiterSidebar.jsx';
 import WaiterOrdersList from './WaiterOrdersList';
 import WaiterProfile from './WaiterProfile.jsx';
-import ThreeBackground from '../ThreeJS/ThreeBackground';
 
 // PWA Manifest and Service Worker Registration
 if ('serviceWorker' in navigator) {
@@ -447,7 +446,6 @@ export default function WaiterDashboard() {
 
   return (
     <div className={`relative min-h-screen bg-transparent font-sans theme-${theme}`}>
-      <ThreeBackground />
       <Toaster position="top-right" />
       <div className="flex min-h-screen">
         <WaiterSidebar view={view} setView={setView} notificationsCount={notifications.length} />
@@ -458,7 +456,7 @@ export default function WaiterDashboard() {
           >
             <div className="flex items-center gap-4">
               <img
-                src={require('../../Assets/Menu/logoimage.jpg')}
+                src={require('../../assets/Menu/logoimage.jpg')}
                 alt="Logo"
                 className="w-14 h-14 rounded-full shadow-lg border-2 border-orange-300 animate-spin-slow"
               />
