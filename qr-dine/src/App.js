@@ -58,7 +58,12 @@ function App() {
   const handleProceedToCheckout = () => {
     setShowCart(false);
     setTimeout(() => {
-      window.location.href = '/confirm';
+      // Preserve table number in URL when navigating to confirm
+      if (tableNumber) {
+        window.location.href = `/confirm?table=${tableNumber}`;
+      } else {
+        window.location.href = '/confirm';
+      }
     }, 200);
   };
 
@@ -126,8 +131,8 @@ function App() {
       <Route path="/thank-you" element={<ThankYouPage />} />
       <Route path="/chef" element={<ChefDashboard />} />
       <Route path="/waiter" element={<WaiterDashboard />} />
-      <Route path="/qr" element={<WebsiteQR url={"https://qr-dine-five.vercel.app/"} />} />
-      <Route path="/qr-tables" element={<TableQRList baseUrl={"https://qr-dine-five.vercel.app/"} />} />
+      <Route path="/qr" element={<WebsiteQR url={process.env.REACT_APP_BASE_URL || "https://qr-dine-five.vercel.app/"} />} />
+      <Route path="/qr-tables" element={<TableQRList baseUrl={process.env.REACT_APP_BASE_URL || "https://qr-dine-five.vercel.app/"} />} />
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/register-staff" element={<AdminRegisterForm />} />
       <Route path="/staff-login" element={<StaffLogin />} />
