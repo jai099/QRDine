@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-spring/three": "^10.0.1",
     "@react-spring/web": "^10.0.1",
     "@react-three/drei": "^10.1.2",
     "@react-three/fiber": "^9.1.2",
+    "@react-three/postprocessing": "^3.0.4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -27,6 +29,7 @@
     "react-toastify": "^11.0.5",
     "recharts": "^2.15.3",
     "three": "^0.177.0",
+    "toast": "^0.5.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -56,6 +59,8 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.8",
     "autoprefixer": "^10.4.21",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react": "^7.37.5",
     "postcss": "^8.5.4",
     "tailwindcss": "^3.4.17"
   }
