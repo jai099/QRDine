@@ -3,9 +3,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSpring, animated } from '@react-spring/web';
 import toast, { Toaster } from 'react-hot-toast';
 import { Search, RefreshCw, Clock, TrendingUp, Award, Zap } from 'lucide-react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Stars } from '@react-three/drei';
 import WaiterSidebar from './WaiterSidebar.jsx';
 import WaiterOrdersList from './WaiterOrdersList';
 import WaiterProfile from './WaiterProfile.jsx';
+
+function ThreeBackground() {
+  return (
+    <Canvas className="fixed top-0 left-0 w-full h-full -z-10">
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[0, 0, 5]} />
+      <Stars radius={50} depth={50} count={5000} factor={4} />
+      <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
+    </Canvas>
+  );
+}
 
 function getInitialHistory() {
   return JSON.parse(localStorage.getItem('waiterHistory') || '[]');
@@ -94,7 +107,6 @@ export default function WaiterDashboard() {
   const refreshIntervalRef = useRef(null);
   const audioRef = useRef(null);
 
-  // Animation springs
   const headerSpring = useSpring({
     from: { opacity: 0, transform: 'translateY(-20px)' },
     to: { opacity: 1, transform: 'translateY(0px)' },
@@ -107,7 +119,6 @@ export default function WaiterDashboard() {
     config: { tension: 300, friction: 25 }
   });
 
-  // Fetch orders with loading state
   const fetchOrders = useCallback(async (showRefreshing = false) => {
     if (showRefreshing) setRefreshing(true);
     try {
@@ -136,7 +147,6 @@ export default function WaiterDashboard() {
     }
   }, [orders.length, assigned.length]);
 
-  // Auto-refresh orders
   useEffect(() => {
     fetchOrders();
     refreshIntervalRef.current = setInterval(() => {
@@ -199,23 +209,22 @@ export default function WaiterDashboard() {
     o.id.toString().includes(search) || o.table.toString().includes(search)
   );
 
-  // --- Stats Bar ---
   function StatsBar() {
     return (
       <animated.div
-        className="flex gap-8 my-4.5 mb-7 bg-gradient-to-r from-amber-300 to-warm-300 rounded-2xl shadow-[0_2px_8px_#ffe0b2] p-4.5 justify-center items-center text-orange-600 font-bold text-lg animate-statsGlow md:p-2.5 md:gap-2.5 md:text-base"
+        className="flex gap-8 my-4.5 mb-7 bg-gradient-to-r from-amber-300 to-warm-300 rounded-2xl shadow-[0_2px_8px_#ffe0b2] p-4.5 justify-center items-center text-orange-600 font-bold text-lg animate-statsGlow"
         style={statsSpring}
       >
-        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 shadow-[0_1px_4px_#ffe0b2] text-orange-500 text-base transition-shadow duration-200">
+        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 text-base">
           <Clock size={18} /> <b className="text-orange-600 text-lg">{stats.totalOrders}</b> Orders
         </div>
-        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 shadow-[0_1px_4px_#ffe0b2] text-orange-500 text-base transition-shadow duration-200">
+        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 text-base">
           <Zap size={18} /> <b className="text-orange-600 text-lg">{stats.assignedOrders}</b> Assigned
         </div>
-        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 shadow-[0_1px_4px_#ffe0b2] text-orange-500 text-base transition-shadow duration-200">
+        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 text-base">
           <Award size={18} /> <b className="text-orange-600 text-lg">{stats.completedToday}</b> Served Today
         </div>
-        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 shadow-[0_1px_4px_#ffe0b2] text-orange-500 text-base transition-shadow duration-200">
+        <div className="flex items-center gap-1.5 bg-warm-100 rounded-lg p-1.5 px-3.5 text-base">
           <TrendingUp size={18} /> <b className="text-orange-600 text-lg">{stats.avgDeliveryTime || 0} min</b> Avg Delivery
         </div>
       </animated.div>
@@ -223,24 +232,25 @@ export default function WaiterDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-r from-warm-300 to-warm-200 font-sans animate-waiterBgAnim">
+    <div className="relative min-h-screen bg-transparent font-sans">
+      <ThreeBackground />
       <Toaster position="top-right" />
       <WaiterSidebar view={view} setView={setView} />
-      <main className="flex-1 p-9 flex flex-col min-w-0 bg-white/85 rounded-tl-[32px] rounded-bl-[32px] shadow-[0_8px_32px_rgba(255,152,0,0.10),0_2px_8px_rgba(60,60,120,0.10)] my-6 md:p-2.5 md:rounded-none md:m-0">
+      <main className="flex-1 p-9 flex flex-col min-w-0 bg-white/85 rounded-tl-[32px] rounded-bl-[32px] shadow-[0_8px_32px_rgba(255,152,0,0.10)] my-6">
         <animated.div
-          className="flex items-center justify-between mb-6 bg-gradient-to-r from-warm-300 to-warm-200 rounded-2xl shadow-[0_2px_8px_#ffe0b2] p-4.5 relative md:p-2.5 md:rounded-xl"
+          className="flex items-center justify-between mb-6 bg-gradient-to-r from-warm-300 to-warm-200 rounded-2xl shadow-[0_2px_8px_#ffe0b2] p-4.5"
           style={headerSpring}>
           <h2 className="text-2xl font-extrabold text-orange-500">Waiter Dashboard</h2>
           <div className="flex items-center gap-4.5">
             <button
-              className="bg-gradient-to-r from-orange-500 to-amber-300 text-white border-none rounded-[10px] font-bold text-base py-2 px-4.5 flex items-center gap-2 shadow-[0_2px_8px_rgba(255,152,0,0.10)] transition-all duration-200 active:brightness-95 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+              className="bg-gradient-to-r from-orange-500 to-amber-300 text-white border-none rounded-[10px] font-bold text-base py-2 px-4.5 flex items-center gap-2"
               onClick={() => fetchOrders(true)}
               disabled={refreshing}
               title="Refresh"
             >
               <RefreshCw size={20} className={refreshing ? 'animate-spin' : ''} /> {refreshing ? 'Refreshing...' : 'Refresh'}
             </button>
-            <div className="flex items-center bg-warm-100 rounded-lg shadow-[0_1px_4px_#ffe0b2] p-1 px-2.5 gap-1.5">
+            <div className="flex items-center bg-warm-100 rounded-lg p-1 px-2.5 gap-1.5">
               <Search size={18} />
               <input
                 className="border-none bg-transparent text-orange-600 font-semibold text-base outline-none py-1.5 min-w-[120px]"
