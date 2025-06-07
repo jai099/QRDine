@@ -9,8 +9,9 @@ use npm instsall jspdf
 use npm install qrcode.react
 use npm install axios
 npm install react-toastify react-icons
+npm install recharts
+npm install react-parallax-tilt
 
-npm install @heroicons/react
 
 
 
