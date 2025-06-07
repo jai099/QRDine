@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import jsPDF from "jspdf";
+import OtpVerification from '../Cart/OtpVerification';
 
 // Helper to get cart items
 const getCart = () => {
@@ -25,13 +26,21 @@ export default function ConfirmPage() {
   const [tip, setTip] = useState(0);
   const [customTip, setCustomTip] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [showOtp, setShowOtp] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   const cart = getCart();
   // Get table number from cart, navigation state, or fallback
   let tableNumber = null;
+  // Try to get table number from URL if not found in cart or location.state
   if (cart.length > 0 && cart[0].tableNumber) tableNumber = cart[0].tableNumber;
   else if (location.state && location.state.table) tableNumber = location.state.table;
-  else tableNumber = null;
+  else {
+    // Try to get from URL query param
+    const params = new URLSearchParams(window.location.search);
+    const t = params.get('table');
+    if (t) tableNumber = parseInt(t, 10);
+  }
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const cgst = subtotal * 0.025;
@@ -46,8 +55,8 @@ const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
     const chefOrders = JSON.parse(localStorage.getItem("chefOrders") || "[]");
     chefOrders.push({
       id: Date.now(),
-      table: tableNumber,
-      items: cart,
+      table: tableNumber, // Table number is always included
+      items: cart.map(item => ({ ...item, tableNumber })), // Ensure each item carries tableNumber
       notes: orderNotes,
       total: total,
     });
@@ -55,7 +64,12 @@ const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
     setShowToast(true);
     setTimeout(() => {
       setShowToast(false);
-      navigate("/thank-you", { state: { table: tableNumber } });
+      // Preserve table number in URL when navigating to thank-you
+      if (tableNumber) {
+        navigate(`/thank-you?table=${tableNumber}`, { state: { table: tableNumber } });
+      } else {
+        navigate("/thank-you");
+      }
     }, 1200);
   }
 
@@ -84,12 +98,26 @@ const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
     doc.save("QRDine_Bill.pdf");
   }
 
+  function handleOtpVerified() {
+    // Place your backend call to place order here
+    setOrderPlaced(true);
+    setShowOtp(false);
+    handleConfirm(); // Place order after OTP is verified
+  }
+
   return (
     <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col md:flex-row">
+      {/* OTP Modal */}
+      {showOtp && (
+        <OtpVerification
+          onVerified={handleOtpVerified}
+          onCancel={() => setShowOtp(false)}
+        />
+      )}
       {/* Left Side: Order Summary */}
       <div className="w-full md:w-1/2 p-6 md:p-10 bg-[#fff8ee] border-b-2 md:border-b-0 md:border-r-2 border-orange-200 shadow-md rounded-xl m-2 flex flex-col">
         <h2 className="text-2xl sm:text-3xl font-extrabold text-orange-700 mb-4">📋 Order Summary</h2>
-        <p className="text-lg font-bold text-orange-600 mb-4">Table #{tableNumber}</p>
+        <p className="text-lg font-bold text-orange-600 mb-4">Table {tableNumber}</p>
         <div className="space-y-3 mb-6">
           {cart.map(item => (
             <div key={item.name} className="flex justify-between items-center bg-orange-50 px-4 py-2 rounded-lg shadow-sm border border-orange-100">
@@ -171,7 +199,7 @@ const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
           <span>₹{total.toFixed(2)}</span>
         </div>
         <button
-          onClick={handleConfirm}
+          onClick={() => setShowOtp(true)}
           className="w-full bg-gradient-to-r from-green-500 to-lime-400 text-white font-bold py-3 rounded-lg shadow hover:brightness-110 transition"
         >
           🟢 Place Order
@@ -182,7 +210,7 @@ const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
           </div>
         )}
         {/* Warning for missing table number */}
-        {!tableNumber && (
+        {!tableNumber && false && (
           <div className="bg-red-100 text-red-700 p-2 mb-4 rounded font-bold text-center">
             Warning: Table number not found. Please scan the QR code again.
           </div>

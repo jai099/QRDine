@@ -1,0 +1,65 @@
+/* Default Warm Theme */
+:root {
+  --primary-bg: #f97316;
+  --secondary-bg: #fed7aa;
+  --text-color: #7c2d12;
+  --card-bg: #ffedd5;
+}
+
+.theme-warm {
+  --primary-bg: #f97316;
+  --secondary-bg: #fed7aa;
+  --text-color: #7c2d12;
+  --card-bg: #ffedd5;
+}
+
+.theme-cool {
+  --primary-bg: #3b82f6;
+  --secondary-bg: #bfdbfe;
+  --text-color: #1e3a8a;
+  --card-bg: #dbeafe;
+}
+
+.theme-dark {
+  --primary-bg: #1f2937;
+  --secondary-bg: #4b5563;
+  --text-color: #d1d5db;
+  --card-bg: #374151;
+}
+
+/* Apply Theme Variables */
+main {
+  background-color: var(--card-bg);
+}
+
+h2, .text-orange-500 {
+  color: var(--primary-bg);
+}
+
+.bg-gradient-to-r {
+  background: linear-gradient(to right, var(--primary-bg), var(--secondary-bg));
+}
+
+.bg-opacity-20 {
+  background-color: rgba(var(--primary-bg), 0.2);
+}
+
+button.bg-orange-500 {
+  background-color: var(--primary-bg);
+}
+
+select, input {
+  background-color: rgba(var(--primary-bg), 0.2);
+  color: var(--text-color);
+}
+
+/* Stats Glow Animation */
+@keyframes statsGlow {
+  0% { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
+  50% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3); }
+  100% { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
+}
+
+.animate-statsGlow {
+  animation: statsGlow 2s infinite;
+}
