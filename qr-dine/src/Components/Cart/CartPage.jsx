@@ -69,7 +69,7 @@ export default function CartPage({ cart, setCart, onProceedToCheckout }) {
     setOrderPlaced(true);
     setShowOtp(false);
     onProceedToCheckout(); // Proceed with existing logic
-    handleDownloadPDF(); // Download bill after successful verification
+    // Removed automatic bill PDF download after OTP verification
   };
 
   return (

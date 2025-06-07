@@ -29,7 +29,10 @@ const AdminRegisterForm = () => {
     e.preventDefault();
     setMessage('');
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', formData);
+      const res = await axios.post(
+        process.env.REACT_APP_API_URL_AUTH_REGISTER || 'http://localhost:5000/api/auth/register',
+        formData
+      );
       setMessage(res.data.message);
       setFormData({ username: '', password: '', role: 'waiter' });
     } catch (err) {
