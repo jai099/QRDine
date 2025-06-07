@@ -13,9 +13,9 @@ import AdminLogin from './Components/Admin/AdminLogin.jsx';
 import AdminRegisterForm from './Components/Admin/AdminRegisterForm.jsx';
 import StaffLogin from './Components/Staff/StaffLogin.jsx';
 import CustomerMenuPage from './Components/Customer/CustomerMenuPage.jsx';
-import HomePage from './Components/Home/Navbar.jsx'; // You may want to rename this if it's not actually the home page
-import Menu from './Menu.jsx';
-import CartPage from './CartPage.jsx';
+import Menu from './Components/Menu/Menu.jsx';
+import CartPage from './Components/Cart/CartPage.jsx';
+import HomePage from './Components/Home/Navbar.jsx';
 
 function App() {
   const [showCart, setShowCart] = useState(false);
