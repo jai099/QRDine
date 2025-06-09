@@ -1,102 +1,120 @@
 import React from 'react';
 
-export default function WaiterOrderCard({ order, assigned, onAssign, onServe, isHistory, waiterName }) {
-  function timeSince(ts) {
-    const min = Math.floor((Date.now() - ts) / 60000);
-    return min === 0 ? 'Just now' : `${min} min ago`;
+export default function WaiterOrderCard({
+  order,
+  assigned,
+  onAssign,
+  onServe,
+  isHistory,
+  waiterName,
+  isServing = false, // Add loading state for serve action
+}) {
+  // If this is a history card, show delivered status and details
+  if (isHistory) {
+    return (
+      <div className="rounded-2xl p-5 shadow-lg border bg-gray-50">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-orange-700 font-bold bg-orange-100 px-2 py-1 rounded">#{order.id}</span>
+          <span className="text-lg font-bold text-orange-800">Table {order.table}</span>
+          <span className="text-xs text-gray-500">{new Date(order.servedAt).toLocaleTimeString()}</span>
+        </div>
+        <div className="flex flex-wrap gap-2 mb-2">
+          {order.items.map((item, idx) => (
+            <span key={idx} className="bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm">
+              {item.name} × {item.qty}
+            </span>
+          ))}
+        </div>
+        <div className="mb-2 text-sm text-gray-600">Served by: {order.waiter || waiterName}</div>
+        <div className="text-sm text-green-600 font-bold">Delivered in {order.deliveryTime} min</div>
+      </div>
+    );
   }
 
-  const priorityBadge = {
-    Low: 'bg-green-100 text-green-600',
-    Medium: 'bg-yellow-100 text-yellow-700',
-    High: 'bg-red-100 text-red-600',
-  };
+  // Check if order is in process of being served (to prevent reappearing)
+  const isBeingServed = isServing || order.status === 'serving';
 
+  // For active orders
   return (
     <div
-      className={`bg-warm-100 rounded-2xl p-4 shadow-[0_2px_10px_rgba(255,152,0,0.07)] border-2 transition-all duration-300 
-        ${assigned ? 'border-[2.5px] border-green-500 shadow-[0_0_16px_#43ea5ecc]' : ''}
-        ${isHistory ? 'border-gray-400 bg-gray-100 shadow-[0_2px_8px_rgba(120,120,120,0.07)]' : 'border-warm-200'}
-      `}
+      className={`rounded-2xl p-5 shadow-lg border transition-all duration-300 ${
+        assigned 
+          ? 'ring-2 ring-green-400 bg-green-50' 
+          : isBeingServed 
+          ? 'bg-gray-100 opacity-75' 
+          : 'bg-yellow-50'
+      }`}
     >
-      {/* Header: Order ID, Table No, Time */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2 text-orange-600">
-        <div className="flex items-center gap-3 font-bold text-lg">
-          <span className="bg-warm-200 px-2.5 py-0.5 rounded-lg text-orange-500 text-base">#{order.id}</span>
-          <span className="font-extrabold text-lg">Table {order.table}</span>
-        </div>
-        <span className="text-sm text-orange-500 sm:text-base">
-          {isHistory ? new Date(order.servedAt).toLocaleString() : timeSince(order.readyAt)}
+      <div className="flex justify-between items-center mb-2">
+        <span className="text-orange-700 font-bold bg-orange-100 px-2 py-1 rounded">#{order.id}</span>
+        <span className="text-lg font-bold text-orange-800">Table {order.table}</span>
+        <span className="text-xs text-gray-500">
+          {Math.floor((Date.now() - order.readyAt) / 60000)} min ago
         </span>
       </div>
-
-      {/* Order Items */}
+      
       <div className="flex flex-wrap gap-2 mb-2">
         {order.items.map((item, idx) => (
-          <span
-            key={idx}
-            className="bg-warm-300 rounded-lg px-3 py-1 text-orange-600 font-semibold text-sm sm:text-base shadow-sm"
-          >
+          <span key={idx} className="bg-orange-100 text-orange-700 px-2 py-1 rounded text-sm">
             {item.name} × {item.qty}
           </span>
         ))}
       </div>
-
-      {/* Notes */}
+      
       {order.notes && (
-        <div className="text-orange-500 text-sm sm:text-base mb-2 flex items-start gap-2">
-          📝 <span>{order.notes}</span>
+        <div className="mb-2">
+          <span className="text-gray-600 text-sm">📝 {order.notes}</span>
         </div>
       )}
-
-      {/* Chef + Status + Priority */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-orange-600 mb-2">
-        <div className="flex items-center gap-2 text-sm sm:text-base">
-          👨‍🍳 <span>{order.chef}</span>
-          <span
-            className={`ml-3 px-3 py-0.5 rounded-lg font-bold text-white text-sm sm:text-base ${
-              isHistory ? 'bg-gray-500' : 'bg-green-500'
-            }`}
-          >
-            {isHistory ? 'Served' : 'Ready to Serve'}
-          </span>
-        </div>
-        {order.priority && (
-          <span
-            className={`rounded-full px-3 py-0.5 text-xs font-semibold shadow-sm ${
-              priorityBadge[order.priority] || 'bg-gray-200 text-gray-700'
-            }`}
-          >
-            Priority: {order.priority}
-          </span>
-        )}
+      
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-sm">👨‍🍳 {order.chef}</span>
+        <span className={`px-2 py-1 rounded text-xs ${
+          isBeingServed 
+            ? 'bg-blue-500 text-white' 
+            : 'bg-green-500 text-white'
+        }`}>
+          {isBeingServed ? 'Being Served' : 'Ready to Serve'}
+        </span>
+        <span className={`px-2 py-1 rounded text-xs ${
+          order.priority === 'high' 
+            ? 'bg-red-200 text-red-700' 
+            : order.priority === 'medium' 
+            ? 'bg-yellow-200 text-yellow-700' 
+            : 'bg-blue-200 text-blue-700'
+        }`}>
+          Priority: {order.priority}
+        </span>
       </div>
-
-      {/* Waiter name if history */}
-      {isHistory && (
-        <div className="text-sm text-gray-500 italic">By: {order.waiter || waiterName}</div>
-      )}
-
-      {/* Action Buttons */}
-      {!isHistory && (
-        <div className="flex mt-3 gap-3 flex-wrap">
-          {!assigned ? (
+      
+      <div className="mt-2">
+        {!assigned && !isBeingServed ? (
+          <button
+            onClick={() => onAssign(order.id)}
+            className="bg-gradient-to-r from-orange-400 to-amber-400 text-white rounded-lg font-bold text-sm py-2 px-4 shadow-lg hover:scale-105 transition-all"
+          >
+            Assign to Me
+          </button>
+        ) : assigned && !isBeingServed ? (
+          <div className="flex gap-2 items-center">
+            <span className="bg-green-500 text-white rounded-lg font-bold text-sm py-2 px-4 shadow">
+              Assigned to You
+            </span>
             <button
-              className="bg-gradient-to-r from-orange-500 to-amber-300 text-white rounded-[10px] font-bold text-sm sm:text-base py-2 px-5 shadow transition-all hover:brightness-110 hover:shadow-[0_0_10px_#ff9800aa]"
-              onClick={() => onAssign(order.id)}
-            >
-              Assign to Me
-            </button>
-          ) : (
-            <button
-              className="bg-gradient-to-r from-green-500 to-green-300 text-white rounded-[10px] font-bold text-sm sm:text-base py-2 px-5 shadow transition-all hover:brightness-110 hover:shadow-[0_0_10px_#43ea5ecc]"
               onClick={() => onServe(order.id)}
+              className="bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-lg font-bold text-sm py-2 px-4 shadow-lg hover:scale-105 transition-all"
             >
               Mark as Served
             </button>
-          )}
-        </div>
-      )}
+          </div>
+        ) : (
+          <div className="flex gap-2 items-center">
+            <span className="bg-blue-500 text-white rounded-lg font-bold text-sm py-2 px-4 shadow">
+              ✓ Served
+            </span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

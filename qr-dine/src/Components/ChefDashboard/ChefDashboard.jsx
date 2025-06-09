@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './Sidebar.jsx';
+import AddMenuItemModal from '../Menu/AddMenuItemModal';
+
 
 const CHEF_NAME = localStorage.getItem('chefName') || 'Chef';
+const STATUS_FLOW = ['Placed', 'Preparing', 'Ready', 'Completed'];
 
 const getOrders = () => {
   try {
@@ -12,19 +15,21 @@ const getOrders = () => {
   }
 };
 
-const STATUS_FLOW = ['Placed', 'Preparing', 'Ready', 'Completed'];
-
 const ChefDashboard = () => {
   const [activeTab, setActiveTab] = useState('orders');
   const [orders, setOrders] = useState(getOrders());
   const [modalOrder, setModalOrder] = useState(null);
   const [chefName] = useState(CHEF_NAME);
+  const [menu, setMenu] = useState(() => {
+    const saved = localStorage.getItem('menuItems');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [showAddModal, setShowAddModal] = useState(false);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setOrders(getOrders());
-    }, 2000);
-    return () => clearInterval(interval);
+   useEffect(() => {
+    fetch('http://localhost:5000/api/menu')
+      .then(res => res.json())
+      .then(data => setMenu(data));
   }, []);
 
   const acceptOrder = (orderId) => {
@@ -59,6 +64,30 @@ const ChefDashboard = () => {
     return `${Math.floor(sec / 3600)}h ${Math.floor((sec % 3600) / 60)}m`;
   };
 
+const handleAddMenuItem = async (newItem) => {
+  console.log("Sending item to backend:", newItem); // Debug line
+
+  const res = await fetch('http://localhost:5000/api/menu', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newItem),
+  });
+
+  console.log("Response status:", res.status); // Debug line
+
+  if (res.ok) {
+    const savedItem = await res.json();
+    console.log("Saved item received:", savedItem); // Debug line
+
+    setMenu(prev => [...prev, savedItem]);
+  } else {
+    alert("Failed to save item. Check backend.");
+  }
+
+  setShowAddModal(false);
+};
+
+
   if (!chefName) {
     return (
       <div className="min-h-screen bg-gradient-to-r from-orange-100 to-orange-200 flex items-center justify-center font-sans text-orange-700 text-lg">
@@ -72,7 +101,6 @@ const ChefDashboard = () => {
       <Sidebar active={activeTab} onNavigate={setActiveTab} chefName={chefName} />
 
       <main className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">
-        {/* Live Orders */}
         {activeTab === 'orders' && (
           <>
             <h1 className="text-3xl md:text-4xl font-bold text-orange-600 text-center mb-6">Live Orders</h1>
@@ -133,7 +161,6 @@ const ChefDashboard = () => {
           </>
         )}
 
-        {/* Order History */}
         {activeTab === 'history' && (
           <>
             <h1 className="text-3xl md:text-4xl font-bold text-orange-600 text-center mb-6">Order History</h1>
@@ -160,24 +187,47 @@ const ChefDashboard = () => {
           </>
         )}
 
-        {/* Chef Profile */}
         {activeTab === 'profile' && (
           <div className="max-w-xl mx-auto text-orange-700">
             <h1 className="text-3xl font-bold text-center text-orange-600 mb-6">Chef Profile</h1>
             <div className="bg-white shadow-md rounded-xl p-6 border border-orange-100">
               <div className="text-lg font-semibold mb-2">👨‍🍳 Name:</div>
               <p className="mb-4">{chefName}</p>
-
               <div className="text-lg font-semibold mb-2">🛠️ Orders handled:</div>
               <p className="mb-4">{orders.filter(o => o.chef === chefName).length}</p>
-
               <div className="text-lg font-semibold mb-2">✅ Completed orders:</div>
               <p className="mb-4">{orders.filter(o => o.chef === chefName && o.status === 'Completed').length}</p>
             </div>
           </div>
         )}
 
-        {/* Modal */}
+        {activeTab === 'menu' && (
+          <>
+            <h1 className="text-3xl md:text-4xl font-bold text-orange-600 text-center mb-6">Menu Management</h1>
+            <div className="flex justify-end mb-4">
+              <button
+                onClick={() => setShowAddModal(true)}
+                className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-md"
+              >
+                ➕ Add Menu Item
+              </button>
+            </div>
+            {menu.length === 0 ? (
+              <div className="text-center text-orange-500 font-medium">No menu items added yet.</div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {menu.map((item, i) => (
+                  <div key={i} className="bg-white rounded-xl shadow p-4 border border-orange-100">
+                    <h3 className="text-lg font-semibold text-orange-700">{item.name}</h3>
+                    <p className="text-sm text-orange-600">Category: {item.category}</p>
+                    <p className="text-sm text-orange-600">Price: ₹{item.price}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
         {modalOrder && (
           <div
             className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-4"
@@ -205,6 +255,13 @@ const ChefDashboard = () => {
               </button>
             </div>
           </div>
+        )}
+
+        {showAddModal && (
+          <AddMenuItemModal
+            onClose={() => setShowAddModal(false)}
+            onAdd={handleAddMenuItem}
+          />
         )}
       </main>
     </div>
