@@ -15,7 +15,7 @@ const AdminRegisterForm = () => {
     const sessionFlag = localStorage.getItem('adminLoggedInOnce');
 
     if (allowed !== 'true' || sessionFlag !== 'true') {
-      window.location.href = '/admin-login';
+      window.location.href = '/login';
     } else {
       sessionStorage.removeItem('adminLoggedInOnce'); // use once
     }
@@ -42,7 +42,7 @@ const AdminRegisterForm = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('adminLoggedInOnce');
-    window.location.href = '/admin-login';
+    window.location.href = '/login';
   };
 
   return (

@@ -14,33 +14,23 @@ const Navbar = () => {
         </div>
 
         {/* Navigation Links */}
-        <div className=" md:flex space-x-6">
+        <div className="md:flex space-x-6">
           <Link to="/home" className="text-gray-700 hover:text-orange-600 transition">Home</Link>
           <Link to="/" className="text-gray-700 hover:text-orange-600 transition">Menu</Link>
-          <a href="#about" className="text-gray-700 hover:text-orange-600 transition">
-  About
-</a>
-
+          <a href="#about" className="text-gray-700 hover:text-orange-600 transition">About</a>
           <Link to="/contact" className="text-gray-700 hover:text-orange-600 transition">Contact</Link>
         </div>
 
-        {/* Login Buttons */}
-        <div className="flex items-center space-x-3">
-          <Link to="/admin-login">
+        {/* Unified Login Button */}
+        <div className="flex items-center">
+          <Link to="/login">
             <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition text-sm">
-              Admin Login
-            </button>
-          </Link>
-          <Link to="/staff-login">
-            <button className="border border-orange-500 text-orange-500 hover:bg-orange-100 px-4 py-2 rounded-md transition text-sm">
-              Staff Login
+              Login
             </button>
           </Link>
         </div>
       </div>
-    
-      </nav>
-    
+    </nav>
   );
 };
 
