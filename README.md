@@ -11,6 +11,7 @@ use npm install axios
 npm install react-toastify react-icons
 npm install recharts
 npm install react-parallax-tilt
+npm install recharts
 
 
 
