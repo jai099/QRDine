@@ -24,7 +24,7 @@ const AboutUs = () => {
             Who Are We?
           </h2>
           <p className="text-lg text-yellow-800 leading-relaxed">
-            At <span className="font-semibold text-yellow-900">QR Dine</span>, we're
+            At <span className="font-semibold text-yellow-900">TARS Mahal</span>, we're
             revolutionizing the way you enjoy your meal. No more waiting for
             menus or bills — just scan, order, and relax. We blend technology
             with hospitality to give you a seamless dining experience you
