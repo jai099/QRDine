@@ -19,11 +19,9 @@ function App() {
     
 
       <Routes>
-        {/* 👇 Customer scanned QR code lands here */}
         <Route path="/" element={<HomePage />} />
+        {/* 👇 Customer scanned QR code lands here */}
         <Route path="/menu" element={<CustomerMenuPage />} />
-
-
         <Route path="/confirm" element={<ConfirmPage />} />
         <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/chef" element={<ChefDashboard />} />
