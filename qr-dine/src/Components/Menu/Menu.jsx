@@ -209,7 +209,7 @@ const Menu = ({ cart = [], addToCart = () => { }, removeFromCart = () => { }, de
   }
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] flex flex-col lg:pt-[3em]">
+    <div className="min-h-screen bg-[#f8fafc] flex flex-col">
       {/* Table number visual confirmation */}
       {tableNumber && (
         <div className="w-full bg-orange-100 text-orange-700 text-center py-2 font-bold text-lg shadow-sm">
@@ -418,12 +418,14 @@ const Menu = ({ cart = [], addToCart = () => { }, removeFromCart = () => { }, de
                       {item.oldPrice && <span className="line-through text-gray-400 text-xs sm:text-sm">₹{item.oldPrice}</span>}
                       {item.discount && <span className="text-green-600 text-xs font-bold">{item.discount}</span>}
                     </div>
-                    <button
-                      className="bg-orange-500 text-white rounded-lg font-bold shadow hover:bg-orange-600 transition mt-1 w-[5em] h-[2.5em]"
-                      onClick={() => handleAddToCart(item)}
-                    >
-                      Add
-                    </button>
+                    {tableNumber && (
+                      <button
+                        className="bg-orange-500 text-white rounded-lg font-bold shadow hover:bg-orange-600 transition mt-1 w-[5em] h-[2.5em]"
+                        onClick={() => handleAddToCart(item)}
+                      >
+                        Add
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
