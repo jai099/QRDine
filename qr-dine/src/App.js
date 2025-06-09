@@ -19,7 +19,6 @@ function App() {
      <HomePage />
 
       <Routes>
-        {/* 👇 Customer scanned QR code lands here */}
         <Route path="/" element={<CustomerMenuPage />} />
 
         {/* 👇 Admin/staff website homepage with login buttons */}
