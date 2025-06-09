@@ -16,14 +16,12 @@ import HomePage from './Components/Home/HomePage.jsx';                     // �
 function App() {
   return (
     <div className="App">
-     <HomePage />
+    
 
       <Routes>
-        <Route path="/" element={<CustomerMenuPage />} />
-
-        {/* 👇 Admin/staff website homepage with login buttons */}
-        {/* <Route path="/home" element={<HomePage />} /> */}
-
+        <Route path="/" element={<HomePage />} />
+        {/* 👇 Customer scanned QR code lands here */}
+        <Route path="/menu" element={<CustomerMenuPage />} />
         <Route path="/confirm" element={<ConfirmPage />} />
         <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/chef" element={<ChefDashboard />} />
