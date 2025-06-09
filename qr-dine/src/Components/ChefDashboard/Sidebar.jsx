@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ added import
 import { FaUtensils, FaUserCircle, FaSignOutAlt, FaClock } from 'react-icons/fa';
 
 const Sidebar = ({ active, onNavigate, chefName }) => {
+  const navigate = useNavigate(); // ✅ added navigate hook
+
   const navItems = [
     { key: 'orders', label: 'Orders', icon: <FaUtensils /> },
     { key: 'history', label: 'History', icon: <FaClock /> },
@@ -11,7 +14,7 @@ const Sidebar = ({ active, onNavigate, chefName }) => {
   const handleLogout = () => {
     localStorage.removeItem('chefName');
     localStorage.removeItem('chefOrders');
-    window.location.reload();
+    navigate('/'); // ✅ redirect to login page
   };
 
   return (
