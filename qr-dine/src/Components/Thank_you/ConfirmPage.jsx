@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import jsPDF from "jspdf";
-import OtpVerification from '../Cart/OtpVerification';
 
 // Helper to get cart items
 const getCart = () => {
@@ -26,19 +25,16 @@ export default function ConfirmPage() {
   const [tip, setTip] = useState(0);
   const [customTip, setCustomTip] = useState("");
   const [showToast, setShowToast] = useState(false);
-  const [showOtp, setShowOtp] = useState(false);
-  const [orderPlaced, setOrderPlaced] = useState(false);
 
   const cart = getCart();
-  // Get table number from cart, navigation state, or fallback
+
+  // Get table number
   let tableNumber = null;
-  // Try to get table number from URL if not found in cart or location.state
   if (cart.length > 0 && cart[0].tableNumber) tableNumber = cart[0].tableNumber;
   else if (location.state && location.state.table) tableNumber = location.state.table;
   else {
-    // Try to get from URL query param
     const params = new URLSearchParams(window.location.search);
-    const t = params.get('table');
+    const t = params.get("table");
     if (t) tableNumber = parseInt(t, 10);
   }
 
@@ -46,17 +42,16 @@ export default function ConfirmPage() {
   const cgst = subtotal * 0.025;
   const sgst = subtotal * 0.025;
   const serviceCharge = subtotal * 0.05;
-
   const effectiveTip = customTip !== "" ? parseFloat(customTip) : tip;
-const tipAmount = isNaN(effectiveTip) ? 0 : effectiveTip;
-const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
+  const tipAmount = isNaN(effectiveTip) ? 0 : effectiveTip;
+  const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
 
   function handleConfirm() {
     const chefOrders = JSON.parse(localStorage.getItem("chefOrders") || "[]");
     chefOrders.push({
       id: Date.now(),
-      table: tableNumber, // Table number is always included
-      items: cart.map(item => ({ ...item, tableNumber })), // Ensure each item carries tableNumber
+      table: tableNumber,
+      items: cart.map(item => ({ ...item, tableNumber })),
       notes: orderNotes,
       total: total,
     });
@@ -64,7 +59,6 @@ const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
     setShowToast(true);
     setTimeout(() => {
       setShowToast(false);
-      // Preserve table number in URL when navigating to thank-you
       if (tableNumber) {
         navigate(`/thank-you?table=${tableNumber}`, { state: { table: tableNumber } });
       } else {
@@ -92,28 +86,14 @@ const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
     doc.text(`CGST (2.5%): ₹${cgst.toFixed(2)}`, 14, y); y += 7;
     doc.text(`SGST (2.5%): ₹${sgst.toFixed(2)}`, 14, y); y += 7;
     doc.text(`Service Charge (5%): ₹${serviceCharge.toFixed(2)}`, 14, y); y += 7;
-   doc.text(`Tip: ₹${tipAmount.toFixed(2)}`, 14, y);
+    doc.text(`Tip: ₹${tipAmount.toFixed(2)}`, 14, y); y += 7;
     doc.text(`Total: ₹${total.toFixed(2)}`, 14, y); y += 10;
     doc.text("Thank you for dining with us!", 14, y);
     doc.save("QRDine_Bill.pdf");
   }
 
-  function handleOtpVerified() {
-    // Place your backend call to place order here
-    setOrderPlaced(true);
-    setShowOtp(false);
-    handleConfirm(); // Place order after OTP is verified
-  }
-
   return (
     <div className="min-h-screen bg-[#f8fafc] font-sans flex flex-col md:flex-row">
-      {/* OTP Modal */}
-      {showOtp && (
-        <OtpVerification
-          onVerified={handleOtpVerified}
-          onCancel={() => setShowOtp(false)}
-        />
-      )}
       {/* Left Side: Order Summary */}
       <div className="w-full md:w-1/2 p-6 md:p-10 bg-[#fff8ee] border-b-2 md:border-b-0 md:border-r-2 border-orange-200 shadow-md rounded-xl m-2 flex flex-col">
         <h2 className="text-2xl sm:text-3xl font-extrabold text-orange-700 mb-4">📋 Order Summary</h2>
@@ -122,98 +102,82 @@ const total = subtotal + cgst + sgst + serviceCharge + tipAmount;
           {cart.map(item => (
             <div key={item.name} className="flex justify-between items-center bg-orange-50 px-4 py-2 rounded-lg shadow-sm border border-orange-100">
               <span className="text-orange-800 font-medium">{item.name}</span>
-              <span className="text-orange-600 font-bold">x{item.quantity}</span>
-              <span className="text-orange-600 font-semibold">₹{(item.price * item.quantity).toFixed(2)}</span>
+              <span className="text-orange-800 font-semibold">x{item.quantity}</span>
+              <span className="text-orange-800 font-semibold">₹{(item.price * item.quantity).toFixed(2)}</span>
             </div>
           ))}
         </div>
-        <div className="bg-white p-4 rounded-xl shadow-inner space-y-2 text-sm md:text-base">
-          <div className="flex justify-between"><span>Subtotal</span><span>₹{subtotal.toFixed(2)}</span></div>
-          <div className="flex justify-between"><span>CGST (2.5%)</span><span>₹{cgst.toFixed(2)}</span></div>
-          <div className="flex justify-between"><span>SGST (2.5%)</span><span>₹{sgst.toFixed(2)}</span></div>
-          <div className="flex justify-between"><span>Service Charge (5%)</span><span>₹{serviceCharge.toFixed(2)}</span></div>
-          <div className="flex justify-between"><span>Tip</span><span>₹{tipAmount.toFixed(2)}</span></div>
-          <div className="flex justify-between font-bold text-green-700 border-t pt-2 mt-2"><span>Total</span><span>₹{total.toFixed(2)}</span></div>
+        <div className="space-y-1 text-orange-800 font-medium">
+          <p>Subtotal: ₹{subtotal.toFixed(2)}</p>
+          <p>CGST (2.5%): ₹{cgst.toFixed(2)}</p>
+          <p>SGST (2.5%): ₹{sgst.toFixed(2)}</p>
+          <p>Service Charge (5%): ₹{serviceCharge.toFixed(2)}</p>
+          <p>Tip: ₹{tipAmount.toFixed(2)}</p>
+          <p className="text-lg font-bold">Total: ₹{total.toFixed(2)}</p>
         </div>
         <button
           onClick={handleDownloadPDF}
-          disabled={cart.length === 0}
-          className="mt-5 w-full bg-gradient-to-r from-orange-500 to-amber-400 text-white font-bold py-2 rounded-lg shadow hover:brightness-110 transition disabled:bg-gray-300"
+          className="mt-6 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-md shadow-lg transition"
         >
-          Download Bill (PDF)
-        </button>
-        <button
-          onClick={() => navigate("/")}
-          className="mt-4 w-full bg-orange-100 text-orange-700 font-bold py-2 rounded-lg hover:bg-orange-200 transition"
-        >
-          ← Edit Order
+          📄 Download PDF
         </button>
       </div>
-      {/* Right Side: Confirmation */}
-      <div className="w-full md:w-1/2 p-6 md:p-10 bg-white shadow-md rounded-xl m-2 flex flex-col">
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-orange-700 mb-4">✍️ Confirm & Submit</h2>
-        <label className="block mb-2 font-semibold text-orange-700">Customer Name (optional)</label>
-        <input
-          value={customerName}
-          onChange={(e) => setCustomerName(e.target.value)}
-          placeholder="e.g. John Doe"
-          className="w-full mb-4 px-4 py-2 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300"
-        />
-        <label className="block mb-2 font-semibold text-orange-700">Order Notes (optional)</label>
-        <textarea
-          value={orderNotes}
-          onChange={(e) => setOrderNotes(e.target.value)}
-          placeholder="e.g. No onions please"
-          rows="3"
-          className="w-full mb-4 px-4 py-2 border border-orange-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-300"
-        />
-        <label className="block mb-2 font-semibold text-orange-700">Tip</label>
-        <div className="flex flex-wrap gap-3 mb-4">
-          {[0, 50, 100, 200, 300].map(val => (
-            <button
-              key={val}
-              onClick={() => {
-                setTip(val);
-                setCustomTip("");
-              }}
-              type="button"
-              className={`px-4 py-2 rounded-lg border font-semibold transition-all duration-150 ${tip === val && customTip === "" ? "bg-orange-500 text-white" : "bg-orange-100 text-orange-700 hover:bg-orange-200"}`}
-            >
-              ₹{val}
-            </button>
-          ))}
+
+      {/* Right Side: Inputs */}
+      <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-orange-700 mb-4">Customer Details</h2>
           <input
-            type="number"
-            placeholder="Custom ₹"
-            min="0"
-            value={customTip}
-            onChange={e => {
-              setCustomTip(e.target.value);
-              setTip(0);
-            }}
-            className="w-28 px-3 py-2 border border-orange-200 rounded-lg text-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-300"
+            type="text"
+            placeholder="Enter your name"
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+            className="w-full p-3 mb-4 border border-orange-300 rounded-md"
           />
-        </div>
-        <div className="flex justify-between text-xl font-bold text-green-700 border-t pt-4 mb-6">
-          <span>Grand Total</span>
-          <span>₹{total.toFixed(2)}</span>
+          <textarea
+            placeholder="Order Notes (optional)"
+            value={orderNotes}
+            onChange={(e) => setOrderNotes(e.target.value)}
+            className="w-full p-3 mb-4 border border-orange-300 rounded-md"
+          />
+          <div className="mb-4">
+            <label className="block mb-1 text-orange-700 font-medium">Add Tip (optional)</label>
+            <div className="flex gap-2 mb-2">
+              {[0, 10, 20, 50].map((amt) => (
+                <button
+                  key={amt}
+                  onClick={() => {
+                    setTip(amt);
+                    setCustomTip("");
+                  }}
+                  className={`px-4 py-2 border rounded ${
+                    tip === amt && customTip === "" ? "bg-orange-500 text-white" : "bg-white text-orange-700"
+                  }`}
+                >
+                  ₹{amt}
+                </button>
+              ))}
+            </div>
+            <input
+              type="number"
+              placeholder="Custom Tip"
+              value={customTip}
+              onChange={(e) => {
+                setCustomTip(e.target.value);
+                setTip(0);
+              }}
+              className="w-full p-2 border border-orange-300 rounded-md"
+            />
+          </div>
         </div>
         <button
-          onClick={() => setShowOtp(true)}
-          className="w-full bg-gradient-to-r from-green-500 to-lime-400 text-white font-bold py-3 rounded-lg shadow hover:brightness-110 transition"
+          onClick={handleConfirm}
+          className="bg-orange-600 hover:bg-orange-700 text-white py-3 px-6 rounded-md shadow-lg mt-4"
         >
-          🟢 Place Order
+          ✅ Confirm Order
         </button>
         {showToast && (
-          <div className="fixed top-5 right-5 bg-green-600 text-white font-semibold px-6 py-3 rounded shadow-lg z-50">
-            ✅ Order Confirmed!
-          </div>
-        )}
-        {/* Warning for missing table number */}
-        {!tableNumber && false && (
-          <div className="bg-red-100 text-red-700 p-2 mb-4 rounded font-bold text-center">
-            Warning: Table number not found. Please scan the QR code again.
-          </div>
+          <div className="mt-4 text-green-700 font-semibold">Order placed successfully!</div>
         )}
       </div>
     </div>
