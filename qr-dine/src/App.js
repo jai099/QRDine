@@ -10,8 +10,6 @@ import TableQRList from './Components/QR/TableQRList.jsx';
  import AdminRegisterForm from './Components/Admin/AdminRegisterForm.jsx';
  import CustomerMenuPage from './Components/Customer/CustomerMenuPage.jsx';
 import HomePage from './Components/Home/HomePage.jsx';
-
-// ✅ Import the new unified login
 import Login from './Pages/Login.jsx';
 import AdminLogin from './Components/Admin/AdminLogin.jsx';
 
