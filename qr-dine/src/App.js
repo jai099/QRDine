@@ -6,10 +6,9 @@ import ChefDashboard from './Components/ChefDashboard/ChefDashboard.jsx';
 import WaiterDashboard from './Components/waiter/WaiterDashboard.jsx';
 import WebsiteQR from './Components/QR/WebsiteQR.jsx';
 import TableQRList from './Components/QR/TableQRList.jsx';
-// OLD LOGIN FILES (optional to remove later)
  import AdminRegisterForm from './Components/Admin/AdminRegisterForm.jsx';
- import CustomerMenuPage from './Components/Customer/CustomerMenuPage.jsx';
 import HomePage from './Components/Home/HomePage.jsx';
+import Menu from './Components/Menu/Menu.jsx';
 
 // ✅ Import the new unified login
 import Login from './Pages/Login.jsx';
@@ -20,7 +19,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/menu" element={<CustomerMenuPage />} />
+        <Route path="/menu" element={<Menu />} />
         <Route path="/confirm" element={<ConfirmPage />} />
         <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/chef" element={<ChefDashboard />} />

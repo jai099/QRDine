@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
 import Image1 from '../../assets/Menu/logoimage.jpg';
 import VegImg from '../../assets/Veg and Non Veg/Veg.jpg';
 import NonVegImg from '../../assets/Veg and Non Veg/Non Veg.jpg';
+import CartPage from '../Cart/CartPage.jsx';
 
 // Use environment variable for API URL
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/menu/available';
@@ -19,7 +20,20 @@ const debounce = (func, delay) => {
   };
 };
 
-const Menu = ({ cart = [], addToCart = () => { }, removeFromCart = () => { }, decreaseQty = () => { } }) => {
+const Menu = () => {
+  // Cart state (self-contained)
+  const [cart, setCart] = useState(() => {
+    try {
+      const storedCart = JSON.parse(localStorage.getItem('cartItems'));
+      return Array.isArray(storedCart) ? storedCart : [];
+    } catch {
+      return [];
+    }
+  });
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cart));
+  }, [cart]);
+
   const [menuData, setMenuData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -34,8 +48,10 @@ const Menu = ({ cart = [], addToCart = () => { }, removeFromCart = () => { }, de
   const [userCity, setUserCity] = useState('Fetching...');
   const [locationReady, setLocationReady] = useState(false);
   const [locationError, setLocationError] = useState(null);
+  const [showCart, setShowCart] = useState(false);
   const sectionRefs = useRef({});
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Extract table number from URL
   const tableNumber = useMemo(() => {
@@ -190,12 +206,54 @@ const Menu = ({ cart = [], addToCart = () => { }, removeFromCart = () => { }, de
     }, 50);
   };
 
+  // Add to cart for this table
   const handleAddToCart = (item) => {
-    addToCart(item, tableNumber);
+    if (tableNumber) {
+      setCart((prev) => {
+        const found = prev.find((i) => i.name === item.name && i.tableNumber === tableNumber);
+        if (found) {
+          return prev.map((i) =>
+            i.name === item.name && i.tableNumber === tableNumber ? { ...i, qty: i.qty + 1 } : i
+          );
+        } else {
+          return [...prev, { ...item, qty: 1, tableNumber, id: item.id || Date.now() }];
+        }
+      });
+    }
     toast.success(`${item.name} added to cart`, {
       position: 'bottom-center',
       autoClose: 2000,
     });
+  };
+  // Remove from cart for this table
+  const handleRemoveFromCart = (item) => {
+    setCart((prev) => prev.filter((i) => !(i.name === item.name && i.tableNumber === tableNumber)));
+  };
+  // Decrease qty for this table
+  const handleDecreaseQty = (item) => {
+    setCart((prev) =>
+      prev
+        .map((i) => (i.name === item.name && i.tableNumber === tableNumber ? { ...i, qty: i.qty - 1 } : i))
+        .filter((i) => i.qty > 0)
+    );
+  };
+
+  // Handler for proceeding to checkout, passing table id
+  const handleProceedToCheckout = () => {
+    setShowCart(false);
+    if (tableNumber) {
+      try {
+        navigate(`/confirm?table=${tableNumber}`);
+      } catch (e) {
+        window.location.href = `/confirm?table=${tableNumber}`;
+      }
+    } else {
+      try {
+        navigate('/confirm');
+      } catch (e) {
+        window.location.href = '/confirm';
+      }
+    }
   };
 
   if (loading) return <div className="w-screen min-h-screen font-sans">Loading menu...</div>;
@@ -434,11 +492,36 @@ const Menu = ({ cart = [], addToCart = () => { }, removeFromCart = () => { }, de
         ))}
       </div>
 
-      {/* Floating Cart Popup */}
-      {filteredCart.length > 0 && (
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-4 py-2 rounded-full shadow-lg z-50 transition-all hover:bg-orange-600 cursor-pointer">
-          {filteredCart.length} item{filteredCart.length > 1 ? 's' : ''} in cart
-        </div>
+      {/* Floating Cart Button and Panel for QR/table access */}
+      {tableNumber && (
+        <>
+          <button
+            className={`floating-cart-btn${showCart ? ' hide' : ''}`}
+            onClick={() => setShowCart(true)}
+            style={{ position: 'fixed', bottom: '32px', right: '32px', zIndex: 100 }}
+          >
+            🛒
+            <span className="cart-count-badge">{filteredCart.reduce((sum, item) => sum + (item.qty || 0), 0)}</span>
+          </button>
+          {/* Overlay should not block pointer events for the cart panel */}
+          <div
+            className={`cart-slide-overlay${showCart ? ' open' : ''}`}
+            onClick={() => setShowCart(false)}
+            style={{ zIndex: 101, pointerEvents: showCart ? 'auto' : 'none' }}
+          />
+          <div
+            className={`cart-slide-panel${showCart ? ' open' : ''}`}
+            style={{ zIndex: 102, pointerEvents: showCart ? 'auto' : 'none' }}
+          >
+            <button onClick={() => setShowCart(false)} className="cart-slide-close-btn">❌</button>
+            <CartPage
+              cart={cart}
+              setCart={setCart}
+              onProceedToCheckout={handleProceedToCheckout}
+              tableNumber={tableNumber}
+            />
+          </div>
+        </>
       )}
 
       {/* Footer */}
