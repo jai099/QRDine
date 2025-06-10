@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ConfirmPage from './Components/Thank_you/ConfirmPage.jsx';
 import ThankYouPage from './Components/Thank_you/ThankYouPage.jsx';
