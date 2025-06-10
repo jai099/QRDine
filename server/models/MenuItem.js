@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const menuItemSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true, // <-- fix typo here
+        required: true, // corrected typo from 'reqiured' to 'require
+        required: true, // <-- fix typo her
         trim: true,
     },
     description: {
@@ -23,6 +24,11 @@ const menuItemSchema = new mongoose.Schema({
     isAvailable: {
         type: Boolean,
         default: true,
+    },
+    image: {
+        type: String,
+        default: '', // You can store a URL or path to the image
+        trim: true,
     }
 }, {
     timestamps: true,
