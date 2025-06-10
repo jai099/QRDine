@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const menuItemSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true, // corrected typo from 'reqiured' to 'required'
+        required: true, // corrected typo from 'reqiured' to 'require
+        required: true, // <-- fix typo her
         trim: true,
     },
     description: {
