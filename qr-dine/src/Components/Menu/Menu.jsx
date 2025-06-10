@@ -225,34 +225,16 @@ const Menu = () => {
       autoClose: 2000,
     });
   };
-  // Remove from cart for this table
-  const handleRemoveFromCart = (item) => {
-    setCart((prev) => prev.filter((i) => !(i.name === item.name && i.tableNumber === tableNumber)));
-  };
-  // Decrease qty for this table
-  const handleDecreaseQty = (item) => {
-    setCart((prev) =>
-      prev
-        .map((i) => (i.name === item.name && i.tableNumber === tableNumber ? { ...i, qty: i.qty - 1 } : i))
-        .filter((i) => i.qty > 0)
-    );
-  };
+
 
   // Handler for proceeding to checkout, passing table id
   const handleProceedToCheckout = () => {
     setShowCart(false);
+    // Always use window.location.href to ensure table id is in URL
     if (tableNumber) {
-      try {
-        navigate(`/confirm?table=${tableNumber}`);
-      } catch (e) {
-        window.location.href = `/confirm?table=${tableNumber}`;
-      }
+      window.location.href = `/confirm?table=${tableNumber}`;
     } else {
-      try {
-        navigate('/confirm');
-      } catch (e) {
-        window.location.href = '/confirm';
-      }
+      window.location.href = '/confirm';
     }
   };
 
