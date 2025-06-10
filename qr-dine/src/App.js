@@ -8,9 +8,10 @@ import WebsiteQR from './Components/QR/WebsiteQR.jsx';
 import TableQRList from './Components/QR/TableQRList.jsx';
  import AdminRegisterForm from './Components/Admin/AdminRegisterForm.jsx';
 import HomePage from './Components/Home/HomePage.jsx';
+
+
 import Menu from './Components/Menu/Menu.jsx';
 
-// ✅ Import the new unified login
 import Login from './Pages/Login.jsx';
 import AdminLogin from './Components/Admin/AdminLogin.jsx';
 
