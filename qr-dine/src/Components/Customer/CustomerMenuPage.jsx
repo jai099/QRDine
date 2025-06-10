@@ -2,6 +2,7 @@
 import Menu from '../Menu/Menu.jsx';
 import CartPage from '../Cart/CartPage.jsx';
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const CustomerMenuPage = () => {
   const [showCart, setShowCart] = useState(false);
@@ -50,6 +51,13 @@ const CustomerMenuPage = () => {
     }, 200);
   };
 
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const tableNumber = params.get('table');
+
+  // Fix: treat tableNumber as present if it's not null (including '0')
+  const hasTableNumber = tableNumber !== null && tableNumber !== undefined && tableNumber !== '';
+
   return (
     <div className="frontpage-bg">
       <Menu
@@ -58,24 +66,27 @@ const CustomerMenuPage = () => {
         removeFromCart={removeFromCart}
         decreaseQty={decreaseQty}
       />
-
-      <button
-        className={`floating-cart-btn${showCart ? " hide" : ""}`}
-        onClick={handleCartOpen}
-      >
-        🛒
-        <span className="cart-count-badge">{cart.reduce((sum, item) => sum + (item.qty || 0), 0)}</span>
-      </button>
-
-      <div className={`cart-slide-overlay${showCart ? " open" : ""}`} onClick={handleCartClose} />
-      <div className={`cart-slide-panel${showCart ? " open" : ""}`}>
-        <button onClick={handleCartClose} className="cart-slide-close-btn">❌</button>
-        <CartPage
-          cart={cart}
-          setCart={setCart}
-          onProceedToCheckout={handleProceedToCheckout}
-        />
-      </div>
+      {/* Show cart if tableNumber is present (including 0) */}
+      {hasTableNumber && (
+        <>
+          <button
+            className={`floating-cart-btn${showCart ? " hide" : ""}`}
+            onClick={handleCartOpen}
+          >
+            🛒
+            <span className="cart-count-badge">{cart.reduce((sum, item) => sum + (item.qty || 0), 0)}</span>
+          </button>
+          <div className={`cart-slide-overlay${showCart ? " open" : ""}`} onClick={handleCartClose} />
+          <div className={`cart-slide-panel${showCart ? " open" : ""}`}>
+            <button onClick={handleCartClose} className="cart-slide-close-btn">❌</button>
+            <CartPage
+              cart={cart}
+              setCart={setCart}
+              onProceedToCheckout={handleProceedToCheckout}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };
