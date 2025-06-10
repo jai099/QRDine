@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const menuItemSchema = new mongoose.Schema({
     name: {
         type: String,
-        reqiured: true,
+        required: true, // <-- fix typo here
         trim: true,
     },
     description: {
@@ -14,7 +14,6 @@ const menuItemSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true,
-        
     },
     category: {
         type: String,
@@ -27,8 +26,6 @@ const menuItemSchema = new mongoose.Schema({
     }
 }, {
     timestamps: true,
-}
-);
+});
 
-
-module.exports =mongoose.model('MenuItem',menuItemSchema)
+module.exports = mongoose.model('MenuItem', menuItemSchema);

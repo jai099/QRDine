@@ -15,7 +15,7 @@ const AdminRegisterForm = () => {
     const sessionFlag = localStorage.getItem('adminLoggedInOnce');
 
     if (allowed !== 'true' || sessionFlag !== 'true') {
-      window.location.href = '/admin-login';
+      window.location.href = '/login';
     } else {
       sessionStorage.removeItem('adminLoggedInOnce'); // use once
     }
@@ -29,7 +29,10 @@ const AdminRegisterForm = () => {
     e.preventDefault();
     setMessage('');
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', formData);
+      const res = await axios.post(
+        process.env.REACT_APP_API_URL_AUTH_REGISTER || 'http://localhost:5000/api/auth/register',
+        formData
+      );
       setMessage(res.data.message);
       setFormData({ username: '', password: '', role: 'waiter' });
     } catch (err) {
@@ -39,7 +42,7 @@ const AdminRegisterForm = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('adminLoggedInOnce');
-    window.location.href = '/admin-login';
+    window.location.href = '/login';
   };
 
   return (

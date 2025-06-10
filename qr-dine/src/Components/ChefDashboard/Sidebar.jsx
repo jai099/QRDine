@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ added import
 import { FaUtensils, FaUserCircle, FaSignOutAlt, FaClock } from 'react-icons/fa';
 
 const Sidebar = ({ active, onNavigate, chefName }) => {
+  const navigate = useNavigate(); // ✅ added navigate hook
+
   const navItems = [
     { key: 'orders', label: 'Orders', icon: <FaUtensils /> },
     { key: 'history', label: 'History', icon: <FaClock /> },
@@ -11,39 +14,39 @@ const Sidebar = ({ active, onNavigate, chefName }) => {
   const handleLogout = () => {
     localStorage.removeItem('chefName');
     localStorage.removeItem('chefOrders');
-    window.location.reload();
+    navigate('/'); // ✅ redirect to login page
   };
 
   return (
-    <aside className="w-full md:w-64 bg-white shadow-md border-r border-orange-100 p-6 flex flex-col gap-4">
-      <div className="text-2xl font-bold text-orange-600 text-center mb-8">
-        👨‍🍳 {chefName}
-      </div>
+    <aside className="w-full md:w-64 bg-white border-r border-orange-100 shadow-sm p-6 sticky top-0 h-auto md:h-screen flex md:flex-col md:justify-between">
+      <div>
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-orange-600">👨‍🍳 {chefName}</h2>
+          <p className="text-sm text-orange-500">Chef Dashboard</p>
+        </div>
 
-      <nav className="flex-1">
-        {navItems.map((item) => (
-          <button
-            key={item.key}
-            onClick={() => onNavigate(item.key)}
-            className={`flex items-center w-full px-4 py-2 rounded-lg text-left transition duration-200 mb-2
-              ${
-                active === item.key
-                  ? 'bg-orange-100 text-orange-700 font-semibold'
-                  : 'text-orange-600 hover:bg-orange-50'
+        <nav className="space-y-2">
+          {navItems.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => onNavigate(tab.key)}
+              className={`w-full text-left px-4 py-2 rounded-lg font-medium transition duration-200 ${
+                active === tab.key
+                  ? 'bg-orange-500 text-white'
+                  : 'text-orange-700 hover:bg-orange-100'
               }`}
-          >
-            <span className="mr-3 text-lg">{item.icon}</span>
-            {item.label}
-          </button>
-        ))}
-      </nav>
+            >
+              {tab.icon} {tab.label}
+            </button>
+          ))}
+        </nav>
+      </div>
 
       <button
         onClick={handleLogout}
-        className="mt-auto bg-red-100 hover:bg-red-200 text-red-600 font-medium py-2 px-4 rounded-lg flex items-center justify-center transition duration-200"
+        className="mt-8 w-full bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-md transition duration-200"
       >
-        <FaSignOutAlt className="mr-2" />
-        Logout
+        🚪 Logout
       </button>
     </aside>
   );

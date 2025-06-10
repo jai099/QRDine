@@ -9,6 +9,11 @@ use npm instsall jspdf
 use npm install qrcode.react
 use npm install axios
 npm install react-toastify react-icons
+npm install recharts
+npm install react-parallax-tilt
+npm install recharts
+
+
 
 
 Refer below website for tailwind installation: https://v3.tailwindcss.com/docs/installation/using-postcss

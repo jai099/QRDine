@@ -4,7 +4,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function ThankYouPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const table = location.state?.table || 12;
+
+  // Always get table from URL if present
+  let table = null;
+  {
+    const params = new URLSearchParams(window.location.search);
+    const t = params.get('table');
+    if (t) table = parseInt(t, 10);
+    else if (location.state?.table) table = location.state.table;
+    else table = 12;
+  }
 
   // Reset cart and menu state on mount
   React.useEffect(() => {
