@@ -30,12 +30,13 @@ export default function ConfirmPage() {
 
   // Get table number
   let tableNumber = null;
-  if (cart.length > 0 && cart[0].tableNumber) tableNumber = cart[0].tableNumber;
-  else if (location.state && location.state.table) tableNumber = location.state.table;
-  else {
+  // Always get from URL if present
+  {
     const params = new URLSearchParams(window.location.search);
     const t = params.get("table");
     if (t) tableNumber = parseInt(t, 10);
+    else if (cart.length > 0 && cart[0].tableNumber) tableNumber = cart[0].tableNumber;
+    else if (location.state && location.state.table) tableNumber = location.state.table;
   }
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);

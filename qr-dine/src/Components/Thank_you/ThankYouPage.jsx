@@ -5,14 +5,15 @@ export default function ThankYouPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Get table number from state, or fallback to query param, or fallback to 12
-  let table = location.state?.table;
-  if (!table) {
+  // Always get table from URL if present
+  let table = null;
+  {
     const params = new URLSearchParams(window.location.search);
     const t = params.get('table');
     if (t) table = parseInt(t, 10);
+    else if (location.state?.table) table = location.state.table;
+    else table = 12;
   }
-  if (!table) table = 12;
 
   // Reset cart and menu state on mount
   React.useEffect(() => {
