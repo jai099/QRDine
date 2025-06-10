@@ -9,8 +9,7 @@ import NonVegImg from '../../assets/Veg and Non Veg/Non Veg.jpg';
 import CartPage from '../Cart/CartPage.jsx';
 
 // Use environment variable for API URL
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/menu/available';
-
+const API_URL = process.env.REACT_APP_API_URL
 // Debounce utility for search input
 const debounce = (func, delay) => {
   let timeoutId;
