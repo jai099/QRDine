@@ -27,7 +27,7 @@ function App() {
         <Route path="/chef" element={<ChefDashboard />} />
         <Route path="/waiter" element={<WaiterDashboard />} />
         <Route path="/qr" element={<WebsiteQR url={"https://qr-dine-five.vercel.app/"} />} />
-        <Route path="/qr-tables" element={<TableQRList baseUrl={"https://qr-dine-five.vercel.app/"} />} />
+        <Route path="/qr-tables" element={<TableQRList baseUrl={"https://qr-dine-five.vercel.app/menu"} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/register-staff" element={<AdminRegisterForm />} />
