@@ -170,6 +170,22 @@ const Menu = () => {
   // Debounced search handler
   const debouncedSearch = debounce((value) => setSearchTerm(value), 300);
 
+  // Improved Veg/Non-Veg detection and filtering
+  const isVeg = (item) => {
+    // Check for explicit boolean or string values
+    if (typeof item.isVeg === 'boolean') return item.isVeg;
+    if (typeof item.veg === 'boolean') return item.veg;
+    if (typeof item.type === 'string') return item.type.toLowerCase() === 'veg';
+    // Fallback: check name/description for veg/non-veg hints
+    const name = item.name?.toLowerCase() || '';
+    const desc = item.description?.toLowerCase() || '';
+    if (name.includes('chicken') || name.includes('fish') || name.includes('mutton') || name.includes('egg') || name.includes('prawn') || name.includes('butter chicken')) return false;
+    if (name.includes('veg') || name.includes('paneer') || name.includes('dal') || name.includes('chole') || name.includes('palak') || name.includes('spring roll') || name.includes('kabab') || name.includes('biryani')) return true;
+    // Default to veg if not sure
+    return true;
+  };
+  const isNonVeg = (item) => !isVeg(item);
+
   // Filter menu data
   const filteredMenuData = useMemo(() => {
     return menuData
@@ -181,10 +197,8 @@ const Menu = () => {
             item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             (item.desc && item.desc.toLowerCase().includes(searchTerm.toLowerCase()));
 
-          const isVeg = item.isVeg || item.veg === true || item.type === 'veg';
-          const isNonVeg = !item.isVeg || item.veg === false || item.type === 'non-veg';
-          const matchesVeg = !filterVeg || isVeg;
-          const matchesNonVeg = !filterNonVeg || isNonVeg;
+          const matchesVeg = !filterVeg || isVeg(item);
+          const matchesNonVeg = !filterNonVeg || isNonVeg(item);
           const matchesCategory = !filterCategory || item.category === filterCategory;
 
           let matchesPrice = true;
@@ -339,22 +353,26 @@ const Menu = () => {
             <div className="mb-3">
               <label className="block font-semibold mb-1">Type</label>
               <div className="flex gap-3">
-                <label className="flex items-center gap-1">
-                  <input
-                    type="checkbox"
-                    checked={filterVeg}
-                    onChange={(e) => setFilterVeg(e.target.checked)}
-                  />
+                <button
+                  type="button"
+                  className={`px-4 py-2 rounded-lg font-bold border transition-all duration-150 ${filterVeg ? 'bg-green-500 text-white border-green-600' : 'bg-white text-green-700 border-green-400 hover:bg-green-50'}`}
+                  onClick={() => {
+                    setFilterVeg((v) => !v);
+                    if (filterNonVeg && !filterVeg) setFilterNonVeg(false); // Only one active at a time
+                  }}
+                >
                   Veg
-                </label>
-                <label className="flex items-center gap-1">
-                  <input
-                    type="checkbox"
-                    checked={filterNonVeg}
-                    onChange={(e) => setFilterNonVeg(e.target.checked)}
-                  />
+                </button>
+                <button
+                  type="button"
+                  className={`px-4 py-2 rounded-lg font-bold border transition-all duration-150 ${filterNonVeg ? 'bg-red-500 text-white border-red-600' : 'bg-white text-red-700 border-red-400 hover:bg-red-50'}`}
+                  onClick={() => {
+                    setFilterNonVeg((v) => !v);
+                    if (filterVeg && !filterNonVeg) setFilterVeg(false); // Only one active at a time
+                  }}
+                >
                   Non-Veg
-                </label>
+                </button>
               </div>
             </div>
             <div className="mb-3">
@@ -412,7 +430,7 @@ const Menu = () => {
       {/* Menu Sections */}
       <div className="w-full px-1 sm:px-4 flex-1">
         {filteredMenuData.length === 0 && (
-          <div className="text-center text-gray-500 mt-8">No items found for "{searchTerm}"</div>
+          <div className="text-center text-gray-500 mt-8">No items found for &quot;{searchTerm}&quot;</div>
         )}
         {filteredMenuData.map((section) => (
           <div
